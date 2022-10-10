@@ -1,0 +1,37 @@
+﻿#pragma once
+
+#include <map>
+#include <SFML/Graphics.hpp>
+
+#include "WindowSize.hpp"
+#include "../Drawing/Sprite.hpp"
+
+namespace SFMLPE
+{
+	class Game{
+	private:
+		static unsigned int lastSpriteID_;
+		static std::map<const unsigned int, const Sprite&> sprites_;
+
+		void Create(const char* windowName);
+		void DoStart() {Start();};
+		void DoUpdate() {Update();};
+		WindowSize size_;
+
+	protected:
+		virtual void Start(){};
+		virtual void Update(){};
+
+	public:
+		void Run(const int& windowWidth, const int& windowHeight, const char* windowName = "My Game", const char* resourcePath = "");
+		WindowSize Size();
+
+
+
+
+		static unsigned int AddSprite(const Sprite& sprite);
+		static void RemoveSprite(const unsigned int& spriteID);
+		static unsigned int GetSpriteIndex(const unsigned int& spriteID);
+	};
+
+}
