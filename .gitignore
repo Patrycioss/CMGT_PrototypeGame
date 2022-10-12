@@ -182,3 +182,4 @@ _deps
 .ninja_deps
 .ninja_log
 
+/SFML/

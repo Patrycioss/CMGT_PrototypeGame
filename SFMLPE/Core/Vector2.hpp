@@ -19,7 +19,7 @@ struct Vector2
 	}
 
 	Vector2(const Vector2& vector2) : Vector2(vector2.x, vector2.y){};
-	explicit Vector2(const sf::Vector2<float>& vector2) : Vector2(vector2.x, vector2.y){};
+	explicit Vector2(const sf::Vector2f& vector2) : Vector2(vector2.x, vector2.y){};
 	explicit Vector2(const sf::Vector2<int>& vector2) : Vector2((float)vector2.x, (float)vector2.y){};
 
 

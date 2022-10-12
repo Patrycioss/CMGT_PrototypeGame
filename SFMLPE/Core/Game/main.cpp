@@ -7,7 +7,7 @@
 int main() 
 {
 	SFMLPE::MyGame game = SFMLPE::MyGame();
-	game.Run(500,500,"Ha","resources");
+	game.Run(700,700,"Ha","resources");
 	return 0;
 }
 

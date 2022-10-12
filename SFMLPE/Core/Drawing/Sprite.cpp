@@ -1,51 +1,71 @@
 ﻿#include "Sprite.hpp"
-#include "../Managers/ResourceManager.hpp"
 #include "../Game/Game.hpp"
+#include "../ResourceManager.hpp"
 
 namespace SFMLPE
 {
-	Sprite::Sprite(const char *texturePath, const Vector2 &position, const bool &visible)
-			: texture_(ResourceManager::GetTexture(texturePath))
-			, position_(position)
-			, sprite_(sf::Sprite(texture_))
-			, ID_(Game::AddSprite(*this))
-	{
-		sprite_.setPosition(position_.x, position_.y);
-	}
+  Sprite::Sprite(const Sprite &other)
+		  : GameObject(other)
+  {
+	  texture_ = other.texture_;
+  }
 
-	Sprite::Sprite(const char *texturePath, const float &x, const float &y, const bool &visible)
-			: texture_(ResourceManager::GetTexture(texturePath))
-			, position_(Vector2{x,y})
-			, sprite_(sf::Sprite(texture_))
-			, ID_(Game::AddSprite(*this))
-	{
-		sprite_.setPosition(position_.x,position_.y);
-	}
+  Sprite::Sprite(sf::Texture* texture, const sf::Vector2f &position, const bool &visible)
+		  : GameObject(position, visible)
+  {
+	  texture_ = texture;
+	  sprite_ = sf::Sprite(*texture_);
+  }
 
-	Sprite::~Sprite()
-	{
-		Game::RemoveSprite(ID_);
-	}
+  Sprite::Sprite(sf::Texture* texture, const float &x, const float &y, const bool &visible)
+		  : GameObject(x,y,visible)
+  {
+	  texture_ = texture;
+	  sprite_ = sf::Sprite(*texture_);
+  }
 
-	const sf::Sprite &Sprite::GetSFMLSprite() const {
-		return sprite_;
-	}
+  Sprite::Sprite(const char *texturePath, const sf::Vector2f &position, const bool &visible)
+		  : GameObject(position, visible)
+  {
+	  texture_ = ResourceManager::LoadTexture(texturePath);
+	  sprite_ = sf::Sprite(*texture_);
+  }
 
-	void Sprite::MoveX(const float &amount) {
-		position_.x += amount;
-	}
+  Sprite::Sprite(const char *texturePath, const float &x, const float &y, const bool &visible)
+		  : GameObject(x,y,visible)
+  {
+	  texture_ = ResourceManager::LoadTexture(texturePath);
+	  sprite_ = sf::Sprite(*texture_);
+  }
 
-	void Sprite::MoveY(const float &amount) {
-		position_.y += amount;
-	}
+  Sprite::~Sprite() = default;
 
-	void Sprite::Move(const float &x, const float &y) {
-		position_.x += x;
-		position_.y += y;
-	}
+////////////////////////////////////////////////////////////////////////////////////////////
 
-	void Sprite::Move(const Vector2 &vector2) {
-		position_ += vector2;
-	}
+  const sf::Sprite &Sprite::GetSFMLSprite() const {
+	  return sprite_;
+  }
+
+////////////////////////////////////////////////////////////////////////////////////////////
+
+  void Sprite::Move(const float &x, const float &y) {
+	  GameObject::Move(x,y);
+	  sprite_.setPosition(position());
+  }
+
+  void Sprite::Move(const sf::Vector2f &vector2) {
+	  GameObject::Move(vector2);
+	  sprite_.setPosition(position());
+  }
+
+  void Sprite::SetPosition(const sf::Vector2f &newPosition) {
+	  GameObject::SetPosition(newPosition);
+	  sprite_.setPosition(newPosition);
+  }
+
+  void Sprite::SetPosition(const float &x, const float &y) {
+	  GameObject::SetPosition(x, y);
+	  sprite_.setPosition(sf::Vector2f{x,y});
+  }
 }
 

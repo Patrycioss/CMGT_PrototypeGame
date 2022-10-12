@@ -16,7 +16,7 @@ namespace SFMLPE
 		void Create(const char* windowName);
 		void DoStart() {Start();};
 		void DoUpdate() {Update();};
-		WindowSize size_;
+		Rectangle rect_;
 
 	protected:
 		virtual void Start(){};
@@ -24,7 +24,7 @@ namespace SFMLPE
 
 	public:
 		void Run(const int& windowWidth, const int& windowHeight, const char* windowName = "My Game", const char* resourcePath = "");
-		WindowSize Size();
+		sf::Vector2f Size() const;
 
 
 
