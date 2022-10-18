@@ -1,67 +1,64 @@
 ﻿#include "TestGame.hpp"
 #include "TestSprite.hpp"
 
-void TestGame::Start() {
-	auto* testSprite = new TestSprite(sf::Vector2f(5,5));
-	auto* test2 = new SFMLPE::Sprite("head.png", sf::Vector2f(0,0));
+#define isKeyPressed sf::Keyboard::isKeyPressed
+
+TestGame::TestGame() : SFMLPE::Game(){} // NOLINT(cppcoreguidelines-pro-type-member-init)
+
+void TestGame::Start()
+{
 	
-	testSprite->AddChild(test2);
+	a = new TestSprite(sf::Vector2f(0,0));
+	b = new SFMLPE::Sprite("head.png", sf::Vector2f(0,0));
+
+	a->AddChild(b);
+	AddScene("test").AddChild(a);
+}
+
+sf::Vector2f get_wasd_direction()
+{
+	sf::Vector2f direction{0,0};
 	
-	AddScene("test").AddChild(testSprite);
+	if (isKeyPressed(sf::Keyboard::A))
+		direction.x--;
 	
-	eventHandler.Subscribe(sf::Event::EventType::KeyPressed, [=](sf::Event event) {
-		{
-			sf::Vector2f testSpriteMovement{0, 0};
+	if (isKeyPressed(sf::Keyboard::D))
+		direction.x++;
 
-			if (event.key.code == sf::Keyboard::A) {
-				testSpriteMovement.x = -speed;
-			} else if (event.key.code == sf::Keyboard::D) {
-				testSpriteMovement.x = speed;
-			} else if (event.key.code == sf::Keyboard::W) {
-				testSpriteMovement.y = -speed;
-			} else if (event.key.code == sf::Keyboard::S) {
-				testSpriteMovement.y = speed;
-			}
+	if (isKeyPressed(sf::Keyboard::W))
+		direction.y--;
 
-			testSprite->Move(testSpriteMovement);
-		}
-
-		{
-			sf::Vector2f test2Movement{0,0};
-
-			if (event.key.code == sf::Keyboard::Left){
-				test2Movement.x = -speed;
-			}
-			else if (event.key.code == sf::Keyboard::Right){
-				test2Movement.x = speed;
-			}
-			else if (event.key.code == sf::Keyboard::Up){
-				test2Movement.y = -speed;
-			}
-			else if (event.key.code == sf::Keyboard::Down){
-				test2Movement.y = speed;
-			}
-			
-			test2->Move(test2Movement);
-		}
+	if (isKeyPressed(sf::Keyboard::S))
+		direction.y++;
 		
-		
-		if (event.key.code == sf::Keyboard::V)
-		{
-			testSprite->Visible(!testSprite->Visible());
-		}
-		else if (event.key.code == sf::Keyboard::B)
-		{
-			test2 -> Visible(!test2->Visible());
-		}
-	});
-	
-	
-	testSprite->SetPosition(100,0);
+	return direction;
+}
 
+sf::Vector2f get_arrows_direction()
+{
+	sf::Vector2f direction{0,0};
+
+	if (isKeyPressed(sf::Keyboard::Left))
+		direction.x--;
+
+	if (isKeyPressed(sf::Keyboard::Right))
+		direction.x++;
+
+	if (isKeyPressed(sf::Keyboard::Up))
+		direction.y--;
+
+	if (isKeyPressed(sf::Keyboard::Down))
+		direction.y++;
+
+	return direction;
 }
 
 
 void TestGame::Update() {
+	a->Move(get_wasd_direction() * speed);
+	b->Move(get_arrows_direction() * speed);
 }
+
+
+
 

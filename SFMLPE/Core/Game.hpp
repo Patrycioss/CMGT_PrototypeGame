@@ -9,15 +9,13 @@ namespace SFMLPE
   private:
 	  std::vector<Scene> scenes_;
 	  std::map<const char*, Scene*> scenesIndex_;
-//	  std::map<const char*, GameObject> gameObjects_;
 	  sf::Vector2f sizeF_;
 	  sf::Vector2u sizeU_;
-	  
-	  bool running_;
 	  
   protected:
 	  virtual void Start();
 	  virtual void Update();
+	  
 	  
 	  EventHandler eventHandler;
 	  
@@ -29,9 +27,7 @@ namespace SFMLPE
 	  Scene& scene(const char* name);
 	  
 	  const sf::Vector2f& sizeF();
-	  const sf::Vector2u& sizeU(); 
-	  
-	  [[nodiscard]] const bool& running() const;
+	  const sf::Vector2u& sizeU();
   };
 }
 

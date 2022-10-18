@@ -5,7 +5,7 @@
 int main() 
 {
 	TestGame game;
-	game.Run(700,700,"Ha", "resources");
+	game.Run(1920,1080,"Ha", "resources");
 	return 0;
 }
 
