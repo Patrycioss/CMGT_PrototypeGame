@@ -13,13 +13,19 @@ namespace SFMLPE
 
 	void EventHandler::CallSubscription(const sf::Event& event)
 	{
+
 		if (subscriptions.contains(event.type))
+		{
+
 			subscriptions[event.type](event);
+			printf("ja");
+
+		}
 	}
 
 	void EventHandler::Subscribe(const sf::Event::EventType& eventType, const std::function<void(sf::Event)>& method)
 	{
-		subscriptions.emplace(eventType, method);
+		subscriptions[eventType] = method;
 	}
 
 	void EventHandler::Unsubscribe(const sf::Event::EventType &eventType)

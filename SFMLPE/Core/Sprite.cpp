@@ -1,6 +1,6 @@
 ﻿#include "Sprite.hpp"
-#include "../Game/Game.hpp"
-#include "../ResourceManager.hpp"
+#include "ResourceManager.hpp"
+#include "SFML/Graphics.hpp"
 
 namespace SFMLPE
 {
@@ -28,6 +28,7 @@ namespace SFMLPE
 		  : GameObject(position, visible)
   {
 	  texture_ = ResourceManager::LoadTexture(texturePath);
+	  sprite_ = sf::Sprite(*texture_);
 	  sprite_ = sf::Sprite(*texture_);
   }
 
@@ -66,6 +67,11 @@ namespace SFMLPE
   void Sprite::SetPosition(const float &x, const float &y) {
 	  GameObject::SetPosition(x, y);
 	  sprite_.setPosition(sf::Vector2f{x,y});
+  }
+
+  void Sprite::Render(sf::RenderWindow& window) {
+	  window.draw(sprite_);
+	  GameObject::Render(window);
   }
 }
 

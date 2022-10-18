@@ -1,11 +1,11 @@
 ﻿#pragma once
 #include "SFML/Graphics.hpp"
-#include "../Rectangle.hpp"
-#include "../GameObject.hpp"
+#include "Rectangle.hpp"
+#include "GameObject.hpp"
 
 namespace SFMLPE
 {
-  class Sprite : GameObject
+  class Sprite : public GameObject
   {
   private:
 	  sf::Texture* texture_;
@@ -25,6 +25,8 @@ namespace SFMLPE
 
 	  const sf::Sprite& GetSFMLSprite() const;
 
+	  void Render(sf::RenderWindow& window) override;
+	  
 	  ~Sprite();
   };
 }

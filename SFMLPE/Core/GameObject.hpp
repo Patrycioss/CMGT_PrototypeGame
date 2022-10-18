@@ -12,21 +12,20 @@ namespace SFMLPE {
 	  bool visible_;
 
 	  Rectangle rect_;
-	  std::map<const unsigned int, GameObject *> children_;
+	  std::map<const unsigned int, GameObject*> children_;
 
-	  GameObject *parent_ = nullptr;
-
-  protected:
-	  void SetParent(GameObject *gameObject, const bool &safe = true);
-	  void RemoveParent(const bool &removeFromParent = true);
-
-	  void AddChild(GameObject *gameObject, const bool &setParent = true);
-	  void RemoveChild(unsigned int &ID, const bool &fixParent = true);
-	  void RemoveChild(GameObject *gameObject, const bool &fixParent = true);
-	  void RemoveAllChildren(const bool &safe = true);
+	  GameObject* parent_ = nullptr;
 
   public:
-	  GameObject(const GameObject &other);
+
+	  void SetParent(GameObject* gameObject, const bool& safe = true);
+	  void RemoveParent();
+
+	  void AddChild(GameObject* gameObject);
+	  void RemoveChild(unsigned int& ID);
+	  void RemoveChild(GameObject* gameObject);
+
+	  GameObject(const GameObject& other);
 	  explicit GameObject(const sf::Vector2f &position, const bool &visible = true);
 	  GameObject(const float &x, const float &y, const bool &visible = true);
 	  ~GameObject();
@@ -36,8 +35,10 @@ namespace SFMLPE {
 	  [[nodiscard]] sf::Vector2f size() const;
 
 	  [[nodiscard]] unsigned int ID() const;
+	  
+	  [[nodiscard]] unsigned int ChildCount() const;
 
-	  GameObject *parent();
+	  virtual GameObject *parent();
 
 	  [[nodiscard]] bool Visible() const;
 	  bool Visible(const bool &visible);
@@ -47,7 +48,7 @@ namespace SFMLPE {
 	  virtual void Move(const sf::Vector2f &transformation);
 	  virtual void Move(const float &x, const float &y);
 
-	  virtual void Render();
+	  virtual void Render(sf::RenderWindow& renderWindow);
 	  virtual void Start();
 	  virtual void Update();
   };

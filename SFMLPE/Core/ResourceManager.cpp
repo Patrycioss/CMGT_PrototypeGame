@@ -12,10 +12,14 @@ namespace SFMLPE {
 
 	 sf::Texture texture;
 
-	 if (!texture.loadFromFile(texturePath))
+	 if (!texture.loadFromFile(texturePath)) {
+		 printf("Failed to load file with path %s \n", texturePath);
 		 return nullptr;
+	 }
 
-	 return &textures.emplace(texturePath, texture).first->second;
+	  printf("Loaded file with path %s \n", texturePath);
+
+	  return &textures.emplace(texturePath, texture).first->second;
  }
 
 

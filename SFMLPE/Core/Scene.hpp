@@ -3,13 +3,14 @@
 
 namespace SFMLPE
 {
-  class Scene : GameObject
+  class Scene : public GameObject
   {
   private:
 	  const char* name_;
 	  
   public:
 	  explicit Scene(const char* name);
+	  Scene(const Scene& scene);
 	  const char* name();
   };
 }

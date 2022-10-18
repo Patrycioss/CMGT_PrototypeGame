@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include <SFML/Graphics.hpp>
 #include "EventHandler.hpp"
-#include "../Game/Game.hpp"
+#include "../Game.hpp"
 
 namespace SFMLPE
 {

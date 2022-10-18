@@ -1,5 +1,4 @@
 ﻿#pragma clang diagnostic push
-#pragma ide diagnostic ignored "misc-no-recursion"
 #include "GameObject.hpp"
 
 namespace SFMLPE {
@@ -8,22 +7,24 @@ namespace SFMLPE {
 
   GameObject::GameObject(const GameObject &other)
 		  : visible_(other.visible_), rect_(other.rect_), parent_(other.parent_) {
-	  ID_ = lastID_++;
+	  ID_ = lastID_;
   }
 
   GameObject::GameObject(const sf::Vector2f &position, const bool &visible)
 		  : visible_(visible), rect_(Rectangle{position}) {
 	  ID_ = lastID_++;
+//	  printf("ID: %d, with x: %d \n", ID_, (int)rect_.position_.x);
+
   }
 
   GameObject::GameObject(const float &x, const float &y, const bool &visible)
 		  : visible_(visible), rect_(Rectangle{x, y}) {
 	  ID_ = lastID_++;
+//	  printf("ID: %d, with x: %d \n", ID_, (int)rect_.position_.x);
+
   }
 
   GameObject::~GameObject() {
-	  RemoveAllChildren();
-	  RemoveParent();
   }
 
 ////////////////////////////////////////////////////////////////////////////////////////////
@@ -57,68 +58,41 @@ namespace SFMLPE {
 	  return visible_ = visible;
   }
 
+  unsigned int GameObject::ChildCount() const {
+	  return children_.size();
+  }
 ////////////////////////////////////////////////////////////////////////////////////////////
 
-  void GameObject::AddChild(GameObject *gameObject, const bool &setParent) {
-	  children_.emplace(gameObject->ID(), gameObject);
-
-	  if (setParent)
-		  gameObject->SetParent(this, false);
+  void GameObject::AddChild(GameObject* gameObject) {
+	  children_[gameObject->ID_] = gameObject;
+	  gameObject->parent_ = gameObject;
   }
 
-  void GameObject::RemoveChild(unsigned int &ID, const bool &fixParent) {
-	  if (children_.contains(ID)) {
-		  if (fixParent)
-			  children_[ID]->RemoveParent(false);
-
-		  children_.erase(ID);
-	  }
+  void GameObject::RemoveChild(unsigned int &ID) {
+	  children_[ID]->parent_ = nullptr;
+	  children_.erase(ID);
   }
 
-  void GameObject::RemoveAllChildren(const bool &safe) {
+  void GameObject::RemoveChild(GameObject *gameObject) {
+	  gameObject->parent_ = nullptr;
 
-	  for (auto pair: children_) {
-		  if (!safe) {
-			  delete pair.second;
-			  continue;
-		  }
-
-		  if (pair.second != nullptr) {
-			  if (pair.second->parent_ == this)
-				  delete pair.second;
-		  }
-	  }
-  }
-
-  void GameObject::RemoveChild(GameObject *gameObject, const bool &fixParent) {
-	  if (children_.contains(gameObject->ID())) {
-		  if (fixParent)
-			  gameObject->RemoveParent(false);
-
+	  if (children_.contains(gameObject->ID_))
 		  children_.erase(gameObject->ID());
-	  }
+
+	  else printf("Failed to delete object with ID: %d", gameObject->ID_);
   }
 
-  void GameObject::RemoveParent(const bool &removeFromParent) {
-	  if (parent_ == nullptr) return;
-
-	  if (removeFromParent)
-		  parent_->RemoveChild(this, false);
-
+  void GameObject::RemoveParent() {
+	  parent_->RemoveChild(this);
 	  parent_ = nullptr;
   }
 
-  void GameObject::SetParent(GameObject *gameObject, const bool &safe) {
+  void GameObject::SetParent(GameObject* gameObject, const bool &safe) {
 
 	  if (parent_ == gameObject) return;
-
-	  if (safe)
-		  parent_->RemoveChild(this, false);
-
+	  parent_->RemoveChild(gameObject);
 	  parent_ = gameObject;
-
-	  if (safe)
-		  parent_->AddChild(this, false);
+	  parent_->AddChild(this);
   }
 
 ////////////////////////////////////////////////////////////////////////////////////////////
@@ -164,16 +138,12 @@ namespace SFMLPE {
 	  for (auto pair : children_)
 		  pair.second->Update();
   }
-  
-  void GameObject::Render()
+
+  void GameObject::Render(sf::RenderWindow& window)
   {
-	  for (auto pair : children_)
-		  pair.second->Render();
+	  for (auto pair : children_) {
+		  if (pair.second->visible_)
+			  pair.second->Render(window);
+	  }
   }
 }
-
-
-
-
-
-#pragma clang diagnostic pop

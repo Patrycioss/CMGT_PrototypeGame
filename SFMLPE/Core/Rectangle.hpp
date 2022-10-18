@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "Vector2.hpp"
+#include "SFML/System/Vector2.hpp"
 
 struct Rectangle
 {
