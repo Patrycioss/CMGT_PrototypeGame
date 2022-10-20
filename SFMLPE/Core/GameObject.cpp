@@ -140,11 +140,10 @@ namespace SFMLPE {
 		  return;
 	  }
 	  
-	  if (vertMirrored())
-	  {
-		  parentOffset_ = -(position() - parent_->position());
-	  }
-	  else parentOffset_ = position() - parent_->position();
+	  parentOffset_ = position() - parent_->position();
+	  
+	  if (vertMirrored()) parentOffset_.x *= -1;
+	  if (horMirrored()) parentOffset_.y *= -1;
   }
 
   void GameObject::Move(const sf::Vector2f &transformation) {
@@ -195,62 +194,79 @@ namespace SFMLPE {
   }
 
   void GameObject::MirrorHor(const bool& mirror) {
-	  beingMirrored_ = true;
+	  beingHorMirrored_ = true;
 
 	  sf::Vector2f position = rect_.position_;
 
+	  bool orphan = parent_ == nullptr;
+	  
 	  if (mirror) {
-		  if (parent_->beingMirrored_)
-			  SetPositionMirror(parent()->position().x - parentOffset_.x, position.y);
+		  if (!orphan && parent_->beingHorMirrored_)
+			  SetOnlyThisPosition(position.x, parent()->position().y - parentOffset_.y);
 
-		  else SetPositionMirror(position.x + size().x, position.y);
+		  else {
+			  SetOnlyThisPosition(position.x, position.y + size().y);
+			  printf("ID: %u, height: %f \n", ID_, size().y);
+		  }
 	  }
 	  else {
-		  if (parent_->beingMirrored_) {
-			  SetPositionMirror(parent_->position().x + parentOffset_.x, position.y);
-//			  printf("ID: %u, with offset from parent: %f, parent has pos: %f, this will have pos: %f \n",ID(), parentOffset_.x,
-//			         parent_->position().x, parent_->position().x - parentOffset_.x);		  
+		  if (!orphan && parent_->beingHorMirrored_) {
+			  SetOnlyThisPosition(position.x, parent_->position().y + parentOffset_.y);
+//			  printf("ID: %u, with offset from parent: %f, parent has pos: %f, this will have pos: %f \n",ID(), parentOffset_.y,
+//			         parent_->position().y, parent_->position().y - parentOffset_.y);		  
 		  }
-		  else SetPositionMirror(parent_->position().x + ((position.x - size().x) - parent_->position().x), position.y);
+		  else {
+			  if (!orphan)
+				  SetOnlyThisPosition(position.x, parent_->position().y + ((position.y - size().y) - parent_->position().y));
+
+			  else SetOnlyThisPosition(position.x, position.y - size().y);
+		  } 
 	  }
 
-	  verticallyMirrored_ = mirror;
+	  horizontallyMirrored_ = mirror;
 
 	  for (auto pair : children_)
 		  pair.second->MirrorHor(mirror);
 
 
-	  beingMirrored_ = false;
+	  beingHorMirrored_ = false;
   }
 
   void GameObject::MirrorVert(const bool& mirror) 
   {
-	  beingMirrored_ = true;
+	  beingVertMirrored_ = true;
 	  
 	  sf::Vector2f position = rect_.position_;
-	  
+
+	  bool orphan = parent_ == nullptr;
+
 	  if (mirror) {
-		  if (parent_->beingMirrored_)
-			  SetPositionMirror(parent()->position().x - parentOffset_.x, position.y);
+		  if (!orphan && parent_->beingVertMirrored_)
+			  SetOnlyThisPosition(parent()->position().x - parentOffset_.x, position.y);
 		  
-		  else SetPositionMirror(position.x + size().x, position.y);
+		  else SetOnlyThisPosition(position.x + size().x, position.y);
 	  }
 	  else {
-		  if (parent_->beingMirrored_) {
-			  SetPositionMirror(parent_->position().x + parentOffset_.x, position.y);
+		  if (!orphan && parent_->beingVertMirrored_) {
+			  SetOnlyThisPosition(parent_->position().x + parentOffset_.x, position.y);
 //			  printf("ID: %u, with offset from parent: %f, parent has pos: %f, this will have pos: %f \n",ID(), parentOffset_.x,
 //			         parent_->position().x, parent_->position().x - parentOffset_.x);		  
 		  }
-		  else SetPositionMirror(parent_->position().x + ((position.x - size().x) - parent_->position().x), position.y);
+		  else  {
+			  if (!orphan)
+				  SetOnlyThisPosition(parent_->position().x + ((position.x - size().x) - parent_->position().x), position.y);
+
+			  else SetOnlyThisPosition(position.x - size().x, position.y);
+		  }
 	  }
 
 	  verticallyMirrored_ = mirror;
 	  
 	  for (auto pair : children_)
 		  pair.second->MirrorVert(mirror);
-	  
 
-	  beingMirrored_ = false;
+
+	  beingVertMirrored_ = false;
   }
   
   void GameObject::Mirror(const bool& horizontal, const bool& vertical) {
@@ -258,11 +274,11 @@ namespace SFMLPE {
 	  MirrorVert(vertical);
   }
 
-  void GameObject::SetPositionMirror(const sf::Vector2f& position) {
+  void GameObject::SetOnlyThisPosition(const sf::Vector2f& position) {
 	  rect_.position_ = position;
   }
 
-  void GameObject::SetPositionMirror(const float& x, const float& y) {
+  void GameObject::SetOnlyThisPosition(const float& x, const float& y) {
 	  rect_.position_ = sf::Vector2f{x, y};
   }
 }

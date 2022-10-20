@@ -28,9 +28,20 @@ void CMGT_PrototypeGame::Start()
 		}
 		else if (event.key.code == sf::Keyboard::C)
 		{
+			testSprite->MirrorHor(!testSprite->horMirrored());
+		}
+		else if (event.key.code == sf::Keyboard::F)
+		{
 			testSprite->MirrorVert(!testSprite->vertMirrored());
 		}
-		
+		else if (event.key.code == sf::Keyboard::B)
+		{
+			main_menu.MirrorHor(!main_menu.horMirrored());
+		}
+		else if (event.key.code == sf::Keyboard::G)
+		{
+			main_menu.Mirror(!main_menu.horMirrored(),!main_menu.vertMirrored());
+		}
 	});
 }
 

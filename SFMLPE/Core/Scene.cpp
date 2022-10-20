@@ -4,10 +4,9 @@
 
 namespace SFMLPE {
   SFMLPE::Scene::Scene(const char* name)
-		  : GameObject(0,0, true) {
-	  name_ = name;
-	  SetSize(Game::sizeF());
-  };
+		  : GameObject(0,0, true) 
+		  , name_(name)
+		  {};
   
   Scene::~Scene()
   {
@@ -19,6 +18,8 @@ namespace SFMLPE {
   }
 
   void Scene::Start() {
+	  SetSize(Game::sizeF());
+
 	  Game::instance->AddScene(name_, this);
 	  GameObject::Start();
   }

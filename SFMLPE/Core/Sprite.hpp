@@ -25,7 +25,7 @@ namespace SFMLPE
 	  
 	  sf::Vector2f size() const override;
 
-	  void MirrorVert(const bool& mirrored, const bool& stemsFromRecursion = false) override;
+	  void MirrorVert(const bool& mirrored) override;
 	  void MirrorHor(const bool& mirrored) override;
 	  
 	 
@@ -37,7 +37,7 @@ namespace SFMLPE
 	  ~Sprite();
 	  
   protected:
-	  void SetPositionMirror(const sf::Vector2f &newPosition) override;
-	  void SetPositionMirror(const float &x, const float &y) override;
+	  void SetOnlyThisPosition(const sf::Vector2f &newPosition) override;
+	  void SetOnlyThisPosition(const float &x, const float &y) override;
   };
 }

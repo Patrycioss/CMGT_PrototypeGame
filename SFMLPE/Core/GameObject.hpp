@@ -15,7 +15,8 @@ namespace SFMLPE {
 	  bool horizontallyMirrored_ = false;
 	  
 	  //Mirroring stuff
-	  bool beingMirrored_ = false;
+	  bool beingVertMirrored_ = false;
+	  bool beingHorMirrored_ = false;
 	  sf::Vector2f parentOffset_;
 
 	  Rectangle rect_;
@@ -76,7 +77,7 @@ namespace SFMLPE {
 	  
 	  //Special setPosition versions for mirroring
   protected:
-	  virtual void SetPositionMirror(const sf::Vector2f &newPosition);
-	  virtual void SetPositionMirror(const float &x, const float &y);
+	  virtual void SetOnlyThisPosition(const sf::Vector2f &position);
+	  virtual void SetOnlyThisPosition(const float &x, const float &y);
   };
 }

@@ -79,7 +79,7 @@ namespace SFMLPE
   }
   
 
-  void Sprite::MirrorVert(const bool& mirror, const bool& stemsFromRecursion) {	  
+  void Sprite::MirrorVert(const bool& mirror) {	  
 	  GameObject::MirrorVert(mirror);
 	  sf::Vector2f scale = sprite_.getScale();
 	  
@@ -110,13 +110,13 @@ namespace SFMLPE
 	  sprite_.setScale(scale);
   }
 
-  void Sprite::SetPositionMirror(const sf::Vector2f& newPosition) {
-	  GameObject::SetPositionMirror(newPosition);
+  void Sprite::SetOnlyThisPosition(const sf::Vector2f& newPosition) {
+	  GameObject::SetOnlyThisPosition(newPosition);
 	  sprite_.setPosition(newPosition);
   }
 
-  void Sprite::SetPositionMirror(const float& x, const float& y) {
-	  GameObject::SetPositionMirror(x, y);
+  void Sprite::SetOnlyThisPosition(const float& x, const float& y) {
+	  GameObject::SetOnlyThisPosition(x, y);
 	  sprite_.setPosition(sf::Vector2f{x,y});
   }
 }
