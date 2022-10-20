@@ -6,3 +6,4 @@
 #include "Core/Game.hpp"
 #include "Core/GameObject.hpp"
 #include "Core/Sprite.hpp"
+#include "Core/AnimationSprite.hpp"

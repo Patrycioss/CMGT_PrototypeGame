@@ -2,7 +2,6 @@
 
 TestSprite::TestSprite(const sf::Vector2f& position) : SFMLPE::Sprite("test.png", position)
 {
-	
 }
 
 void TestSprite::Update() {

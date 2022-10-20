@@ -10,40 +10,56 @@ namespace SFMLPE
   //Adds a scene to the Game's list of scenes.
   //If the game already has a scene with the same name
   //it removes that scene and puts the new one in.
-  Scene& Game::AddScene(const char* name) {
-	  scenes_.emplace_back(Scene(name));
-	  scenesIndex_[name] = &scenes_.back();
-	  return *scenesIndex_.at(name);
+  void Game::AddScene(const char* name, Scene* scene) {
+	  scenesIndex_.emplace(std::pair(name,scene));
   }
 
   //Removes specified scene from the list of scenes.
   //Returns whether it succeeded.
-  bool Game::RemoveScene(const char* name) {
-	  delete scenesIndex_[name];
-	  return scenesIndex_.erase(name) != 0;
+  void Game::RemoveScene(const char* name) {
+	  scenesIndex_.erase(name);
   }
 
-  Scene& Game::scene(const char* name) {
-	  return *scenesIndex_.at(name);
+  Scene* Game::scene(const char* name) {
+	  return scenesIndex_.at(name);
   }
   
   //This function is called at the start of the game.
   //Use it to initialize your GameObjects in your Game instance.
   void Game::Start(){}
+
+  //This function is called every frame.
+  void Game::Update(){}
+  
+  //This function is called after the user closes the window.
+  //Use it to delete initialized objects.
+  void Game::End(){}
   
 
+  Game* Game::instance;
+  
+  sf::Vector2f Game::sizeF_;
+  sf::Vector2u Game::sizeU_;
+  
   void Game::Run(const int& windowWidth, const int& windowHeight, const char* windowName, const char* resourcePath) 
   {
+	  instance = this;
+	  
 	  std::string newPath = resourcePath;
 	  std::filesystem::current_path("../" + newPath);
 	  
-	  sizeU_ = sf::Vector2u(windowHeight, windowWidth);
+	  sizeU_ = sf::Vector2u(windowWidth, windowHeight);
 	  sizeF_ = sf::Vector2f((float) windowWidth, (float) windowHeight);
 
 	  sf::RenderWindow window(sf::VideoMode(sizeU_), windowName);
 	  window.setFramerateLimit(60);
 	  
+	  
 	  Start();
+	  for (auto pair : scenesIndex_)
+	  {
+		  pair.second->Start();
+	  }
 	  
 	  while (window.isOpen())
 	  {
@@ -51,9 +67,13 @@ namespace SFMLPE
 		  
 		  while (window.pollEvent(event))
 		  {
-			  if (event.type == sf::Event::Closed)
+			  if (event.type == sf::Event::Closed){
+				  
 				  window.close();
+				  End();
+				  return;
 
+			  }
 			  EventManager::TriggerEvent(event);
 		  }
 
@@ -61,22 +81,29 @@ namespace SFMLPE
 		  
 		  Update();
 
+		  
 		  for (auto pair : scenesIndex_) {
 			  if (pair.second->Visible()) pair.second->Render(window);
 		  }
 		  window.display();
+
+		  prevTime = clock.getElapsedTime().asSeconds();
 	  }
   }
 
-  const sf::Vector2f& Game::sizeF() {
+  sf::Vector2f& Game::sizeF() {
 	  return sizeF_;
   }
 
-  const sf::Vector2u& Game::sizeU() {
+  sf::Vector2u& Game::sizeU() {
 	  return sizeU_;
   }
 
-  void Game::Update() {
+  float Game::deltaTime() {
+	  return clock.getElapsedTime().asSeconds() - prevTime;
+  }
 
+  sf::Time Game::elapsedTime() {
+	  return clock.getElapsedTime();
   }
 }

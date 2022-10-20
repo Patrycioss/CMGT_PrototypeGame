@@ -5,14 +5,14 @@ set(CMAKE_CXX_STANDARD 23)
 
 add_subdirectory(SFML)
 add_executable(SFMLPEngine
-        main.cpp
+        CMGT_PrototypeGame/main.cpp
         SFMLPE/Core/Sprite.cpp SFMLPE/Core/Sprite.hpp
         SFMLPE/Core/EventSystem/EventManager.cpp SFMLPE/Core/EventSystem/EventManager.hpp 
         SFMLPE/Core/EventSystem/EventHandler.cpp SFMLPE/Core/EventSystem/EventHandler.hpp 
         SFMLPE/Core/Rectangle.hpp SFMLPE/Core/GameObject.cpp SFMLPE/Core/GameObject.hpp 
         SFMLPE/Core/Rectangle.cpp SFMLPE/Core/GameObject.cpp SFMLPE/Core/GameObject.hpp
-        SFMLPE/Core/ResourceManager.cpp SFMLPE/Core/ResourceManager.hpp SFMLPE/Core/Scene.cpp 
-        SFMLPE/Core/Scene.hpp SFMLPE/Core/Game.cpp SFMLPE/Core/Game.hpp TestGame.cpp TestGame.hpp SFMLPE/SFMLPE.hpp TestSprite.cpp TestSprite.hpp)
+        SFMLPE/Core/ResourceManager.cpp SFMLPE/Core/ResourceManager.hpp SFMLPE/Core/Scene.cpp test_example/TestSprite.cpp
+        SFMLPE/Core/Scene.hpp SFMLPE/Core/Game.cpp SFMLPE/Core/Game.hpp CMGT_PrototypeGame/CMGT_PrototypeGame.cpp CMGT_PrototypeGame/CMGT_PrototypeGame.hpp SFMLPE/SFMLPE.hpp CMGT_PrototypeGame/Utility/InputHelper.cpp CMGT_PrototypeGame/Utility/InputHelper.hpp SFMLPE/Core/AnimationSprite.cpp SFMLPE/Core/AnimationSprite.hpp CMGT_PrototypeGame/AnimationTest.cpp CMGT_PrototypeGame/AnimationTest.hpp)
 
 target_link_libraries(SFMLPEngine PRIVATE sfml-graphics)
 target_compile_features(SFMLPEngine PRIVATE cxx_std_17)

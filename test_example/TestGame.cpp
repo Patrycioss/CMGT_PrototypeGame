@@ -3,8 +3,6 @@
 
 #define isKeyPressed sf::Keyboard::isKeyPressed
 
-TestGame::TestGame() : SFMLPE::Game(){} // NOLINT(cppcoreguidelines-pro-type-member-init)
-
 void TestGame::Start()
 {
 	
@@ -12,7 +10,7 @@ void TestGame::Start()
 	b = new SFMLPE::Sprite("head.png", sf::Vector2f(0,0));
 
 	a->AddChild(b);
-	AddScene("test").AddChild(a);
+	AddScene("test")AddChild(a);
 }
 
 sf::Vector2f get_wasd_direction()

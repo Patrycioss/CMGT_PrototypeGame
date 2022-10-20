@@ -47,6 +47,10 @@ namespace SFMLPE
 	  return sprite_;
   }
 
+  sf::Vector2f Sprite::size() const {
+	  return {(float) texture_->getSize().x, (float) texture_->getSize().y};
+  }
+
 ////////////////////////////////////////////////////////////////////////////////////////////
 
   void Sprite::Move(const float &x, const float &y) {
@@ -72,6 +76,48 @@ namespace SFMLPE
   void Sprite::Render(sf::RenderWindow& window) {
 	  window.draw(sprite_);
 	  GameObject::Render(window);
+  }
+  
+
+  void Sprite::MirrorVert(const bool& mirror, const bool& stemsFromRecursion) {	  
+	  GameObject::MirrorVert(mirror);
+	  sf::Vector2f scale = sprite_.getScale();
+	  
+	  if (mirror)
+	  {
+		  if (scale.x > 0) 
+			  scale.x = -scale.x;
+	  }
+	  else if (scale.x < 0) 
+		  scale.x = -scale.x;
+	  
+	  sprite_.setScale(scale);
+  }
+
+  void Sprite::MirrorHor(const bool& mirror){
+	  GameObject::MirrorHor(mirror);
+	  
+	  sf::Vector2f scale = sprite_.getScale();
+
+	  if (mirror)
+	  {
+		  if (scale.y > 0)
+			  scale.y = -scale.y;
+	  }
+	  else if (scale.y < 0)
+		  scale.y = -scale.y;
+
+	  sprite_.setScale(scale);
+  }
+
+  void Sprite::SetPositionMirror(const sf::Vector2f& newPosition) {
+	  GameObject::SetPositionMirror(newPosition);
+	  sprite_.setPosition(newPosition);
+  }
+
+  void Sprite::SetPositionMirror(const float& x, const float& y) {
+	  GameObject::SetPositionMirror(x, y);
+	  sprite_.setPosition(sf::Vector2f{x,y});
   }
 }
 

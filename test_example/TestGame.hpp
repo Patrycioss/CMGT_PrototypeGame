@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "SFMLPE/SFMLPE.hpp"
+#include "../SFMLPE/SFMLPE.hpp"
 #include "TestSprite.hpp"
 
 class TestGame : public SFMLPE::Game
