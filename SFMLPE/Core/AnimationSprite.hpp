@@ -52,8 +52,7 @@ namespace SFMLPE
 	  
 	  void Animate();
 	  
-	  sf::Vector2f size() const override;
-	  
+	  void UpdateSize() override;
   };
 }
 

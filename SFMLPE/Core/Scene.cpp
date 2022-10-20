@@ -18,8 +18,7 @@ namespace SFMLPE {
   }
 
   void Scene::Start() {
-	  SetSize(Game::sizeF());
-
+	  UpdateSize(Game::sizeF().x, Game::sizeF().y);
 	  Game::instance->AddScene(name_, this);
 	  GameObject::Start();
   }

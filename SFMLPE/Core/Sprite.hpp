@@ -10,6 +10,7 @@ namespace SFMLPE
   protected:
 	  sf::Texture* texture_;
 	  sf::Sprite sprite_;
+	  
 
   public:
 	  Sprite(const Sprite& other);
@@ -23,12 +24,13 @@ namespace SFMLPE
 	  void Move(const float& x, const float& y) override;
 	  void Move(const sf::Vector2f& transformation) override;
 	  
-	  sf::Vector2f size() const override;
-
 	  void MirrorVert(const bool& mirrored) override;
 	  void MirrorHor(const bool& mirrored) override;
 	  
-	 
+	  virtual void UpdateSize();
+
+  public:
+
 
 	  const sf::Sprite& GetSFMLSprite() const;
 
@@ -37,6 +39,7 @@ namespace SFMLPE
 	  ~Sprite();
 	  
   protected:
+	  
 	  void SetOnlyThisPosition(const sf::Vector2f &newPosition) override;
 	  void SetOnlyThisPosition(const float &x, const float &y) override;
   };

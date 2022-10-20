@@ -11,6 +11,7 @@ SFMLPE::AnimationSprite::AnimationSprite
 {
 	frameWidth_ = texture_->getSize().x / columns;
 	frameHeight_ = texture_->getSize().y / rows;
+	UpdateSize();
 	SetFrame(0);
 }
 
@@ -25,6 +26,7 @@ SFMLPE::AnimationSprite::AnimationSprite
 {
 	frameWidth_ = texture_->getSize().x / columns;
 	frameHeight_ = texture_->getSize().y / rows;
+	UpdateSize();
 	SetFrame(0);
 }
 
@@ -101,7 +103,8 @@ void SFMLPE::AnimationSprite::SetCycle
 	if (setFrame) SetFrame(startFrame);
 }
 
-sf::Vector2f SFMLPE::AnimationSprite::size() const {
-	return {(float) frameWidth_, (float) frameHeight_};
+void SFMLPE::AnimationSprite::UpdateSize() 
+{
+	GameObject::UpdateSize((float) frameWidth_, (float) frameHeight_);
 }
 

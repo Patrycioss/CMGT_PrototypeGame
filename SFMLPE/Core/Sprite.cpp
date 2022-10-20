@@ -8,6 +8,7 @@ namespace SFMLPE
 		  : GameObject(other)
   {
 	  texture_ = other.texture_;
+	  UpdateSize();
   }
 
   Sprite::Sprite(sf::Texture* texture, const sf::Vector2f &position, const bool &visible)
@@ -15,6 +16,7 @@ namespace SFMLPE
   {
 	  texture_ = texture;
 	  sprite_ = sf::Sprite(*texture_);
+	  UpdateSize();
   }
 
   Sprite::Sprite(sf::Texture* texture, const float &x, const float &y, const bool &visible)
@@ -22,6 +24,7 @@ namespace SFMLPE
   {
 	  texture_ = texture;
 	  sprite_ = sf::Sprite(*texture_);
+	  UpdateSize();
   }
 
   Sprite::Sprite(const char *texturePath, const sf::Vector2f &position, const bool &visible)
@@ -29,7 +32,7 @@ namespace SFMLPE
   {
 	  texture_ = ResourceManager::LoadTexture(texturePath);
 	  sprite_ = sf::Sprite(*texture_);
-	  sprite_ = sf::Sprite(*texture_);
+	  UpdateSize();
   }
 
   Sprite::Sprite(const char *texturePath, const float &x, const float &y, const bool &visible)
@@ -37,6 +40,7 @@ namespace SFMLPE
   {
 	  texture_ = ResourceManager::LoadTexture(texturePath);
 	  sprite_ = sf::Sprite(*texture_);
+	  UpdateSize();
   }
 
   Sprite::~Sprite() = default;
@@ -46,10 +50,7 @@ namespace SFMLPE
   const sf::Sprite &Sprite::GetSFMLSprite() const {
 	  return sprite_;
   }
-
-  sf::Vector2f Sprite::size() const {
-	  return {(float) texture_->getSize().x, (float) texture_->getSize().y};
-  }
+  
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -118,6 +119,11 @@ namespace SFMLPE
   void Sprite::SetOnlyThisPosition(const float& x, const float& y) {
 	  GameObject::SetOnlyThisPosition(x, y);
 	  sprite_.setPosition(sf::Vector2f{x,y});
+  }
+  
+  void Sprite::UpdateSize() 
+  {
+	  GameObject::UpdateSize( (float) texture_->getSize().x, (float) texture_->getSize().y);
   }
 }
 
