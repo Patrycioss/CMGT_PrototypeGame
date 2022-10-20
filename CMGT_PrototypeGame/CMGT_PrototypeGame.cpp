@@ -7,28 +7,14 @@ void CMGT_PrototypeGame::Start()
 	testSprite = new TestSprite(sf::Vector2f(0,0));
 	
 	animationTest = new AnimationTest(sf::Vector2f(0,0));
-
+	animationTest2 = new AnimationTest(sf::Vector2f(100,100));
 
 
 	main_menu.AddChild(testSprite);
-	
-	
 	testSprite->AddChild(animationTest);
+	animationTest->AddChild(animationTest2);
 
 	AddScene(main_menu.name(),&main_menu);
-
-
-//	testSprite->MirrorVert(true);
-
-//	
-//	printf("%f", testSprite->size().x);
-//	printf("\n%f", testSprite->position().x);
-//	printf("\n%f", testSprite->GetSFMLSprite().getScale().x);
-//	
-//	printf("\n%f", testSprite->GetSFMLSprite().getScale().x);
-
-
-	
 	
 	eventHandler.Subscribe(sf::Event::KeyPressed, [=](sf::Event event)
 	{
@@ -46,19 +32,12 @@ void CMGT_PrototypeGame::Start()
 		}
 		
 	});
-	
-	printf("SceneLocal = %f, SpriteLocal = %f, AnimationLocal = %f \n",main_menu.parentSpaceX(), testSprite->parentSpaceX(), animationTest->parentSpaceX());
 }
 
 void CMGT_PrototypeGame::Update() 
 {
-//	printf("Animationtest is at x: %f \n", animationTest->position().x);
-//	printf("Main has ID: %u, Animation has ID: %u, Sprite has ID: %u \n", main_menu.ID(), testSprite->ID(), animationTest->ID() );
-
-//	printf("SceneLocal = %f, SpriteLocal = %f, AnimationLocal = %f \n",main_menu.localX(), testSprite->localX(), animationTest->localX());
-
-
 	animationTest->Animate();
+	animationTest2->Animate();
 	testSprite->Move(InputHelper::get_arrowKeys_direction());
 	animationTest->Move(InputHelper::get_wasd_direction());
 }

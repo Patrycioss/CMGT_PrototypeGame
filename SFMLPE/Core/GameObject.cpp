@@ -46,28 +46,9 @@ namespace SFMLPE {
 	  return rect_.position_;
   }
 
-  float GameObject::parentSpaceX() const {
-	  if (parent_ != nullptr) {
-		  return std::abs(position().x - parent_->position().x);
-	  }
-	  return 0;
+  sf::Vector2f GameObject::parentOffset() const {
+	  return parentOffset_;
   }
-
-  float GameObject::localY() const {
-	  if (parent_ != nullptr)
-		  return position().y - parent_->localY();
-
-	  return 0;
-  }
-
-  sf::Vector2f GameObject::localPosition() const {
-	  
-	  if (parent_ != nullptr)
-		  return position() - parent_->localPosition();
-
-	  return sf::Vector2f{0,0};
-  }
-  
 
   sf::Vector2f GameObject::size() const {
 	  return rect_.size_;
@@ -89,15 +70,18 @@ namespace SFMLPE {
   void GameObject::AddChild(GameObject* gameObject) {
 	  children_[gameObject->ID_] = gameObject;
 	  gameObject->parent_ = this;
+	  gameObject->SetParentOffset();
   }
 
   void GameObject::RemoveChild(unsigned int &ID) {
 	  children_[ID]->parent_ = nullptr;
+	  children_[ID]->SetParentOffset();
 	  children_.erase(ID);
   }
 
   void GameObject::RemoveChild(GameObject *gameObject) {
 	  gameObject->parent_ = nullptr;
+	  gameObject->SetParentOffset();
 
 	  if (children_.contains(gameObject->ID_))
 		  children_.erase(gameObject->ID());
@@ -108,6 +92,7 @@ namespace SFMLPE {
   void GameObject::RemoveParent() {
 	  parent_->RemoveChild(this);
 	  parent_ = nullptr;
+	  SetParentOffset();
   }
 
   void GameObject::SetParent(GameObject* gameObject, const bool &safe) {
@@ -116,6 +101,7 @@ namespace SFMLPE {
 	  parent_->RemoveChild(gameObject);
 	  parent_ = gameObject;
 	  parent_->AddChild(this);
+	  SetParentOffset();
   }
 
 ////////////////////////////////////////////////////////////////////////////////////////////
@@ -123,6 +109,8 @@ namespace SFMLPE {
   void GameObject::SetPosition(const sf::Vector2f &newPosition) {
 	  sf::Vector2f transformation = newPosition - rect_.position_;
 	  rect_.position_ = newPosition;
+
+	  SetParentOffset();
 
 	  for (auto pair: children_)
 		  pair.second->SetPosition(pair.second->position() + transformation);
@@ -132,6 +120,8 @@ namespace SFMLPE {
 	  sf::Vector2f transformation = sf::Vector2f{x, y} - rect_.position_;
 	  rect_.position_ = sf::Vector2f{x, y};
 
+	  SetParentOffset();
+			  
 	  for (auto pair: children_)
 		  pair.second->SetPosition(pair.second->position() + transformation);
   }
@@ -141,8 +131,26 @@ namespace SFMLPE {
 	  rect_.size_ = size;
   }
 
+
+  void GameObject::SetParentOffset() 
+  {
+	  if (parent_ == nullptr)
+	  {
+		  parentOffset_ = {0,0};
+		  return;
+	  }
+	  
+	  if (vertMirrored())
+	  {
+		  parentOffset_ = -(position() - parent_->position());
+	  }
+	  else parentOffset_ = position() - parent_->position();
+  }
+
   void GameObject::Move(const sf::Vector2f &transformation) {
 	  rect_.Move(transformation);
+
+	  SetParentOffset();
 
 	  for (auto pair: children_)
 		  pair.second->Move(transformation);
@@ -150,6 +158,9 @@ namespace SFMLPE {
 
   void GameObject::Move(const float &x, const float &y) {
 	  rect_.Move(x, y);
+
+	  SetParentOffset();
+
 
 	  for (auto pair: children_)
 		  pair.second->Move(x, y);
@@ -184,104 +195,62 @@ namespace SFMLPE {
   }
 
   void GameObject::MirrorHor(const bool& mirror) {
+	  beingMirrored_ = true;
+
 	  sf::Vector2f position = rect_.position_;
 
-	  if (mirror)
-		  SetPositionMirror(position.x, (horizontallyMirrored_? position.y: position.y + size().y));
-	  else
-		  SetPositionMirror(position.x, (horizontallyMirrored_? position.y - size().y : position.y));
+	  if (mirror) {
+		  if (parent_->beingMirrored_)
+			  SetPositionMirror(parent()->position().x - parentOffset_.x, position.y);
 
-	  horizontallyMirrored_ = mirror;
-
-	  for (auto pair : children_)
-		  pair.second->MirrorHor(mirror);  
-  }
-
-  void GameObject::MirrorVert(const bool& mirror, const bool& stemsFromRecursion) 
-  {
-	  sf::Vector2f position = rect_.position_;
-
-	  if (mirror)
-	  {
-		  if (parent_->vertMirrored())
-		  {
-			  SetPositionMirror(parent_->position().x + ((parent_->position().x - position.x) - parent_->size().x), position.y);
-		  }
-		  else {
-			  SetPositionMirror(position.x + size().x, position.y);
-		  }
+		  else SetPositionMirror(position.x + size().x, position.y);
 	  }
-	  else
-	  {
-		  if (parent_->vertMirrored())
-		  {
-			  SetPositionMirror(parent_->position().x + ((parent_->position().x + parent_->size().x) - position.x), position.y);
+	  else {
+		  if (parent_->beingMirrored_) {
+			  SetPositionMirror(parent_->position().x + parentOffset_.x, position.y);
+//			  printf("ID: %u, with offset from parent: %f, parent has pos: %f, this will have pos: %f \n",ID(), parentOffset_.x,
+//			         parent_->position().x, parent_->position().x - parentOffset_.x);		  
 		  }
-		  else
-		  {
-			  SetPositionMirror(parent_->position().x + ((position.x - size().x) - parent_->position().x), position.y);
-			  printf("id: %u with: %f \n", ID_, ((position.x - parent_->size().x)));
-		  }
-		  
+		  else SetPositionMirror(parent_->position().x + ((position.x - size().x) - parent_->position().x), position.y);
 	  }
-
-	  if (parent_ != nullptr)
-		  printf("id: %u, pRX: %f mirrored:%i parentMirrored:%i \n", ID(), parentSpaceX(), vertMirrored(), parent_->vertMirrored());
 
 	  verticallyMirrored_ = mirror;
 
-
 	  for (auto pair : children_)
-		  pair.second->MirrorVert(mirror, true);
+		  pair.second->MirrorHor(mirror);
+
+
+	  beingMirrored_ = false;
+  }
+
+  void GameObject::MirrorVert(const bool& mirror) 
+  {
+	  beingMirrored_ = true;
+	  
+	  sf::Vector2f position = rect_.position_;
+	  
+	  if (mirror) {
+		  if (parent_->beingMirrored_)
+			  SetPositionMirror(parent()->position().x - parentOffset_.x, position.y);
+		  
+		  else SetPositionMirror(position.x + size().x, position.y);
+	  }
+	  else {
+		  if (parent_->beingMirrored_) {
+			  SetPositionMirror(parent_->position().x + parentOffset_.x, position.y);
+//			  printf("ID: %u, with offset from parent: %f, parent has pos: %f, this will have pos: %f \n",ID(), parentOffset_.x,
+//			         parent_->position().x, parent_->position().x - parentOffset_.x);		  
+		  }
+		  else SetPositionMirror(parent_->position().x + ((position.x - size().x) - parent_->position().x), position.y);
+	  }
+
+	  verticallyMirrored_ = mirror;
+	  
+	  for (auto pair : children_)
+		  pair.second->MirrorVert(mirror);
 	  
 
-	  
-		  
-		  
-//		  if (mirror && !vertMirrored()) {
-//			  if (parent_->verticallyMirrored_)
-//			  {
-//				  SetPositionMirror(position.x + size().x, position.y);
-//
-//				  SetPositionMirror(((parent_->size().x == 0? size().x : parent_->size().x)
-//				                     + parent_->position().x) - parentSpaceX(), position.y);
-//			  }
-//			  else {
-////				  SetPositionMirror(((parent_->size().x == 0? size().x : parent_->size().x)
-////				                     + parent_->position().x) - parentSpaceX(), position.y);
-//				  SetPositionMirror(parent_->position().x + size().x, position.y);
-//			  }
-//		  }
-//		  else if (vertMirrored()){
-//			  if(parent_->verticallyMirrored_)
-//			  {
-//				  SetPositionMirror(parent_->position().x 
-//				                    - (parent_->size().x == 0? size().x : parent_->size().x)   
-//									+ parentSpaceX(), position.y);
-//			  }
-//			  else
-//			  {
-//				  if (parent_->size().x == 0)
-//					  SetPositionMirror(parent_->position().x + (size().x - parentSpaceX()), position.y);
-//				  
-//				  
-//				  printf("Jazekers %f en %f\n", parentSpaceX() - size().x, position.x - size().x);
-//			  }
-			  
-//			  SetPositionMirror((parent_->verticallyMirrored_? parent_->position().x   - 
-//			  (parent_->size().x == 0? size().x : parent_->size().x)
-//			  + (parent_->vertMirrored()? parentSpaceX() : 0), 
-//			  position.y);
-//		  }
-//	  }
-//	  else {
-//		  if (mirror)
-//			  SetPositionMirror((verticallyMirrored_ ? position.x : position.x + size().x), position.y);
-//		  else
-//			  SetPositionMirror((verticallyMirrored_ ? position.x - size().x : position.x), position.y);
-//	  }
-	  
-
+	  beingMirrored_ = false;
   }
   
   void GameObject::Mirror(const bool& horizontal, const bool& vertical) {

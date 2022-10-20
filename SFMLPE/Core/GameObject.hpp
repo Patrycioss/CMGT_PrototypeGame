@@ -14,6 +14,9 @@ namespace SFMLPE {
 	  bool verticallyMirrored_ = false;
 	  bool horizontallyMirrored_ = false;
 	  
+	  //Mirroring stuff
+	  bool beingMirrored_ = false;
+	  sf::Vector2f parentOffset_;
 
 	  Rectangle rect_;
 	  std::map<const unsigned int, GameObject*> children_;
@@ -37,10 +40,9 @@ namespace SFMLPE {
 	  Rectangle rect();
 	  [[nodiscard]] sf::Vector2f position() const;
 	  [[nodiscard]] virtual sf::Vector2f size() const;
-
-	  [[nodiscard]] float parentSpaceX() const;
-	  [[nodiscard]] float localY() const;
-	  [[nodiscard]] sf::Vector2f localPosition() const;
+	  
+	  [[nodiscard]] sf::Vector2f parentOffset() const;
+	  void SetParentOffset();
 
 	  [[nodiscard]] unsigned int ID() const;
 	  
@@ -61,7 +63,7 @@ namespace SFMLPE {
 
 	  [[nodiscard]] bool vertMirrored() const;
 	  [[nodiscard]] bool horMirrored() const;
-	  virtual void MirrorVert(const bool& mirror, const bool& stemsFromRecursion = false);
+	  virtual void MirrorVert(const bool& mirror);
 	  virtual void MirrorHor(const bool& mirror);
 	  virtual void Mirror(const bool& horizontal, const bool& vertical);
 	  

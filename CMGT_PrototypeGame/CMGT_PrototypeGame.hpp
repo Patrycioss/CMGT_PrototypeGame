@@ -12,6 +12,7 @@ private:
 	
 	AnimationTest* animationTest;
 	TestSprite* testSprite;
+	AnimationTest* animationTest2;
 	
 	
 protected:
