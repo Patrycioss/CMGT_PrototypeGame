@@ -45,7 +45,12 @@ namespace SFMLPE
   {
 	  instance = this;
 	  
+	  
 	  std::string newPath = resourcePath;
+	  
+	  if (std::filesystem::current_path().has_relative_path())
+	  
+	  
 	  std::filesystem::current_path("../" + newPath);
 	  
 	  sizeU_ = sf::Vector2u(windowWidth, windowHeight);

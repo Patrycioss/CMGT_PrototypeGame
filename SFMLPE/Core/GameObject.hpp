@@ -16,12 +16,14 @@ namespace SFMLPE {
 	  unsigned int ID_ = -1;
 	  bool visible_;
 	  
+	  sf::Vector2f parentOffset_;
+	  
 	  
   //Geometric information  
 
 	  Rectangle rect_;
-	  sf::Vector2f parentOffset_;
-
+	  sf::Vector2f originalSize_;
+	  sf::Vector2f scale_{1,1};
 	  
 	  //Mirroring stuff
 	  
@@ -43,7 +45,10 @@ namespace SFMLPE {
   
 	  [[nodiscard]] const Rectangle& rect() const;
 	  [[nodiscard]] const sf::Vector2f& position() const;
-	  [[nodiscard]] virtual const sf::Vector2f& size() const;
+	  [[nodiscard]] const sf::Vector2f& size() const;
+	  [[nodiscard]] const sf::Vector2f& originalSize() const;
+	  [[nodiscard]] const sf::Vector2f& scale() const;
+
 
 	  [[nodiscard]] const bool& vertMirrored() const;
 	  [[nodiscard]] const bool& horMirrored() const;
@@ -61,16 +66,22 @@ namespace SFMLPE {
 	  virtual void MirrorVert(const bool& mirror);
 	  virtual void MirrorHor(const bool& mirror);
 	  virtual void Mirror(const bool& horizontal, const bool& vertical);
-	  
+
 	  void CalcParentOffset();
 
-
-	  //Special setPosition versions for mirroring
+	  void SetWidth(const float& x);
+	  void SetHeight(const float& y);
+	  void SetSize(const float& width, const float& height);
+	  void SetSize(const sf::Vector2f& size);
+	  
+	  void SetScaleX(const float& x);
+	  void SetScaleY(const float& y);
+	  void SetScale(const sf::Vector2f& scale);
+	  void SetScale(const float& x, const float& y);
+	  virtual void UpdateScale(const sf::Vector2f& prevScale);
 
   protected:
-	  //Only updates size of the rect and nothing else
 	  virtual void UpdateSize(const float& x, const float& y);
-
 	  virtual void SetOnlyThisPosition(const sf::Vector2f &position);
 	  virtual void SetOnlyThisPosition(const float &x, const float &y);
 	  
@@ -84,18 +95,17 @@ namespace SFMLPE {
 	  
   //Hierarchy information
   
-	  [[nodiscard]] unsigned int ID() const;
+	  [[nodiscard]] const unsigned int& ID() const;
 	  [[nodiscard]] unsigned int ChildCount() const;
 	  [[nodiscard]] const bool& Visible() const;
 	  const bool& Visible(const bool &visible);
 
-	  virtual GameObject *parent();
-	  [[nodiscard]] sf::Vector2f parentOffset() const;
-
+	  [[nodiscard]] const GameObject* parent() const;
+	  [[nodiscard]] const sf::Vector2f& parentOffset() const;
 	  
   //Hierarchy manipulation
   
-	  void SetParent(GameObject* gameObject, const bool& safe = true);
+	  void SetParent(GameObject* gameObject);
 	  void RemoveParent();
 
 	  void AddChild(GameObject* gameObject);

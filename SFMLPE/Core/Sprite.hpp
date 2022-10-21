@@ -27,6 +27,7 @@ namespace SFMLPE
 	  void MirrorVert(const bool& mirrored) override;
 	  void MirrorHor(const bool& mirrored) override;
 	  
+	  void UpdateScale(const sf::Vector2f& prevScale) override;
 	  virtual void UpdateSize();
 
   public:

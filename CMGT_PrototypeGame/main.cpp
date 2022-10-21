@@ -37,7 +37,7 @@ struct WindowNamePicker
 int main()
 {
 	CMGT_PrototypeGame game;
-	game.Run(1300,800,WindowNamePicker().GetName(0), "CMGT_PrototypeGame/Resources");
+	game.Run(1300,800,WindowNamePicker().GetName(), "CMGT_PrototypeGame/Resources");
 	return 0;
 }
 

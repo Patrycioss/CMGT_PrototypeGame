@@ -22,6 +22,5 @@ namespace SFMLPE {
 	  Game::instance->AddScene(name_, this);
 	  GameObject::Start();
   }
-
 }
 

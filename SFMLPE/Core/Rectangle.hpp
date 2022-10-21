@@ -3,8 +3,8 @@
 
 struct Rectangle
 {
-	sf::Vector2f position_;
-	sf::Vector2f size_;
+	sf::Vector2f position;
+	sf::Vector2f size;
 	
 	Rectangle(const sf::Vector2f& position, const sf::Vector2f& size);
 	Rectangle(const sf::Vector2f& position, const float& width, const float& height);

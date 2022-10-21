@@ -123,7 +123,20 @@ namespace SFMLPE
   
   void Sprite::UpdateSize() 
   {
-	  GameObject::UpdateSize( (float) texture_->getSize().x, (float) texture_->getSize().y);
+	  GameObject::UpdateSize( 
+			    (float) texture_->getSize().x
+			  , (float) texture_->getSize().y);
+  }
+
+  void Sprite::UpdateScale(const sf::Vector2f& prevScale) 
+  {
+	  GameObject::UpdateScale(prevScale);
+	  
+	  sf::Vector2f scale = this->scale();
+	  if (horMirrored()) scale.y *= -1;
+	  if (vertMirrored()) scale.x *= -1;
+	  
+	  sprite_.setScale(scale);
   }
 }
 
