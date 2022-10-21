@@ -100,6 +100,8 @@ void SFMLPE::AnimationSprite::SetCycle
 	startFrame_ = startFrame;
 	cycleFrameCount_ = numFrames;
 	
+	animationDelay_ = animationDelay;
+	
 	if (setFrame) SetFrame(startFrame);
 }
 

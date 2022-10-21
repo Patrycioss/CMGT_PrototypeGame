@@ -384,11 +384,6 @@ namespace SFMLPE {
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 
-  bool GameObject::MouseOver() const
-  {
-	  return PointOver((float) sf::Mouse::getPosition().x , (float) sf::Mouse::getPosition().y);
-  }
-
   bool GameObject::PointOver(const sf::Vector2f& point) const
   {
 	  return     (point.x >= position().x

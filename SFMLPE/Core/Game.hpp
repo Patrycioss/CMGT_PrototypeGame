@@ -34,6 +34,8 @@ namespace SFMLPE
 	  
 	  static Game* instance;
 	  
+	  const sf::RenderWindow& window();
+	  
 	  float deltaTime();
 	  sf::Time elapsedTime();
   };

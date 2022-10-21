@@ -16,6 +16,7 @@ namespace SFMLPE
   {
 	  texture_ = texture;
 	  sprite_ = sf::Sprite(*texture_);
+	  sprite_.setPosition(position);
 	  UpdateSize();
   }
 
@@ -24,6 +25,7 @@ namespace SFMLPE
   {
 	  texture_ = texture;
 	  sprite_ = sf::Sprite(*texture_);
+	  sprite_.setPosition(sf::Vector2f{x,y});
 	  UpdateSize();
   }
 
@@ -32,6 +34,7 @@ namespace SFMLPE
   {
 	  texture_ = ResourceManager::LoadTexture(texturePath);
 	  sprite_ = sf::Sprite(*texture_);
+	  sprite_.setPosition(position);
 	  UpdateSize();
   }
 
@@ -40,6 +43,7 @@ namespace SFMLPE
   {
 	  texture_ = ResourceManager::LoadTexture(texturePath);
 	  sprite_ = sf::Sprite(*texture_);
+	  sprite_.setPosition(sf::Vector2f{x,y});
 	  UpdateSize();
   }
 

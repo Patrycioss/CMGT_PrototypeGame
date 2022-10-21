@@ -88,7 +88,9 @@ namespace SFMLPE
 
 		  
 		  for (auto pair : scenesIndex_) {
+			  pair.second->mousePosition = {(float) sf::Mouse::getPosition(window).x, (float) sf::Mouse::getPosition(window).y};
 			  if (pair.second->Visible()) pair.second->Render(window);
+			  pair.second->Update();
 		  }
 		  window.display();
 

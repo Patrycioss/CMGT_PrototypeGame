@@ -4,13 +4,16 @@
 class MainMenu : public SFMLPE::Scene
 {
 private:
-	SFMLPE::AnimationSprite background_;
+	SFMLPE::AnimationSprite* background_;
+	SFMLPE::AnimationSprite* startButton_;
+	
+	bool overStart_ = false;
 	
 public:
-	MainMenu();
-	
+	void Start() override;
 	void Update() override;
-
+	MainMenu();
+	~MainMenu();
 };
 
 

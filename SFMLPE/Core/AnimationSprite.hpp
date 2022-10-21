@@ -28,16 +28,16 @@ namespace SFMLPE
 	  //Frame delay in milliseconds
 	  unsigned int animationDelay_ = 100;
 	  
-  protected:
 	  
-	  //Frames index from 0
-	  void SetFrame(const unsigned int& frame);
-	  
-	  void SetCycle(const unsigned int& startFrame, const unsigned int& numFrames, 
-					const unsigned int& animationDelay = 1, const bool& setFrame = true);
+
 	  
   public:
-	  
+
+	  //Frames index from 0
+	  void SetFrame(const unsigned int& frame);
+
+	  void SetCycle(const unsigned int& startFrame, const unsigned int& numFrames,
+	                const unsigned int& animationDelay = 1, const bool& setFrame = true);
 	  
 	  
 	  AnimationSprite(const sf::Vector2f& position, 

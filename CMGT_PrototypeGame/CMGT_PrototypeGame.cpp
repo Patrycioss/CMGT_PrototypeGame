@@ -3,9 +3,8 @@
 
 void CMGT_PrototypeGame::Start()
 {
-	
-	AddScene(scene.name(), &scene);
-	
+	mainMenu = new MainMenu();
+	AddScene(mainMenu->name(), mainMenu);
 }
 
 void CMGT_PrototypeGame::Update() 
@@ -17,6 +16,8 @@ void CMGT_PrototypeGame::End()
 {
 	
 }
+
+
 
 //eventHandler.Subscribe(sf::Event::KeyPressed, [=](sf::Event event)
 //{

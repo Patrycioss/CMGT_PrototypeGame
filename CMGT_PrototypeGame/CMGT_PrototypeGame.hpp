@@ -9,7 +9,7 @@ class CMGT_PrototypeGame : public SFMLPE::Game // NOLINT(cppcoreguidelines-pro-t
 {
 private:
 	MainMenu* mainMenu;
-	SFMLPE::Scene scene;
+	SFMLPE::Scene scene{"test"};
 	
 	
 protected:

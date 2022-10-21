@@ -3,12 +3,14 @@
 #include "Rectangle.hpp"
 #include <map>
 
+
 namespace SFMLPE {
 
   class GameObject {
-  private:
 	  
-  //Hierarchy information
+  private:
+
+	  //Hierarchy information
   
       std::map<const unsigned int, GameObject*> children_;
 	  GameObject* parent_ = nullptr;
@@ -17,7 +19,6 @@ namespace SFMLPE {
 	  bool visible_;
 	  
 	  sf::Vector2f parentOffset_;
-	  
 	  
   //Geometric information  
 
@@ -49,6 +50,7 @@ namespace SFMLPE {
 	  [[nodiscard]] const sf::Vector2f& originalSize() const;
 	  [[nodiscard]] const sf::Vector2f& scale() const;
 
+	  sf::Vector2f mousePosition;
 
 	  [[nodiscard]] const bool& vertMirrored() const;
 	  [[nodiscard]] const bool& horMirrored() const;
@@ -88,7 +90,6 @@ namespace SFMLPE {
   public:
 	  //HitChecking
   
-	  [[nodiscard]] bool MouseOver() const;
 	  [[nodiscard]] bool PointOver(const sf::Vector2f& point) const;
 	  [[nodiscard]] bool PointOver(const float& x, const float& y) const;
 	  
