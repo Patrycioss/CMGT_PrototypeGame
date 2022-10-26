@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "SFML/Graphics.hpp"
 #include "Rectangle.hpp"
+#include "EventSystem/EventHandler.hpp"
 #include <map>
 
 
@@ -120,5 +121,9 @@ namespace SFMLPE {
 	  virtual void Render(sf::RenderWindow& renderWindow);
 	  virtual void Start();
 	  virtual void Update();
+	  
+	  
+  protected:
+	  EventHandler eventHandler;
   };
 }

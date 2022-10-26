@@ -14,6 +14,8 @@ namespace SFMLPE
 	  sf::Clock clock;
 	  float prevTime;
 	  
+	  static sf::RenderWindow* window_;
+	  
   protected:
 	  virtual void Start();
 	  virtual void Update();
@@ -38,6 +40,8 @@ namespace SFMLPE
 	  
 	  float deltaTime();
 	  sf::Time elapsedTime();
+	  
+	  static sf::Vector2f MousePosition();
   };
 }
 

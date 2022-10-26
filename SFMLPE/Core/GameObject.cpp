@@ -179,9 +179,6 @@ namespace SFMLPE {
   {
 	  beingHorMirrored_ = true;
 	  
-	  printf("ID: %u with offset: %f \n", ID_, parentOffset_.y);
-	  
-	  
 	  if (mirror) {
 		  if (parent_ != nullptr && parent_->beingHorMirrored())
 			  SetOnlyThisPosition(
@@ -332,11 +329,11 @@ namespace SFMLPE {
 		  if (parent_->verticallyMirrored_) newOffset.x *= -1;
 		  
 		  
-		  printf("ID: %u, offsetY: %f, scaled down offsetY: %f, offsetX: %f, scaled down offsetX: %f \n",
-		         ID_, parentOffset_.y, parentOffset_.y * scale_.y, parentOffset_.x, parentOffset_.x * scale_.x);
-		  printf("Scale: %f, prevScale: %f, posX: %f, posY: %f \n", scale_.y, prevScale.y, position().x, position().y);
-		  printf("PPosX: %f, PPosY: %f newOffsetX: %f, newOffsetY: %f \n"
-				 , parent_->position().x, parent_->position().y, newOffset.x, newOffset.y);
+//		  printf("ID: %u, offsetY: %f, scaled down offsetY: %f, offsetX: %f, scaled down offsetX: %f \n",
+//		         ID_, parentOffset_.y, parentOffset_.y * scale_.y, parentOffset_.x, parentOffset_.x * scale_.x);
+//		  printf("Scale: %f, prevScale: %f, posX: %f, posY: %f \n", scale_.y, prevScale.y, position().x, position().y);
+//		  printf("PPosX: %f, PPosY: %f newOffsetX: %f, newOffsetY: %f \n"
+//				 , parent_->position().x, parent_->position().y, newOffset.x, newOffset.y);
 		  
 		  
 		  SetOnlyThisPosition(parent_->position() + newOffset);
@@ -386,6 +383,8 @@ namespace SFMLPE {
 
   bool GameObject::PointOver(const sf::Vector2f& point) const
   {
+//	  printf("MOUSE: { %f, %f }, POS: { %f, %f } \n", point.x, point.y, position().x, position().y);
+	  	
 	  return     (point.x >= position().x
 	              && point.x <= position().x + size().x
 	              && point.y >= position().y

@@ -7,6 +7,8 @@
 
 namespace SFMLPE
 {
+  sf::RenderWindow* Game::window_;
+  
   //Adds a scene to the Game's list of scenes.
   //If the game already has a scene with the same name
   //it removes that scene and puts the new one in.
@@ -56,11 +58,15 @@ namespace SFMLPE
 	  sizeU_ = sf::Vector2u(windowWidth, windowHeight);
 	  sizeF_ = sf::Vector2f((float) windowWidth, (float) windowHeight);
 
-	  sf::RenderWindow window(sf::VideoMode(sizeU_), windowName);
+	  window_ = new sf::RenderWindow(sf::VideoMode(sizeU_), windowName);
+	  
+	  sf::RenderWindow& window = *window_;
 	  window.setFramerateLimit(60);
 	  
 	  
+	  
 	  Start();
+	  
 	  for (auto pair : scenesIndex_)
 	  {
 		  pair.second->Start();
@@ -77,7 +83,6 @@ namespace SFMLPE
 				  window.close();
 				  End();
 				  return;
-
 			  }
 			  EventManager::TriggerEvent(event);
 		  }
@@ -88,7 +93,6 @@ namespace SFMLPE
 
 		  
 		  for (auto pair : scenesIndex_) {
-			  pair.second->mousePosition = {(float) sf::Mouse::getPosition(window).x, (float) sf::Mouse::getPosition(window).y};
 			  if (pair.second->Visible()) pair.second->Render(window);
 			  pair.second->Update();
 		  }
@@ -112,5 +116,13 @@ namespace SFMLPE
 
   sf::Time Game::elapsedTime() {
 	  return clock.getElapsedTime();
+  }
+
+  sf::Vector2f Game::MousePosition() {
+	  return {(float) sf::Mouse::getPosition(*window_).x, (float) sf::Mouse::getPosition(*window_).y};
+  }
+
+  const sf::RenderWindow& Game::window() {
+	  return *window_;
   }
 }

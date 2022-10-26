@@ -39,6 +39,7 @@ namespace SFMLPE
 	  void SetCycle(const unsigned int& startFrame, const unsigned int& numFrames,
 	                const unsigned int& animationDelay = 1, const bool& setFrame = true);
 	  
+	  AnimationSprite();
 	  
 	  AnimationSprite(const sf::Vector2f& position, 
 					  const char* path, const unsigned int& numFrames,
@@ -49,6 +50,8 @@ namespace SFMLPE
 					  sf::Texture* texture, const unsigned int& numFrames, 
 					  const unsigned int& rows, const unsigned int& columns,
 					  const bool& visible = true);
+	  
+//	  AnimationSprite(const sf::Vector2f& position, const sf::Vector2f& size);
 	  
 	  void Animate();
 	  

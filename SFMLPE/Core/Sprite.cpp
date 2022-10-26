@@ -4,6 +4,9 @@
 
 namespace SFMLPE
 {
+  Sprite::Sprite() : GameObject(0,0, false)
+  {}
+  
   Sprite::Sprite(const Sprite &other)
 		  : GameObject(other)
   {
@@ -142,5 +145,6 @@ namespace SFMLPE
 	  
 	  sprite_.setScale(scale);
   }
+
 }
 

@@ -8,12 +8,12 @@ namespace SFMLPE
 	{
 	private:
 		unsigned int ID_;
-		std::map<sf::Event::EventType, std::function<void(sf::Event)>> subscriptions;
+		std::map<sf::Event::EventType, std::function<void(const sf::Event&)>> subscriptions;
 
 	public:
 		EventHandler();
 		void CallSubscription(const sf::Event& eventType);
-		void Subscribe(const sf::Event::EventType& eventType, const std::function<void(sf::Event)>& method);
+		void Subscribe(const sf::Event::EventType& eventType, const std::function<void(const sf::Event&)>& method);
 		void Unsubscribe(const sf::Event::EventType& eventType);
 
 		~EventHandler();

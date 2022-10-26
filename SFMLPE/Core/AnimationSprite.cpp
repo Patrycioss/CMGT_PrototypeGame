@@ -31,6 +31,17 @@ SFMLPE::AnimationSprite::AnimationSprite
 }
 
 
+SFMLPE::AnimationSprite::AnimationSprite() 
+	: Sprite() 
+	, frameWidth_(0)
+	, frameHeight_(0)
+	, frameCount_(0)
+	, currentFrame_(0)
+	, rows_(0)
+	, columns_(0)
+	, cycleFrameCount_(0)
+	{}
+
 void SFMLPE::AnimationSprite::Animate()
 {
 //	printf("CurrentFrame: %u, ElapsedTime: %u, Delay: %u \n",
@@ -50,8 +61,10 @@ void SFMLPE::AnimationSprite::Animate()
 
 void SFMLPE::AnimationSprite::SetFrame(const unsigned int& frame) 
 {
+	currentFrame_ = frame;
+	
 	if (frame >= frameCount_) {
-		printf("Frame %u is out of bounds in SetFrame() for animationSprite with ID: %u!", frame, ID());
+		printf("Frame %u is out of bounds in SetFrame() for animationSprite_ with ID: %u!", frame, ID());
 		return;
 	}
 	
@@ -109,4 +122,6 @@ void SFMLPE::AnimationSprite::UpdateSize()
 {
 	GameObject::UpdateSize((float) frameWidth_, (float) frameHeight_);
 }
+
+
 

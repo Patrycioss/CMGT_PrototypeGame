@@ -14,6 +14,7 @@ namespace SFMLPE
 
   public:
 	  Sprite(const Sprite& other);
+	  Sprite();
 	  Sprite(sf::Texture* texture, const sf::Vector2f& position, const bool& visible = true);
 	  Sprite(sf::Texture* texture, const float& x, const float& y, const bool& visible = true);
 	  Sprite(const char* texturePath, const sf::Vector2f& position, const bool& visible = true);

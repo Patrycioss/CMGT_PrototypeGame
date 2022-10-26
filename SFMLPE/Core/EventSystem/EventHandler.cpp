@@ -17,7 +17,7 @@ namespace SFMLPE
 			subscriptions[event.type](event);
 	}
 
-	void EventHandler::Subscribe(const sf::Event::EventType& eventType, const std::function<void(sf::Event)>& method)
+	void EventHandler::Subscribe(const sf::Event::EventType& eventType, const std::function<void(const sf::Event&)>& method)
 	{
 		subscriptions[eventType] = method;
 	}
