@@ -44,7 +44,6 @@ void Button::Update()
 		hovering_ = false;
 	}
 
-	printf("Animating %u \n", ID());
 	animationSprite_->Animate();
 	
 	SFMLPE::GameObject::Update();

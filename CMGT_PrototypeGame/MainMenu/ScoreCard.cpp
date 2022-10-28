@@ -7,7 +7,7 @@ ScoreCard::ScoreCard(const sf::Vector2f& position)
 	if (!font_.loadFromFile("fonts/minecraftFont.ttf")) 
 		printf("Couldn't load font with path fonts/minecraftFont.tff :( \n");
 	
-	text_.setFont(font_);
+	text_.setFont(SFMLPE::Game::mainFont());
 	text_.setCharacterSize(13);
 	text_.setStyle(sf::Text::Regular);
 	text_.setFillColor(sf::Color::Red);

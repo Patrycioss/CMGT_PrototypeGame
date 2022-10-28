@@ -15,6 +15,7 @@ namespace SFMLPE
 	  float prevTime;
 	  
 	  static std::unique_ptr<sf::RenderWindow> window_;
+	  static sf::Font mainFont_;
 	  
   protected:
 	  virtual void Start();
@@ -25,7 +26,7 @@ namespace SFMLPE
 	  EventHandler eventHandler;
 	  
   public:
-	  void Run(const int& windowWidth, const int& windowHeight, const char* windowName, const char* resourcePath);
+	  void Run(const int& windowWidth, const int& windowHeight, const char* windowName, const char* resourcePath, const char* mainFontPath);
 	  
 	  void AddScene(const char* name, Scene* scene);
 	  void RemoveScene(const char* name);
@@ -42,6 +43,8 @@ namespace SFMLPE
 	  sf::Time elapsedTime();
 	  
 	  static sf::Vector2f MousePosition();
+	  
+	  static const sf::Font& mainFont();
   };
 }
 

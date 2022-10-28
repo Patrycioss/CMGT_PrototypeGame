@@ -7,6 +7,8 @@
 
 namespace SFMLPE
 {
+  sf::Font Game::mainFont_;
+  
   std::unique_ptr<sf::RenderWindow> Game::window_;
   
   //Adds a scene to the Game's list of scenes.
@@ -43,13 +45,18 @@ namespace SFMLPE
   sf::Vector2f Game::sizeF_;
   sf::Vector2u Game::sizeU_;
   
-  void Game::Run(const int& windowWidth, const int& windowHeight, const char* windowName, const char* resourcePath) 
+  void Game::Run(const int& windowWidth, const int& windowHeight, const char* windowName, const char* resourcePath, const char* mainFontPath) 
   {
 	  instance = this;
 	  
 	  std::string newPath = resourcePath;
 	  
 	  std::filesystem::current_path(newPath);
+
+	  if (!mainFont_.loadFromFile(mainFontPath))
+	  {
+		  printf("!!!Failed to load main font from path: %s \n", mainFontPath);
+	  }
 	  
 	  sizeU_ = sf::Vector2u(windowWidth, windowHeight);
 	  sizeF_ = sf::Vector2f((float) windowWidth, (float) windowHeight);
@@ -115,5 +122,9 @@ namespace SFMLPE
 
   const sf::RenderWindow& Game::window() {
 	  return *window_;
+  }
+
+  const sf::Font& Game::mainFont() {
+	  return mainFont_;
   }
 }
