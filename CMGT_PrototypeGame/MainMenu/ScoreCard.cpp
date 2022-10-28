@@ -8,9 +8,13 @@ ScoreCard::ScoreCard(const sf::Vector2f& position)
 		printf("Couldn't load font with path fonts/minecraftFont.tff :( \n");
 	
 	text_.setFont(font_);
-	text_.setCharacterSize(100);
+	text_.setCharacterSize(13);
 	text_.setStyle(sf::Text::Regular);
 	text_.setFillColor(sf::Color::Red);
+	sf::Vector2f textPos = position;
+	textPos.y += size().y/4;
+	textPos.x += 5;
+	text_.setPosition(textPos);
 }
 
 ScoreCard::ScoreCard(const sf::Vector2f& position, const Score& score) 
@@ -27,8 +31,6 @@ const Score& ScoreCard::score() {
 
 void ScoreCard::Render(sf::RenderWindow& window) 
 {
-	//miss render voor maken van text
 	SFMLPE::Sprite::Render(window);
 	window.draw(text_);
-
 }

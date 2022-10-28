@@ -4,18 +4,14 @@
 class Button : public SFMLPE::GameObject
 {
 private:
-	SFMLPE::AnimationSprite* animationSprite_;
-	bool hasAnimation_;
+	std::unique_ptr<SFMLPE::AnimationSprite> animationSprite_;
 	bool hovering_ = false;
 	
 public:
 	Button(const sf::Vector2f& position, const char* filePath, const unsigned int& numFrames, const unsigned int& cols, const unsigned int& rows,
 	       const bool& visible = true);
 	
-	Button(const sf::Vector2f& position, const sf::Vector2f& size, const bool& visible = true);
-	
-	
-	SFMLPE::AnimationSprite* GetAnimation();
+	SFMLPE::AnimationSprite& animation();
 
 	[[nodiscard]] const bool& hovering() const;
 	

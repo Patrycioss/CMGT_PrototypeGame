@@ -8,6 +8,8 @@ public:
 	
 	void OnPointerEnter() override;
 	void OnPointerExit() override;
+	
+	void Update() override;
 };
 
 

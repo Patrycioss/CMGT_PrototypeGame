@@ -1,5 +1,6 @@
 ﻿#include <fstream>
 #include <iostream>
+#include <algorithm>
 #include "ScoreManager.hpp"
 
 std::map<std::string, Score> ScoreManager::scoresMap_;

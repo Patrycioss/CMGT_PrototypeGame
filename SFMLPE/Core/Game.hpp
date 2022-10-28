@@ -14,7 +14,7 @@ namespace SFMLPE
 	  sf::Clock clock;
 	  float prevTime;
 	  
-	  static sf::RenderWindow* window_;
+	  static std::unique_ptr<sf::RenderWindow> window_;
 	  
   protected:
 	  virtual void Start();
@@ -36,7 +36,7 @@ namespace SFMLPE
 	  
 	  static Game* instance;
 	  
-	  const sf::RenderWindow& window();
+	  static const sf::RenderWindow& window();
 	  
 	  float deltaTime();
 	  sf::Time elapsedTime();

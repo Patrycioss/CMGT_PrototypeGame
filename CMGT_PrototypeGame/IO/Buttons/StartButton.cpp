@@ -1,17 +1,19 @@
 ﻿#include "StartButton.hpp"
 
 StartButton::StartButton(const sf::Vector2f& position) 
-	: Button(position, "startButton.png", 6, 1, 6)
+	: Button(position, "startButton.png", 6, 6, 1)
 {
-	GetAnimation()->SetCycle(0,3,400);
+	animation().SetCycle(1,3,400);
 }
 
 void StartButton::OnPointerEnter(){
-	GetAnimation()->SetCycle(3,3,400);
+	animation().SetCycle(4, 3);
 }
 
 void StartButton::OnPointerExit() {
-	GetAnimation()->SetCycle(0,3,400);
+	animation().SetCycle(1, 3);
 }
 
-
+void StartButton::Update() {
+	Button::Update();
+}

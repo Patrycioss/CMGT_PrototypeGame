@@ -1,7 +1,13 @@
-﻿cmake_minimum_required(VERSION 3.19)
+﻿cmake_minimum_required(VERSION 3.16)
 project(SFMLPEngine)
 
-set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD 20)
+#set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O0")
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0")
+set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static-libstdc++ -static-libgcc")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
+
+#find_package(SFML 2.5 COMPONENTS graphics audio REQUIRED)
 
 add_subdirectory(SFML)
 add_executable(SFMLPEngine
@@ -12,7 +18,7 @@ add_executable(SFMLPEngine
         SFMLPE/Core/Rectangle.hpp SFMLPE/Core/GameObject.cpp SFMLPE/Core/GameObject.hpp 
         SFMLPE/Core/Rectangle.cpp SFMLPE/Core/GameObject.cpp SFMLPE/Core/GameObject.hpp
         SFMLPE/Core/ResourceManager.cpp SFMLPE/Core/ResourceManager.hpp SFMLPE/Core/Scene.cpp test_example/TestSprite.cpp
-        SFMLPE/Core/Scene.hpp SFMLPE/Core/Game.cpp SFMLPE/Core/Game.hpp CMGT_PrototypeGame/CMGT_PrototypeGame.cpp CMGT_PrototypeGame/CMGT_PrototypeGame.hpp SFMLPE/SFMLPE.hpp CMGT_PrototypeGame/Utility/InputHelper.cpp CMGT_PrototypeGame/Utility/InputHelper.hpp SFMLPE/Core/AnimationSprite.cpp SFMLPE/Core/AnimationSprite.hpp CMGT_PrototypeGame/AnimationTest.cpp CMGT_PrototypeGame/AnimationTest.hpp CMGT_PrototypeGame/Screens/MainMenu.cpp CMGT_PrototypeGame/Screens/MainMenu.hpp CMGT_PrototypeGame/IO/Buttons/Button.cpp CMGT_PrototypeGame/IO/Buttons/Button.hpp CMGT_PrototypeGame/IO/Buttons/StartButton.cpp CMGT_PrototypeGame/IO/Buttons/StartButton.hpp CMGT_PrototypeGame/IO/Buttons/ExitButton.cpp CMGT_PrototypeGame/IO/Buttons/ExitButton.hpp CMGT_PrototypeGame/Data/ScoreManager.cpp CMGT_PrototypeGame/Data/ScoreManager.hpp CMGT_PrototypeGame/MainMenu/ScoreViewer.cpp CMGT_PrototypeGame/MainMenu/ScoreViewer.hpp CMGT_PrototypeGame/MainMenu/ScoreCard.cpp CMGT_PrototypeGame/MainMenu/ScoreCard.hpp)
+        SFMLPE/Core/Scene.hpp SFMLPE/Core/Game.cpp SFMLPE/Core/Game.hpp CMGT_PrototypeGame/CMGT_PrototypeGame.cpp CMGT_PrototypeGame/CMGT_PrototypeGame.hpp SFMLPE/SFMLPE.hpp CMGT_PrototypeGame/Utility/InputHelper.cpp CMGT_PrototypeGame/Utility/InputHelper.hpp SFMLPE/Core/AnimationSprite.cpp SFMLPE/Core/AnimationSprite.hpp CMGT_PrototypeGame/AnimationTest.cpp CMGT_PrototypeGame/AnimationTest.hpp CMGT_PrototypeGame/Screens/MainMenu.cpp CMGT_PrototypeGame/Screens/MainMenu.hpp CMGT_PrototypeGame/IO/Buttons/Button.cpp CMGT_PrototypeGame/IO/Buttons/Button.hpp CMGT_PrototypeGame/IO/Buttons/StartButton.cpp CMGT_PrototypeGame/IO/Buttons/StartButton.hpp CMGT_PrototypeGame/IO/Buttons/ExitButton.cpp CMGT_PrototypeGame/IO/Buttons/ExitButton.hpp CMGT_PrototypeGame/Data/ScoreManager.cpp CMGT_PrototypeGame/Data/ScoreManager.hpp CMGT_PrototypeGame/MainMenu/ScoreViewer.cpp CMGT_PrototypeGame/MainMenu/ScoreViewer.hpp CMGT_PrototypeGame/MainMenu/ScoreCard.cpp CMGT_PrototypeGame/MainMenu/ScoreCard.hpp CMGT_PrototypeGame/IO/Buttons/ReloadButton.cpp CMGT_PrototypeGame/IO/Buttons/ReloadButton.hpp)
 
 target_link_libraries(SFMLPEngine PRIVATE sfml-graphics)
 target_compile_features(SFMLPEngine PRIVATE cxx_std_17)

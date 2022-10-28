@@ -7,7 +7,7 @@
 
 namespace SFMLPE
 {
-  sf::RenderWindow* Game::window_;
+  std::unique_ptr<sf::RenderWindow> Game::window_;
   
   //Adds a scene to the Game's list of scenes.
   //If the game already has a scene with the same name
@@ -47,23 +47,15 @@ namespace SFMLPE
   {
 	  instance = this;
 	  
-	  
 	  std::string newPath = resourcePath;
 	  
-	  if (std::filesystem::current_path().has_relative_path())
-	  
-	  
-	  std::filesystem::current_path("../" + newPath);
+	  std::filesystem::current_path(newPath);
 	  
 	  sizeU_ = sf::Vector2u(windowWidth, windowHeight);
 	  sizeF_ = sf::Vector2f((float) windowWidth, (float) windowHeight);
 
-	  window_ = new sf::RenderWindow(sf::VideoMode(sizeU_), windowName);
-	  
-	  sf::RenderWindow& window = *window_;
-	  window.setFramerateLimit(60);
-	  
-	  
+	  window_ = std::make_unique<sf::RenderWindow>(sf::VideoMode(sizeU_), windowName);
+	  window_->setFramerateLimit(60);
 	  
 	  Start();
 	  
@@ -72,31 +64,30 @@ namespace SFMLPE
 		  pair.second->Start();
 	  }
 	  
-	  while (window.isOpen())
+	  while (window_->isOpen())
 	  {
 		  sf::Event event; // NOLINT(cppcoreguidelines-pro-type-member-init)
 		  
-		  while (window.pollEvent(event))
+		  while (window_->pollEvent(event))
 		  {
 			  if (event.type == sf::Event::Closed){
 				  
-				  window.close();
+				  window_->close();
 				  End();
 				  return;
 			  }
 			  EventManager::TriggerEvent(event);
 		  }
 
-		  window.clear(sf::Color::Black);
+		  window_->clear(sf::Color::Black);
 		  
 		  Update();
-
 		  
 		  for (auto pair : scenesIndex_) {
-			  if (pair.second->Visible()) pair.second->Render(window);
+			  if (pair.second->Visible()) pair.second->Render(*window_);
 			  pair.second->Update();
 		  }
-		  window.display();
+		  window_->display();
 
 		  prevTime = clock.getElapsedTime().asSeconds();
 	  }

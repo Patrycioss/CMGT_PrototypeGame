@@ -3,31 +3,31 @@
 SFMLPE::AnimationSprite::AnimationSprite
 		(const sf::Vector2f& position,
 		 const char* path, const unsigned int& numFrames,
-		 const unsigned int& rows, const unsigned int& columns,
+		 const unsigned int& columns, const unsigned int& rows, 
 		 const bool& visible)
 		: Sprite(path, position, visible)
 		, rows_(rows), columns_(columns)
-		, frameCount_(numFrames), cycleFrameCount_(numFrames)
+		, frameCount_(numFrames)
 {
 	frameWidth_ = texture_->getSize().x / columns;
 	frameHeight_ = texture_->getSize().y / rows;
 	UpdateSize();
-	SetFrame(0);
+	SetCycle(1,numFrames);
 }
 
 SFMLPE::AnimationSprite::AnimationSprite
 		(const sf::Vector2f& position,
 		 sf::Texture* texture, const unsigned int& numFrames,
-		 const unsigned int& rows, const unsigned int& columns,
+		 const unsigned int& columns, const unsigned int& rows, 
 		 const bool& visible)
 		: Sprite(texture, position, visible)
 		, rows_(rows), columns_(columns)
-		, frameCount_(numFrames), cycleFrameCount_(numFrames)
+		, frameCount_(numFrames)
 {
 	frameWidth_ = texture_->getSize().x / columns;
 	frameHeight_ = texture_->getSize().y / rows;
 	UpdateSize();
-	SetFrame(0);
+	SetCycle(1,numFrames);
 }
 
 
@@ -44,9 +44,9 @@ SFMLPE::AnimationSprite::AnimationSprite()
 
 void SFMLPE::AnimationSprite::Animate()
 {
-//	printf("CurrentFrame: %u, ElapsedTime: %u, Delay: %u \n",
-//	       currentFrame_, clock.getElapsedTime().asMilliseconds(), animationDelay_);
-	
+	if (startFrame_ == 0) printf("ID: %u is 0 \n", ID());
+	if (cycleFrameCount_ == 1) return;
+
 	if (clock.getElapsedTime().asMilliseconds() >= animationDelay_)
 	{
 		currentFrame_++;
@@ -61,49 +61,26 @@ void SFMLPE::AnimationSprite::Animate()
 
 void SFMLPE::AnimationSprite::SetFrame(const unsigned int& frame) 
 {
-	currentFrame_ = frame;
 	
-	if (frame >= frameCount_) {
-		printf("Frame %u is out of bounds in SetFrame() for animationSprite_ with ID: %u!", frame, ID());
+	if (frame > frameCount_) {  
+		printf("Frame %u is out of bounds in SetFrame() for animationSprite_ with ID: %u! \n", frame, ID());
 		return;
 	}
 	
-	if (frame == 0)
-	{
-		sprite_.setTextureRect(
-				sf::Rect<int>(
-						sf::Vector2i(0,0),
-						sf::Vector2i((int) frameWidth_, (int) frameHeight_)));
-	}
-	else if (rows_ == 1) {
-		sprite_.setTextureRect(
-				sf::Rect<int>(
-						sf::Vector2i((int) (frameWidth_ * frame), 0),
-						sf::Vector2i((int) frameWidth_, (int) frameHeight_)));
-	}
-	else if (columns_ == 1)
-	{
-		sprite_.setTextureRect(
-				sf::Rect<int>(
-						sf::Vector2i(0, (int) (frameHeight_ * frame)),
-						sf::Vector2i((int) frameWidth_, (int) frameHeight_)));
-	}
-	else 
-	{
-		sf::Vector2i position{0,0};
-		
-		for (int i = 0; i < frame; i++)
-		{
-			position.x += (int) frameWidth_;
-			
-			if (i * frameWidth_ == texture_->getSize().x){
-				position.x = 0;
-				position.y += (int) frameHeight_;
-			}
-		}
+	sf::Vector2i position{0,0};
 
-		sprite_.setTextureRect(sf::Rect<int>(position,sf::Vector2i((int) frameWidth_, (int) frameHeight_)));
+
+	for (int i = 0; i < frame - 1; i++) {
+		position.x += (int) frameWidth_;
+
+		if (i * frameWidth_ == texture_->getSize().x) {
+			position.x = 0;
+			position.y += (int) frameHeight_;
+		}
 	}
+
+	sprite_.setTextureRect(sf::Rect<int>(position,sf::Vector2i((int) frameWidth_, (int) frameHeight_)));
+
 }
 
 void SFMLPE::AnimationSprite::SetCycle
@@ -113,14 +90,36 @@ void SFMLPE::AnimationSprite::SetCycle
 	startFrame_ = startFrame;
 	cycleFrameCount_ = numFrames;
 	
-	animationDelay_ = animationDelay;
+	if (animationDelay != 0) animationDelay_ = animationDelay;
 	
-	if (setFrame) SetFrame(startFrame);
+	if (setFrame)
+	{
+		currentFrame_ = startFrame;
+		SetFrame(currentFrame_);
+	}
+	
 }
 
 void SFMLPE::AnimationSprite::UpdateSize() 
 {
 	GameObject::UpdateSize((float) frameWidth_, (float) frameHeight_);
+}
+
+const unsigned int& SFMLPE::AnimationSprite::startFrame() const {
+	return startFrame_;
+}
+
+const unsigned int& SFMLPE::AnimationSprite::currentFrame() const {
+	return currentFrame_;
+}
+
+const unsigned int& SFMLPE::AnimationSprite::cycleLength() const {
+	return cycleFrameCount_;
+}
+
+void SFMLPE::AnimationSprite::SetDelay(const unsigned int& animationDelay) 
+{
+	animationDelay_ = animationDelay;
 }
 
 

@@ -8,7 +8,7 @@
 class CMGT_PrototypeGame : public SFMLPE::Game // NOLINT(cppcoreguidelines-pro-type-member-init)
 {
 private:
-	MainMenu* mainMenu;
+	std::unique_ptr<MainMenu> mainMenu;
 	SFMLPE::Scene scene{"test"};
 	
 	

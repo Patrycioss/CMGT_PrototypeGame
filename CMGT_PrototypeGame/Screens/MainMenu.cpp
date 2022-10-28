@@ -19,8 +19,8 @@ void MainMenu::Start()
 	scoreViewer_ = std::make_unique<ScoreViewer>(sf::Vector2f{924,200});
 	AddChild(scoreViewer_.get());
 
-	waves_ = std::make_unique<SFMLPE::AnimationSprite>(sf::Vector2f{0,0}, "waves.png", 3, 1 ,3);
-	waves_->SetCycle(0,3,500);
+	waves_ = std::make_unique<SFMLPE::AnimationSprite>(sf::Vector2f{0,0}, "waves.png", 3, 3 ,1);
+	waves_->SetCycle(1,3,500);
 	AddChild(waves_.get());
 
 

@@ -7,19 +7,12 @@ Button::Button(const sf::Vector2f& position,
 			   const unsigned int& rows,
 			   const bool& visible)
 			   : SFMLPE::GameObject(position, visible)
-			   , animationSprite_(new SFMLPE::AnimationSprite(position, filePath, numFrames, cols, rows))
+			   , animationSprite_(std::make_unique<SFMLPE::AnimationSprite>(position, filePath, numFrames, cols, rows))
 {
 	UpdateSize(animationSprite_->size().x, animationSprite_->size().y);
-	AddChild(animationSprite_);
+	AddChild(animationSprite_.get());
 }
-
-Button::Button(const sf::Vector2f& position, const sf::Vector2f& size, const bool& visible)
-				: SFMLPE::GameObject(position, visible)
-				, animationSprite_()
-{
-	SetSize(size);
-}
-				
+			
 void Button::Start() 
 {
 	eventHandler.Subscribe(sf::Event::MouseButtonPressed, [&] (const sf::Event& event)
@@ -41,8 +34,6 @@ void Button::Update()
 		{
 			OnPointerEnter();
 			hovering_ = true;
-			
-			if (hasAnimation_) animationSprite_->SetCycle(3, 3, 400);
 		}
 
 		WhenHovering();
@@ -50,20 +41,20 @@ void Button::Update()
 	else if (hovering_)
 	{
 		OnPointerExit();
-		if (hasAnimation_) animationSprite_->SetCycle(0,3,400);
 		hovering_ = false;
 	}
 
-	if (hasAnimation_) animationSprite_->Animate();
+	printf("Animating %u \n", ID());
+	animationSprite_->Animate();
 	
 	SFMLPE::GameObject::Update();
 }
 
-SFMLPE::AnimationSprite* Button::GetAnimation() {
-	return animationSprite_;
+SFMLPE::AnimationSprite& Button::animation() {
+	return *animationSprite_;
 }
 
-[[maybe_unused]] const bool& Button::hovering() const {
+const bool& Button::hovering() const {
 	return hovering_;
 }
 

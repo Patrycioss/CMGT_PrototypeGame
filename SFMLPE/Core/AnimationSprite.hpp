@@ -37,18 +37,20 @@ namespace SFMLPE
 	  void SetFrame(const unsigned int& frame);
 
 	  void SetCycle(const unsigned int& startFrame, const unsigned int& numFrames,
-	                const unsigned int& animationDelay = 1, const bool& setFrame = true);
+	                const unsigned int& animationDelay = 0, const bool& setFrame = true);
+	  
+	  void SetDelay(const unsigned int& animationDelay);
 	  
 	  AnimationSprite();
 	  
 	  AnimationSprite(const sf::Vector2f& position, 
 					  const char* path, const unsigned int& numFrames,
-					  const unsigned int& rows, const unsigned int& columns,
+					  const unsigned int& columns, const unsigned int& rows, 
 					  const bool& visible = true);
 
 	  AnimationSprite(const sf::Vector2f& position, 
-					  sf::Texture* texture, const unsigned int& numFrames, 
-					  const unsigned int& rows, const unsigned int& columns,
+					  sf::Texture* texture, const unsigned int& numFrames,
+					  const unsigned int& columns, const unsigned int& rows, 
 					  const bool& visible = true);
 	  
 //	  AnimationSprite(const sf::Vector2f& position, const sf::Vector2f& size);
@@ -56,6 +58,10 @@ namespace SFMLPE
 	  void Animate();
 	  
 	  void UpdateSize() override;
+	  
+	  const unsigned int& startFrame() const;
+	  const unsigned int& currentFrame() const;
+	  const unsigned int& cycleLength() const;
   };
 }
 

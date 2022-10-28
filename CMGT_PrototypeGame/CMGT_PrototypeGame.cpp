@@ -3,8 +3,8 @@
 
 void CMGT_PrototypeGame::Start()
 {
-	mainMenu = new MainMenu();
-	AddScene(mainMenu->name(), mainMenu);
+	mainMenu = std::make_unique<MainMenu>();
+	AddScene(mainMenu->name(), mainMenu.get());
 }
 
 void CMGT_PrototypeGame::Update() 

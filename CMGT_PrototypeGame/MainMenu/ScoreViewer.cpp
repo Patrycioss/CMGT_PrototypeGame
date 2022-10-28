@@ -3,10 +3,13 @@
 ScoreViewer::ScoreViewer(const sf::Vector2f& position) 
 	: SFMLPE::AnimationSprite(position, "scoreViewer.png", 1, 1, 1)
 {
+	reloadButton_ = std::make_unique<ReloadButton>(position);
+	reloadButton_->Move(-reloadButton_->size().x,0);
+	AddChild(reloadButton_.get());
+	
 	Clear();
 	Refresh();
 	ScoreManager::SaveScores();
-	printf("Amount: %s \n", scoreCards_[1]->score().name.c_str());
 }
 
 void ScoreViewer::Refresh() 
@@ -26,6 +29,7 @@ void ScoreViewer::Refresh()
 		
 		if (scoreCards_[i] == nullptr && i < ScoreManager::sortedScores().size())
 		{
+			
 			scoreCards_[i] = std::make_unique<ScoreCard>(sf::Vector2f{position().x, position().y + ((float)i * 47)}
 			, *ScoreManager::sortedScores()[i]);
 
