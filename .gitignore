@@ -183,3 +183,4 @@ _deps
 .ninja_log
 
 /SFML/
+/random/
