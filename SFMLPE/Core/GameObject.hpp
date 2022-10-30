@@ -23,7 +23,7 @@ namespace SFMLPE {
 	  
   //Geometric information  
 
-	  Rectangle rect_;
+	  Rectangle<float> rect_;
 	  sf::Vector2f originalSize_;
 	  sf::Vector2f scale_{1,1};
 	  
@@ -38,14 +38,13 @@ namespace SFMLPE {
   public:
   //Constructors
   
-	  GameObject(const GameObject& other);
 	  explicit GameObject(const sf::Vector2f &position, const bool &visible = true);
 	  GameObject(const float &x, const float &y, const bool &visible = true);
 
 	  
   //Geometric information
   
-	  [[nodiscard]] const Rectangle& rect() const;
+	  [[nodiscard]] const Rectangle<float>& rect() const;
 	  [[nodiscard]] const sf::Vector2f& position() const;
 	  [[nodiscard]] const sf::Vector2f& size() const;
 	  [[nodiscard]] const sf::Vector2f& originalSize() const;
@@ -102,7 +101,7 @@ namespace SFMLPE {
 	  [[nodiscard]] const bool& Visible() const;
 	  const bool& Visible(const bool &visible);
 
-	  [[nodiscard]] const GameObject* parent() const;
+	  [[nodiscard]] GameObject* parent() const;
 	  [[nodiscard]] const sf::Vector2f& parentOffset() const;
 	  
   //Hierarchy manipulation

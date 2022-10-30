@@ -1,25 +1,27 @@
 ﻿#pragma once
 #include "../../SFMLPE/SFMLPE.hpp"
-#include "../IO/Buttons/Button.hpp"
-#include "../IO/Buttons/StartButton.hpp"
-#include "../IO/Buttons/ExitButton.hpp"
+#include "../Deprecated/Button.hpp"
+#include "../Deprecated/StartButton.hpp"
+#include "../Deprecated/ExitButton.hpp"
 #include "../MainMenu/ScoreViewer.hpp"
+
+class CMGT_PrototypeGame;
 
 class MainMenu : public SFMLPE::Scene
 {
 private:
 	std::unique_ptr<SFMLPE::Sprite> background_;
-//	std::unique_ptr<SFMLPE::AnimationSprite> waves_;
-	std::unique_ptr<StartButton> startButton_;
-	std::unique_ptr<ExitButton> exitButton_;
+	std::unique_ptr<NewButton> continueButton_;
+	std::unique_ptr<NewButton> startNewButton_;
+	std::unique_ptr<NewButton> exitButton_;
 	std::unique_ptr<ScoreViewer> scoreViewer_;
 	
 	bool overStart_ = false;
+	CMGT_PrototypeGame& game_;
 	
 public:
 	void Start() override;
-	void Update() override;
-	MainMenu();
+	explicit MainMenu(CMGT_PrototypeGame& game);
 };
 
 

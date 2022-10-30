@@ -6,13 +6,6 @@ namespace SFMLPE
 {
   Sprite::Sprite() : GameObject(0,0, false)
   {}
-  
-  Sprite::Sprite(const Sprite &other)
-		  : GameObject(other)
-  {
-	  texture_ = other.texture_;
-	  UpdateSize();
-  }
 
   Sprite::Sprite(sf::Texture* texture, const sf::Vector2f &position, const bool &visible)
 		  : GameObject(position, visible)

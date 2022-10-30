@@ -27,9 +27,14 @@ namespace SFMLPE
 	  
   public:
 	  void Run(const int& windowWidth, const int& windowHeight, const char* windowName, const char* resourcePath, const char* mainFontPath);
+	  static void Stop();
 	  
 	  void AddScene(const char* name, Scene* scene);
+	  void AddScene(Scene* scene);
+	  void RemoveScene(const Scene* scene);
 	  void RemoveScene(const char* name);
+	  void RemoveScene(const std::unique_ptr<Scene>& scene);
+	
 	  Scene* scene(const char* name);
 	  
 	  static sf::Vector2f& sizeF();

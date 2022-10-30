@@ -12,12 +12,7 @@ namespace SFMLPE {
 ////////////////////////////////////////////////////////////////////////////////////////////  
  
   unsigned int GameObject::lastID_;
-
-  GameObject::GameObject(const GameObject &other)
-		  : visible_(other.visible_), rect_(other.rect_), parent_(other.parent_) 
-  {
-	  ID_ = lastID_;
-  }
+  
 
   GameObject::GameObject(const sf::Vector2f &position, const bool &visible)
 		  : visible_(visible), rect_(Rectangle{position}) 
@@ -26,7 +21,7 @@ namespace SFMLPE {
   }
 
   GameObject::GameObject(const float &x, const float &y, const bool &visible)
-		  : visible_(visible), rect_(Rectangle{x, y}) 
+		  : visible_(visible), rect_(Rectangle{sf::Vector2f{x,y}}) 
   {
 	  ID_ = lastID_++;
   }
@@ -38,7 +33,7 @@ namespace SFMLPE {
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 
-  const Rectangle& GameObject::rect() const 
+  const Rectangle<float>& GameObject::rect() const 
   {
 	  return rect_;
   }
@@ -124,7 +119,7 @@ namespace SFMLPE {
 
   void GameObject::Move(const float &x, const float &y)  // NOLINT(misc-no-recursion)
   {
-	  rect_.Move(x, y);
+	  rect_.Move({x,y});
 
 	  this->CalcParentOffset();
 	  
@@ -426,7 +421,7 @@ namespace SFMLPE {
 	  return visible_ = visible;
   }
   
-  const GameObject* GameObject::parent() const
+  GameObject* GameObject::parent() const
   {
 	  return parent_;
   }
@@ -447,8 +442,7 @@ namespace SFMLPE {
   {
 	  if (parent_ == gameObject) return;
 	  
-	  
-	  parent_->RemoveChild(gameObject);
+	  if (gameObject != nullptr) parent_->RemoveChild(gameObject);
 	  
 	  parent_ = gameObject;
 

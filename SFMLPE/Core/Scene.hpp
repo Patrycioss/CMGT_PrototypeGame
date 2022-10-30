@@ -7,13 +7,12 @@ namespace SFMLPE
   {
   private:
 	  const char* name_;
+	  
   public:
 	  explicit Scene(const char* name);
 	  ~Scene();
 	  
-	  void Start() override;
-	  
-	  const char* name();
+	  [[nodiscard]] const char* name() const;
 	  
   };
 }

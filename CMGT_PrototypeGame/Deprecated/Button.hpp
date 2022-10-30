@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "../../../SFMLPE/SFMLPE.hpp"
+#include "../../SFMLPE/SFMLPE.hpp"
 
 class Button : public SFMLPE::GameObject
 {
@@ -16,7 +16,6 @@ public:
 	[[nodiscard]] const bool& hovering() const;
 	
 protected:
-	bool pointerInside;
 	virtual void OnClick();
 	virtual void OnPointerEnter();
 	virtual void OnPointerExit();

@@ -10,16 +10,27 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
 #find_package(SFML 2.5 COMPONENTS graphics audio REQUIRED)
 
 add_subdirectory(SFML)
+add_subdirectory(random)
 add_executable(SFMLPEngine
         CMGT_PrototypeGame/main.cpp
         SFMLPE/Core/Sprite.cpp SFMLPE/Core/Sprite.hpp
         SFMLPE/Core/EventSystem/EventManager.cpp SFMLPE/Core/EventSystem/EventManager.hpp 
         SFMLPE/Core/EventSystem/EventHandler.cpp SFMLPE/Core/EventSystem/EventHandler.hpp 
-        SFMLPE/Core/Rectangle.hpp SFMLPE/Core/GameObject.cpp SFMLPE/Core/GameObject.hpp 
-        SFMLPE/Core/Rectangle.cpp SFMLPE/Core/GameObject.cpp SFMLPE/Core/GameObject.hpp
-        SFMLPE/Core/ResourceManager.cpp SFMLPE/Core/ResourceManager.hpp SFMLPE/Core/Scene.cpp test_example/TestSprite.cpp
-        SFMLPE/Core/Scene.hpp SFMLPE/Core/Game.cpp SFMLPE/Core/Game.hpp CMGT_PrototypeGame/CMGT_PrototypeGame.cpp CMGT_PrototypeGame/CMGT_PrototypeGame.hpp SFMLPE/SFMLPE.hpp CMGT_PrototypeGame/Utility/InputHelper.cpp CMGT_PrototypeGame/Utility/InputHelper.hpp SFMLPE/Core/AnimationSprite.cpp SFMLPE/Core/AnimationSprite.hpp CMGT_PrototypeGame/AnimationTest.cpp CMGT_PrototypeGame/AnimationTest.hpp CMGT_PrototypeGame/Screens/MainMenu.cpp CMGT_PrototypeGame/Screens/MainMenu.hpp CMGT_PrototypeGame/IO/Buttons/Button.cpp CMGT_PrototypeGame/IO/Buttons/Button.hpp CMGT_PrototypeGame/IO/Buttons/StartButton.cpp CMGT_PrototypeGame/IO/Buttons/StartButton.hpp CMGT_PrototypeGame/IO/Buttons/ExitButton.cpp CMGT_PrototypeGame/IO/Buttons/ExitButton.hpp CMGT_PrototypeGame/Data/ScoreManager.cpp CMGT_PrototypeGame/Data/ScoreManager.hpp CMGT_PrototypeGame/MainMenu/ScoreViewer.cpp CMGT_PrototypeGame/MainMenu/ScoreViewer.hpp CMGT_PrototypeGame/MainMenu/ScoreCard.cpp CMGT_PrototypeGame/MainMenu/ScoreCard.hpp CMGT_PrototypeGame/IO/Buttons/ReloadButton.cpp CMGT_PrototypeGame/IO/Buttons/ReloadButton.hpp)
+        SFMLPE/Core/Rectangle.hpp SFMLPE/Core/GameObject.cpp SFMLPE/Core/GameObject.hpp
+        SFMLPE/Core/GameObject.cpp SFMLPE/Core/GameObject.hpp
+        SFMLPE/Core/ResourceManager.cpp SFMLPE/Core/ResourceManager.hpp SFMLPE/Core/Scene.cpp 
+        SFMLPE/Core/Scene.hpp SFMLPE/Core/Game.cpp SFMLPE/Core/Game.hpp CMGT_PrototypeGame/CMGT_PrototypeGame.cpp 
+        CMGT_PrototypeGame/CMGT_PrototypeGame.hpp SFMLPE/SFMLPE.hpp CMGT_PrototypeGame/Utility/InputHelper.cpp 
+        CMGT_PrototypeGame/Utility/InputHelper.hpp SFMLPE/Core/AnimationSprite.cpp SFMLPE/Core/AnimationSprite.hpp
+        CMGT_PrototypeGame/Screens/MainMenu.cpp 
+        CMGT_PrototypeGame/Screens/MainMenu.hpp CMGT_PrototypeGame/Deprecated/Button.cpp CMGT_PrototypeGame/Deprecated/Button.hpp
+        CMGT_PrototypeGame/ScoreManager.cpp CMGT_PrototypeGame/ScoreManager.hpp CMGT_PrototypeGame/MainMenu/ScoreViewer.cpp 
+        CMGT_PrototypeGame/MainMenu/ScoreViewer.hpp CMGT_PrototypeGame/MainMenu/ScoreCard.cpp CMGT_PrototypeGame/MainMenu/ScoreCard.hpp 
+        CMGT_PrototypeGame/Deprecated/ReloadButton.cpp CMGT_PrototypeGame/Deprecated/ReloadButton.hpp CMGT_PrototypeGame/Fighting/Character.cpp
+        CMGT_PrototypeGame/Fighting/Character.hpp CMGT_PrototypeGame/Deprecated/EraseButton.cpp CMGT_PrototypeGame/Deprecated/EraseButton.hpp
+        CMGT_PrototypeGame/NewButton.cpp CMGT_PrototypeGame/NewButton.hpp CMGT_PrototypeGame/Fighting/FightManager.cpp CMGT_PrototypeGame/Fighting/FightManager.hpp CMGT_PrototypeGame/Fighting/Arena.cpp CMGT_PrototypeGame/Fighting/Arena.hpp CMGT_PrototypeGame/Selection.cpp CMGT_PrototypeGame/Selection.hpp)
 
+target_link_libraries(SFMLPEngine PRIVATE effolkronium_random)
 target_link_libraries(SFMLPEngine PRIVATE sfml-graphics)
 target_compile_features(SFMLPEngine PRIVATE cxx_std_17)
 if (WIN32 AND BUILD_SHARED_LIBS)

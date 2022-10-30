@@ -45,6 +45,9 @@ void ScoreManager::SaveScores()
 }
 
 void ScoreManager::LoadScores() {
+	scoresMap_.clear();
+	sortedScores_.clear();
+	
 	std::ifstream dataRead("../scores.cmgt");
 	
 	if (!dataRead.fail())
@@ -95,6 +98,8 @@ void ScoreManager::LoadScores() {
 		
 		dataRead.close();
 	}
+	
+	SortScores();
 }
 
 
@@ -112,11 +117,13 @@ void ScoreManager::SortScores()
 			}
 		}
 	}
-	
-//	for (auto& test : sortedScores_)
-//	{
-//		printf("Name: %s, val: %d \n", test->name.c_str(), test->enemiesSlain);
-//	}
+}
+
+void ScoreManager::DeleteScores()
+{
+	scoresMap_.clear();
+	sortedScores_.clear();
+	SaveScores();
 }
 
 const Score& ScoreManager::score(const std::string& name) 

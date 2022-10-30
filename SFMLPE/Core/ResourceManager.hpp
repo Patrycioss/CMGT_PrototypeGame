@@ -6,10 +6,10 @@ namespace SFMLPE {
  class ResourceManager 
  {
  private:
-	 static std::map<const char *, sf::Texture> textures;
+	 static std::map<const char* , sf::Texture> textures;
 
  public:
-	 static sf::Texture *LoadTexture(const char *texturePath);
-	 static bool hasTexture(const char *);
+	 static sf::Texture* LoadTexture(const char* texturePath);
+	 static bool hasTexture(const char* );
  };
 }

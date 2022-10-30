@@ -1,29 +1,20 @@
 ﻿#pragma once
 #include "SFML/System/Vector2.hpp"
 
+
+template <typename T>
 struct Rectangle
 {
-	sf::Vector2f position;
-	sf::Vector2f size;
+	sf::Vector2<T> position;
+	sf::Vector2<T> size;
 	
-	Rectangle(const sf::Vector2f& position, const sf::Vector2f& size);
-	Rectangle(const sf::Vector2f& position, const float& width, const float& height);
+	constexpr Rectangle(const sf::Vector2<T>& position, const sf::Vector2<T>& size)
+		: position(position), size(size){};
 	
-	Rectangle(const float& x, const float& y, const sf::Vector2f& size);
-	Rectangle(const float& x, const float& y, const float& width, const float& height);
+	constexpr explicit Rectangle(const sf::Vector2<T>& position)
+		: position(position), size({0,0}){};
 	
-	explicit Rectangle(const sf::Vector2f& position);
-	Rectangle(const float& x, const float& y);
-	
-	Rectangle();
-	
-	void MoveX(const float& amount);
-	void MoveY(const float& amount);
-	void Move(const float& x, const float& y);
-	void Move(const sf::Vector2f& vector2);
-	
-	[[nodiscard]] float left() const;
-	[[nodiscard]] float right() const;
-	[[nodiscard]] float top() const;
-	[[nodiscard]] float bottom() const;
+	constexpr void Move(const sf::Vector2<T>& vector2) {
+		position += vector2;
+	};
 };

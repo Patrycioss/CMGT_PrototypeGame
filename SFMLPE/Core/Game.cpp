@@ -18,10 +18,23 @@ namespace SFMLPE
 	  scenesIndex_.emplace(std::pair(name,scene));
   }
 
+  void Game::AddScene(Scene* scene) {
+	  scenesIndex_.emplace(std::pair(scene->name(),scene));
+  }
+
   //Removes specified scene from the list of scenes.
   //Returns whether it succeeded.
   void Game::RemoveScene(const char* name) {
 	  scenesIndex_.erase(name);
+  }
+  
+  void Game::RemoveScene(const Scene* scene) {
+	  scenesIndex_.erase(scene->name());
+  }
+  
+  void Game::RemoveScene(const std::unique_ptr<Scene>& scene) 
+  {
+	  scenesIndex_.erase(scene->name());
   }
 
   Scene* Game::scene(const char* name) {
@@ -100,6 +113,11 @@ namespace SFMLPE
 	  }
   }
 
+  void Game::Stop() 
+  {
+	  window_->close();
+  }
+
   sf::Vector2f& Game::sizeF() {
 	  return sizeF_;
   }
@@ -127,4 +145,8 @@ namespace SFMLPE
   const sf::Font& Game::mainFont() {
 	  return mainFont_;
   }
+
+  
+
+
 }

@@ -1,14 +1,14 @@
 ﻿#pragma once
-#include "../Data/ScoreManager.hpp"
+#include "../ScoreManager.hpp"
 #include "../../SFMLPE/SFMLPE.hpp"
 
-class ScoreCard : public SFMLPE::Sprite
+class ScoreCard : public SFMLPE::GameObject
 {
 private:
 	Score score_;
 	
 	sf::Font font_;
-	sf::Text text_;
+	sf::Text text_[3];
 	
 public:
 	explicit ScoreCard(const sf::Vector2f& position);

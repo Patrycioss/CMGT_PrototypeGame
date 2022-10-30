@@ -1,38 +1,69 @@
 ﻿#include "ScoreViewer.hpp"
 
+#include <memory>
+
 ScoreViewer::ScoreViewer(const sf::Vector2f& position) 
 	: SFMLPE::AnimationSprite(position, "scoreViewer.png", 1, 1, 1)
 {
-	reloadButton_ = std::make_unique<ReloadButton>(position);
+	reloadButton_ = std::make_unique<NewButton>(position, "reload.png", 2, 2, 1);
 	reloadButton_->Move(-reloadButton_->size().x,0);
-	AddChild(reloadButton_.get());
+	reloadButton_->animation().SetCycle(1, 1);
+
+	reloadButton_->SetPointerEnterAction([&]() { 
+		reloadButton_->animation().SetCycle(2, 1); 
+	});
+
+	reloadButton_->SetPointerExitAction([&]() { 
+		reloadButton_->animation().SetCycle(1, 1); 
+	});
+
+	reloadButton_->SetClickAction([&]() {
+		ScoreManager::LoadScores();
+		Refresh();
+	});
 	
-	Clear();
+	AddChild(reloadButton_.get());
+
+
+	eraseButton_ = std::make_unique<NewButton>(position, "sweepData.png", 15, 15, 1);
+	eraseButton_->SetScale(1.5f,1.5f);
+	eraseButton_->Move(-eraseButton_->size().x,size().y - eraseButton_->size().y);
+	eraseButton_->animation().SetCycle(1, 1);
+	eraseButton_->animation().SetDelay(100);
+
+	eraseButton_->SetPointerEnterAction([&]() { 
+		eraseButton_->animation().SetCycle(1, 15); 
+	});
+
+	eraseButton_->SetPointerExitAction([&]() { 
+		eraseButton_->animation().SetCycle(1, 1); 
+	});
+
+	eraseButton_->SetClickAction([&]() {
+		ScoreManager::DeleteScores();
+		Refresh();
+	});
+
+	AddChild(eraseButton_.get());	
+	
+	
+	ScoreManager::LoadScores();
 	Refresh();
 	ScoreManager::SaveScores();
 }
 
 void ScoreViewer::Refresh() 
 {
-	ScoreManager::LoadScores();
-	ScoreManager::SortScores();
-	
-	
 	for (int i = 0; i < 8; i++)
 	{
-		if (i >= ScoreManager::sortedScores().size() && scoreCards_[i] != nullptr)
-		{
+		if (scoreCards_[i] != nullptr) 
 			RemoveChild(scoreCards_[i].get());
-			scoreCards_[i] = nullptr;
-			continue;
-		}
 		
-		if (scoreCards_[i] == nullptr && i < ScoreManager::sortedScores().size())
-		{
+		if (i >= ScoreManager::sortedScores().size()) scoreCards_[i].reset();
+		else {
 			
-			scoreCards_[i] = std::make_unique<ScoreCard>(sf::Vector2f{position().x, position().y + ((float)i * 47)}
-			, *ScoreManager::sortedScores()[i]);
-
+			scoreCards_[i] = std::make_unique<ScoreCard>(sf::Vector2f{position().x, position().y + ((float) i * 47)},
+			                                             *ScoreManager::sortedScores()[i]);
 			AddChild(scoreCards_[i].get());
 		}
 	}

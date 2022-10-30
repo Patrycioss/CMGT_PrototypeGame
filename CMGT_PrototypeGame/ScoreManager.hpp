@@ -27,5 +27,6 @@ public:
 	
 	static const Score& score(const std::string& name);
 	static const std::vector<Score*>& sortedScores();
+	static void DeleteScores();
 };
 

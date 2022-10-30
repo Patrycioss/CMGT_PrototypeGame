@@ -13,14 +13,8 @@ namespace SFMLPE {
 	  Game::instance->RemoveScene(name_);
   }
   
-  const char* Scene::name() {
+  const char* Scene::name() const {
 	  return name_;
-  }
-
-  void Scene::Start() {
-	  UpdateSize(Game::sizeF().x, Game::sizeF().y);
-	  Game::instance->AddScene(name_, this);
-	  GameObject::Start();
   }
 }
 

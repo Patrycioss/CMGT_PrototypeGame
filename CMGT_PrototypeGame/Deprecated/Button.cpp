@@ -17,11 +17,12 @@ void Button::Start()
 {
 	eventHandler.Subscribe(sf::Event::MouseButtonPressed, [&] (const sf::Event& event)
 	{
-		
 		if (event.mouseButton.button == sf::Mouse::Left)
-				if (hovering_) OnClick();
+		{
+			if (hovering_) OnClick();
+
+		}
 	});
-	
 	
 	GameObject::Start();
 }
