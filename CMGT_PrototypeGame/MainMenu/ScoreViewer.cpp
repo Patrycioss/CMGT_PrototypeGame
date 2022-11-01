@@ -3,7 +3,7 @@
 #include <memory>
 
 ScoreViewer::ScoreViewer(const sf::Vector2f& position) 
-	: SFMLPE::AnimationSprite(position, "scoreViewer.png", 1, 1, 1)
+	: SFP::AnimationSprite(position, "scoreViewer.png", 1, 1, 1)
 {
 	reloadButton_ = std::make_unique<NewButton>(position, "reload.png", 2, 2, 1);
 	reloadButton_->Move(-reloadButton_->size().x,0);

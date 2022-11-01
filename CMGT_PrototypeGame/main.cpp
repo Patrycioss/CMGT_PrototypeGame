@@ -135,7 +135,7 @@ int main(int argc, char** argv)
 	
 	
 	CMGT_PrototypeGame game;
-	game.Run(width,height,WindowNamePicker().GetName(), "CMGT_PrototypeGame/Resources", "fonts/minecraftFont.ttf");
+	game.Run(width,height,WindowNamePicker().GetName(), resourcePath);
 	return 0;
 }
 

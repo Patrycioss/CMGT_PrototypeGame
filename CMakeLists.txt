@@ -1,16 +1,12 @@
-﻿cmake_minimum_required(VERSION 3.16)
+﻿cmake_minimum_required(VERSION 3.23)
 project(SFMLPEngine)
 
 set(CMAKE_CXX_STANDARD 20)
-#set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O0")
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0")
-set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static-libstdc++ -static-libgcc")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/modules/")
 
-#find_package(SFML 2.5 COMPONENTS graphics audio REQUIRED)
-
-add_subdirectory(SFML)
 add_subdirectory(random)
+add_subdirectory(SFML-3.6.x)
+
 add_executable(SFMLPEngine
         CMGT_PrototypeGame/main.cpp
         SFMLPE/Core/Sprite.cpp SFMLPE/Core/Sprite.hpp
@@ -28,10 +24,13 @@ add_executable(SFMLPEngine
         CMGT_PrototypeGame/MainMenu/ScoreViewer.hpp CMGT_PrototypeGame/MainMenu/ScoreCard.cpp CMGT_PrototypeGame/MainMenu/ScoreCard.hpp 
         CMGT_PrototypeGame/Deprecated/ReloadButton.cpp CMGT_PrototypeGame/Deprecated/ReloadButton.hpp CMGT_PrototypeGame/Fighting/Character.cpp
         CMGT_PrototypeGame/Fighting/Character.hpp CMGT_PrototypeGame/Deprecated/EraseButton.cpp CMGT_PrototypeGame/Deprecated/EraseButton.hpp
-        CMGT_PrototypeGame/NewButton.cpp CMGT_PrototypeGame/NewButton.hpp CMGT_PrototypeGame/Fighting/FightManager.cpp CMGT_PrototypeGame/Fighting/FightManager.hpp CMGT_PrototypeGame/Fighting/Arena.cpp CMGT_PrototypeGame/Fighting/Arena.hpp CMGT_PrototypeGame/Selection.cpp CMGT_PrototypeGame/Selection.hpp)
+        CMGT_PrototypeGame/NewButton.cpp CMGT_PrototypeGame/NewButton.hpp CMGT_PrototypeGame/Fighting/FightManager.cpp 
+        CMGT_PrototypeGame/Fighting/FightManager.hpp CMGT_PrototypeGame/Fighting/Arena.cpp CMGT_PrototypeGame/Fighting/Arena.hpp 
+        CMGT_PrototypeGame/Selection.cpp CMGT_PrototypeGame/Selection.hpp CMGT_PrototypeGame/TextInput.cpp CMGT_PrototypeGame/TextInput.hpp)
 
 target_link_libraries(SFMLPEngine PRIVATE effolkronium_random)
-target_link_libraries(SFMLPEngine PRIVATE sfml-graphics)
+target_link_libraries(SFMLPEngine PRIVATE sfml-system sfml-graphics sfml-audio)
+
 target_compile_features(SFMLPEngine PRIVATE cxx_std_17)
 if (WIN32 AND BUILD_SHARED_LIBS)
     add_custom_command(TARGET SFMLPEngine POST_BUILD

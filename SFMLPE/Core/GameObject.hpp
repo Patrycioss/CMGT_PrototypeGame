@@ -5,7 +5,7 @@
 #include <map>
 
 
-namespace SFMLPE {
+namespace SFP {
 
   class GameObject {
 	  
@@ -33,8 +33,11 @@ namespace SFMLPE {
 	  bool horizontallyMirrored_ = false;
 	  bool beingVertMirrored_ = false;
 	  bool beingHorMirrored_ = false;
-	  
-	  
+
+	  bool hasStarted_;
+
+
+
   public:
   //Constructors
   

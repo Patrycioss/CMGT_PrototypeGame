@@ -2,31 +2,12 @@
 #include "ResourceManager.hpp"
 #include "SFML/Graphics.hpp"
 
-namespace SFMLPE
+namespace SFP
 {
-  Sprite::Sprite() : GameObject(0,0, false)
-  {}
-
-  Sprite::Sprite(sf::Texture* texture, const sf::Vector2f &position, const bool &visible)
-		  : GameObject(position, visible)
-  {
-	  texture_ = texture;
-	  sprite_ = sf::Sprite(*texture_);
-	  sprite_.setPosition(position);
-	  UpdateSize();
-  }
-
-  Sprite::Sprite(sf::Texture* texture, const float &x, const float &y, const bool &visible)
-		  : GameObject(x,y,visible)
-  {
-	  texture_ = texture;
-	  sprite_ = sf::Sprite(*texture_);
-	  sprite_.setPosition(sf::Vector2f{x,y});
-	  UpdateSize();
-  }
-
+  Sprite::Sprite() : GameObject(0,0, false){}
+  
   Sprite::Sprite(const char *texturePath, const sf::Vector2f &position, const bool &visible)
-		  : GameObject(position, visible)
+		  : GameObject(position, visible), texturePath_(texturePath)
   {
 	  texture_ = ResourceManager::LoadTexture(texturePath);
 	  sprite_ = sf::Sprite(*texture_);
@@ -34,16 +15,10 @@ namespace SFMLPE
 	  UpdateSize();
   }
 
-  Sprite::Sprite(const char *texturePath, const float &x, const float &y, const bool &visible)
-		  : GameObject(x,y,visible)
+  Sprite::~Sprite()
   {
-	  texture_ = ResourceManager::LoadTexture(texturePath);
-	  sprite_ = sf::Sprite(*texture_);
-	  sprite_.setPosition(sf::Vector2f{x,y});
-	  UpdateSize();
+	  ResourceManager::RemoveTexture(texturePath_);
   }
-
-  Sprite::~Sprite() = default;
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 

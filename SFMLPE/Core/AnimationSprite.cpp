@@ -1,6 +1,6 @@
 ﻿#include "AnimationSprite.hpp"
 
-SFMLPE::AnimationSprite::AnimationSprite
+SFP::AnimationSprite::AnimationSprite
 		(const sf::Vector2f& position,
 		 const char* path, const unsigned int& numFrames,
 		 const unsigned int& columns, const unsigned int& rows, 
@@ -15,23 +15,7 @@ SFMLPE::AnimationSprite::AnimationSprite
 	SetCycle(1,numFrames);
 }
 
-SFMLPE::AnimationSprite::AnimationSprite
-		(const sf::Vector2f& position,
-		 sf::Texture* texture, const unsigned int& numFrames,
-		 const unsigned int& columns, const unsigned int& rows, 
-		 const bool& visible)
-		: Sprite(texture, position, visible)
-		, rows_(rows), columns_(columns)
-		, frameCount_(numFrames)
-{
-	frameWidth_ = texture_->getSize().x / columns;
-	frameHeight_ = texture_->getSize().y / rows;
-	UpdateSize();
-	SetCycle(1,numFrames);
-}
-
-
-SFMLPE::AnimationSprite::AnimationSprite() 
+SFP::AnimationSprite::AnimationSprite() 
 	: Sprite() 
 	, frameWidth_(0)
 	, frameHeight_(0)
@@ -42,7 +26,7 @@ SFMLPE::AnimationSprite::AnimationSprite()
 	, cycleFrameCount_(0)
 	{}
 
-void SFMLPE::AnimationSprite::Animate()
+void SFP::AnimationSprite::Animate()
 {
 	if (startFrame_ == 0) printf("ID: %u is 0 \n", ID());
 	if (cycleFrameCount_ == 1) return;
@@ -59,7 +43,7 @@ void SFMLPE::AnimationSprite::Animate()
 	}
 }
 
-void SFMLPE::AnimationSprite::SetFrame(const unsigned int& frame) 
+void SFP::AnimationSprite::SetFrame(const unsigned int& frame) 
 {
 	
 	if (frame > frameCount_) {  
@@ -83,7 +67,7 @@ void SFMLPE::AnimationSprite::SetFrame(const unsigned int& frame)
 
 }
 
-void SFMLPE::AnimationSprite::SetCycle
+void SFP::AnimationSprite::SetCycle
 (const unsigned int& startFrame, const unsigned int& numFrames, 
  const unsigned int& animationDelay, const bool&setFrame)
 {
@@ -100,24 +84,24 @@ void SFMLPE::AnimationSprite::SetCycle
 	
 }
 
-void SFMLPE::AnimationSprite::UpdateSize() 
+void SFP::AnimationSprite::UpdateSize() 
 {
 	GameObject::UpdateSize((float) frameWidth_, (float) frameHeight_);
 }
 
-const unsigned int& SFMLPE::AnimationSprite::startFrame() const {
+const unsigned int& SFP::AnimationSprite::startFrame() const {
 	return startFrame_;
 }
 
-const unsigned int& SFMLPE::AnimationSprite::currentFrame() const {
+const unsigned int& SFP::AnimationSprite::currentFrame() const {
 	return currentFrame_;
 }
 
-const unsigned int& SFMLPE::AnimationSprite::cycleLength() const {
+const unsigned int& SFP::AnimationSprite::cycleLength() const {
 	return cycleFrameCount_;
 }
 
-void SFMLPE::AnimationSprite::SetDelay(const unsigned int& animationDelay) 
+void SFP::AnimationSprite::SetDelay(const unsigned int& animationDelay) 
 {
 	animationDelay_ = animationDelay;
 }

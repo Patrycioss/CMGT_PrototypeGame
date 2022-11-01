@@ -3,21 +3,22 @@
 #include "Rectangle.hpp"
 #include "GameObject.hpp"
 
-namespace SFMLPE
+namespace SFP
 {
   class Sprite : public GameObject
   {
+  private:
+	  
+	  
   protected:
 	  sf::Texture* texture_;
 	  sf::Sprite sprite_;
+	  const char* texturePath_;
 	  
 
   public:
 	  Sprite();
-	  Sprite(sf::Texture* texture, const sf::Vector2f& position, const bool& visible = true);
-	  Sprite(sf::Texture* texture, const float& x, const float& y, const bool& visible = true);
 	  Sprite(const char* texturePath, const sf::Vector2f& position, const bool& visible = true);
-	  Sprite(const char* texturePath, const float& x, const float& y, const bool& visible = true);
 
 	  void SetPosition(const sf::Vector2f& newPosition) override;
 	  void SetPosition(const float& x, const float& y) override;

@@ -5,7 +5,7 @@
 #include "../Deprecated/EraseButton.hpp"
 #include "../NewButton.hpp"
 
-class ScoreViewer : public SFMLPE::AnimationSprite
+class ScoreViewer : public SFP::AnimationSprite
 {
 private:
 	std::unique_ptr<ScoreCard> scoreCards_[8];

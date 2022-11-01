@@ -2,7 +2,7 @@
 #include "../ScoreManager.hpp"
 #include "../../SFMLPE/SFMLPE.hpp"
 
-class ScoreCard : public SFMLPE::GameObject
+class ScoreCard : public SFP::GameObject
 {
 private:
 	Score score_;

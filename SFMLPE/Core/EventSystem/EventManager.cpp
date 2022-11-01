@@ -1,6 +1,6 @@
 ﻿#include "EventManager.hpp"
 
-namespace SFMLPE
+namespace SFP
 {
 	unsigned int EventManager::lastHandlerID_;
 	std::map<unsigned int, EventHandler*> EventManager::handlers;

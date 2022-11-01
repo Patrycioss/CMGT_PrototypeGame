@@ -1,6 +1,12 @@
 ﻿#pragma once
 #include <string>
 
+enum class Difficulty
+{
+	Normal = 0,
+	Hard = 1
+};
+
 struct Attributes
 {
 	unsigned int strength;

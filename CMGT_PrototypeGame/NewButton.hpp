@@ -1,23 +1,22 @@
 ﻿#pragma once
-#include "../SFMLPE/Core/AnimationSprite.hpp"
+#include "../SFMLPE/SFMLPE.hpp"
 
-class NewButton : public SFMLPE::GameObject
+class NewButton : public SFP::GameObject
 {
 	
 private:
-	std::unique_ptr<SFMLPE::AnimationSprite> animationSprite_;
+	std::unique_ptr<SFP::AnimationSprite> animationSprite_;
 
 	std::function<void()> onClick_;
 	std::function<void()> onPointerEnter_;
 	std::function<void()> onPointerExit_;
 	
+	const char* fontPath_ = "fonts/minecraftFont.ttf";
 	sf::Text text_;
 	sf::RectangleShape rectangleShape_;
 	
 	
 	bool hovering_ = false;
-	
-	void OnClick();
 	
 
 public:
@@ -32,13 +31,17 @@ public:
 			  const sf::Vector2f& size,
 	          const bool& visible = true);
 	
-	void SetClickAction(std::function<void()> action);
+	void SetClickAction(const std::function<void()>& action);
 	void SetPointerEnterAction(const std::function<void()>& action);
 	void SetPointerExitAction(const std::function<void()>& action);
 	
+	void TriggerClickAction();
+	void TriggerPointerEnterAction();
+	void TriggerPointerExitAction();
+	
 	[[nodiscard]] const bool& hovering() const;
 
-	SFMLPE::AnimationSprite& animation();
+	SFP::AnimationSprite& animation();
 
 	sf::RectangleShape& rectShape();
 	sf::Text& text();
@@ -46,4 +49,6 @@ public:
 	void Start() override;
 	void Update() override;
 	void Render(sf::RenderWindow& window) override;
+	
+	~NewButton();
 };

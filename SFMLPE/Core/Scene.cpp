@@ -2,8 +2,8 @@
 #include "SFML/System/Clock.hpp"
 #include "Game.hpp"
 
-namespace SFMLPE {
-  SFMLPE::Scene::Scene(const char* name)
+namespace SFP {
+  SFP::Scene::Scene(const char* name)
 		  : GameObject(0,0, true) 
 		  , name_(name)
 		  {};

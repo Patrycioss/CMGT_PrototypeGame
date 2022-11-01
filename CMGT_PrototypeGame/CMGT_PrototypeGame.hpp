@@ -15,10 +15,9 @@ enum class Scenes
 	Arena
 };
 
-class CMGT_PrototypeGame : public SFMLPE::Game // NOLINT(cppcoreguidelines-pro-type-member-init)
+class CMGT_PrototypeGame : public SFP::Game // NOLINT(cppcoreguidelines-pro-type-member-init)
 {
 private:
-	
 	Scenes activeScene_;
 	
 	std::unique_ptr<MainMenu> mainMenu_;

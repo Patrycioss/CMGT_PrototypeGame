@@ -3,7 +3,7 @@
 #include "EventHandler.hpp"
 #include "../Game.hpp"
 
-namespace SFMLPE
+namespace SFP
 {
 	class EventManager
 	{

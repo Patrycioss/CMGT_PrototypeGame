@@ -4,7 +4,7 @@
 
 
 
-namespace SFMLPE
+namespace SFP
 {
   ///All frame indexing starts from 0, so if an animation has 11 frames it will go from frame 0 to frame 10
   
@@ -45,11 +45,6 @@ namespace SFMLPE
 	  
 	  AnimationSprite(const sf::Vector2f& position, 
 					  const char* path, const unsigned int& numFrames,
-					  const unsigned int& columns, const unsigned int& rows, 
-					  const bool& visible = true);
-
-	  AnimationSprite(const sf::Vector2f& position, 
-					  sf::Texture* texture, const unsigned int& numFrames,
 					  const unsigned int& columns, const unsigned int& rows, 
 					  const bool& visible = true);
 	  

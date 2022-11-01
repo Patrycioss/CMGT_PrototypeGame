@@ -1,7 +1,7 @@
 ﻿#include "EventHandler.hpp"
 #include "EventManager.hpp"
 
-namespace SFMLPE
+namespace SFP
 {
 	std::map<sf::Event::EventType, const std::function<void(sf::Event)>> subscriptions;
 

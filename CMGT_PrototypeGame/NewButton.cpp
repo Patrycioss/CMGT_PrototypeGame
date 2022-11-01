@@ -1,12 +1,12 @@
 ﻿#include "NewButton.hpp"
 
 #include <utility>
-#include "../SFMLPE/Core/Game.hpp"
+#include "../SFMLPE/SFMLPE.hpp"
 
 NewButton::NewButton(const sf::Vector2f& position, const char* filePath, const unsigned int& numFrames, const unsigned int& cols,
                      const unsigned int& rows, const bool& visible)
-					: SFMLPE::GameObject(position, visible)
-		, animationSprite_(std::make_unique<SFMLPE::AnimationSprite>(position, filePath, numFrames, cols, rows))
+					: SFP::GameObject(position, visible)
+		, animationSprite_(std::make_unique<SFP::AnimationSprite>(position, filePath, numFrames, cols, rows))
 		, hovering_(false)
 
 {
@@ -15,19 +15,19 @@ NewButton::NewButton(const sf::Vector2f& position, const char* filePath, const u
 }
 
 NewButton::NewButton(const sf::Vector2f& position, const sf::Vector2f& size, const bool& visible)
-	: SFMLPE::GameObject(position)
+	: SFP::GameObject(position)
 	, rectangleShape_(size)
 {
 	rectangleShape_.setPosition(position);
 	text_.setPosition(position);
 	text_.setStyle(sf::Text::Regular);
-	text_.setFont(SFMLPE::Game::mainFont());
+	text_.setFont(*SFP::ResourceManager::LoadFont(fontPath_));
 	text_.setCharacterSize(20);
 	UpdateSize(size.x, size.y);
 }
 
 
-void NewButton::SetClickAction(std::function<void()> action) {
+void NewButton::SetClickAction(const std::function<void()>& action) {
 	onClick_ = action;
 }
 
@@ -45,11 +45,12 @@ const bool& NewButton::hovering() const {
 
 void NewButton::Start()
 {
-	eventHandler.Subscribe(sf::Event::MouseButtonPressed, [&] (const sf::Event& event)
+	eventHandler.Subscribe(sf::Event::MouseButtonPressed, [this] (const sf::Event& event)
 	{
 		if (event.mouseButton.button == sf::Mouse::Left)
 		{
-			if (hovering_ && onClick_) OnClick();
+			
+			if (hovering_ && onClick_) onClick_();
 		}
 	});
 
@@ -58,7 +59,7 @@ void NewButton::Start()
 
 void NewButton::Update()
 {
-	if (PointOver(SFMLPE::Game::MousePosition()))
+	if (PointOver(SFP::Game::MousePosition()))
 	{
 		if (!hovering_)
 		{
@@ -74,10 +75,10 @@ void NewButton::Update()
 
 	if (animationSprite_ != nullptr) animationSprite_->Animate();
 
-	SFMLPE::GameObject::Update();
+	SFP::GameObject::Update();
 }
 
-SFMLPE::AnimationSprite& NewButton::animation() {
+SFP::AnimationSprite& NewButton::animation() {
 	return *animationSprite_;
 }
 
@@ -85,7 +86,7 @@ void NewButton::Render(sf::RenderWindow& window)
 {
 	window.draw(rectangleShape_);
 	window.draw(text_);
-	SFMLPE::GameObject::Render(window);
+	SFP::GameObject::Render(window);
 }
 
 sf::RectangleShape& NewButton::rectShape() {
@@ -96,7 +97,20 @@ sf::Text& NewButton::text() {
 	return text_;
 }
 
-void NewButton::OnClick() {
-	this->onClick_();
+NewButton::~NewButton() 
+{
+	SFP::ResourceManager::RemoveFont(fontPath_);
+}
+
+void NewButton::TriggerClickAction() {
+	onClick_();
+}
+
+void NewButton::TriggerPointerEnterAction() {
+	onPointerEnter_();
+}
+
+void NewButton::TriggerPointerExitAction() {
+	onPointerExit_();
 }
 

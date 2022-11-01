@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "GameObject.hpp"
 
-namespace SFMLPE
+namespace SFP
 {
   class Scene : public GameObject
   {

@@ -6,8 +6,8 @@ Button::Button(const sf::Vector2f& position,
 			   const unsigned int& cols, 
 			   const unsigned int& rows,
 			   const bool& visible)
-			   : SFMLPE::GameObject(position, visible)
-			   , animationSprite_(std::make_unique<SFMLPE::AnimationSprite>(position, filePath, numFrames, cols, rows))
+			   : SFP::GameObject(position, visible)
+			   , animationSprite_(std::make_unique<SFP::AnimationSprite>(position, filePath, numFrames, cols, rows))
 {
 	UpdateSize(animationSprite_->size().x, animationSprite_->size().y);
 	AddChild(animationSprite_.get());
@@ -29,7 +29,7 @@ void Button::Start()
 
 void Button::Update() 
 {
-	if (PointOver(SFMLPE::Game::MousePosition()))
+	if (PointOver(SFP::Game::MousePosition()))
 	{
 		if (!hovering_)
 		{
@@ -47,10 +47,10 @@ void Button::Update()
 
 	animationSprite_->Animate();
 	
-	SFMLPE::GameObject::Update();
+	SFP::GameObject::Update();
 }
 
-SFMLPE::AnimationSprite& Button::animation() {
+SFP::AnimationSprite& Button::animation() {
 	return *animationSprite_;
 }
 

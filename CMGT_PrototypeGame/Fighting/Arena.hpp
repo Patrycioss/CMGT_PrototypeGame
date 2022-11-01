@@ -5,7 +5,7 @@
 
 class CMGT_PrototypeGame;
 
-class Arena : public SFMLPE::Scene
+class Arena : public SFP::Scene
 {
 private:
 	bool playerTurn_ = false;

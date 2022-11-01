@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "../SFMLPE/SFMLPE.hpp"
 
-class TestSprite : public SFMLPE::Sprite
+class TestSprite : public SFP::Sprite
 {
 public:
 	explicit TestSprite(const sf::Vector2f& position);

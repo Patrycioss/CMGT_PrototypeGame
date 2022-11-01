@@ -1,14 +1,14 @@
 ﻿#include "ScoreCard.hpp"
 
 ScoreCard::ScoreCard(const sf::Vector2f& position)
-	: SFMLPE::GameObject(position)
+	: SFP::GameObject(position)
 {
-	for (auto & i : text_)
+	for (auto & text : text_)
 	{
-		i.setFont(SFMLPE::Game::mainFont());
-		i.setCharacterSize(20);
-		i.setStyle(sf::Text::Regular);
-		i.setFillColor(sf::Color::Red);
+		text.setFont(*SFP::ResourceManager::LoadFont("fonts/minecraftFont.ttf"));
+		text.setCharacterSize(20);
+		text.setStyle(sf::Text::Regular);
+		text.setFillColor(sf::Color::Red);
 	}
 	
 	text_[0].setPosition({position.x + 50, position.y + 68});
@@ -32,7 +32,7 @@ const Score& ScoreCard::score() {
 
 void ScoreCard::Render(sf::RenderWindow& window) 
 {
-	SFMLPE::GameObject::Render(window);
+	SFP::GameObject::Render(window);
 	
 	for (const sf::Text& text : text_)
 		window.draw(text);

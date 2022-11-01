@@ -3,7 +3,7 @@
 #include <cmath>
 #include "GameObject.hpp"
 
-namespace SFMLPE {
+namespace SFP {
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -498,12 +498,18 @@ namespace SFMLPE {
   }
 
   void GameObject::Start(){
-	  for (auto pair : children_)
-		  pair.second->Start();
+//	  for (auto pair : children_)
+//		  pair.second->Start();
   }
   
   void GameObject::Update()
   {
+	  if (!hasStarted_)
+	  {
+		  Start();
+		  hasStarted_ = true;
+	  }
+	  
 	  for (auto pair : children_)
 		  pair.second->Update();
   }

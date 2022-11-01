@@ -1,17 +1,17 @@
 ﻿#pragma once
 #include "../../SFMLPE/SFMLPE.hpp"
 
-class Button : public SFMLPE::GameObject
+class Button : public SFP::GameObject
 {
 private:
-	std::unique_ptr<SFMLPE::AnimationSprite> animationSprite_;
+	std::unique_ptr<SFP::AnimationSprite> animationSprite_;
 	bool hovering_ = false;
 	
 public:
 	Button(const sf::Vector2f& position, const char* filePath, const unsigned int& numFrames, const unsigned int& cols, const unsigned int& rows,
 	       const bool& visible = true);
 	
-	SFMLPE::AnimationSprite& animation();
+	SFP::AnimationSprite& animation();
 
 	[[nodiscard]] const bool& hovering() const;
 	

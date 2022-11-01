@@ -3,7 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <functional>
 
-namespace SFMLPE
+namespace SFP
 {
 	class EventHandler
 	{

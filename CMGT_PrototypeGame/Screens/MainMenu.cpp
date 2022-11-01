@@ -2,15 +2,38 @@
 #include "../ScoreManager.hpp"
 #include "SFML/Window/Event.hpp"
 #include "../CMGT_PrototypeGame.hpp"
+#include "effolkronium/random.hpp"
 
 
 MainMenu::MainMenu(CMGT_PrototypeGame& game) 
-	: SFMLPE::Scene("MainMenu"), game_(game){}
+	: SFP::Scene("MainMenu"), game_(game), music_()
+	{
+		const char* track = musicFiles_[effolkronium::random_static::get(0,2)];
+	
+		if (!music_.openFromFile(track))
+			printf("Failed to open music file: %s in MainMenu \n", track);
+		
+		else {
+			music_.setVolume(10);
+			music_.setLoop(false);
+			music_.play();
+			clock_.restart();
+		}
+	}
 	
 	
 void MainMenu::Start()
 {
-	background_ = std::make_unique<SFMLPE::Sprite>("background.png", sf::Vector2f{0,0});
+	if (loopSlower_.getElapsedTime().asSeconds() > 10)
+	{
+		if (clock_.getElapsedTime().asSeconds() > music_.getDuration().asSeconds())
+		{
+			music_.openFromFile(musicFiles_[effolkronium::random_static::get(0,2)]);
+		}
+		loopSlower_.restart();
+	}
+	
+	background_ = std::make_unique<SFP::Sprite>("background.png", sf::Vector2f{0,0});
 	AddChild(background_.get());
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
@@ -52,7 +75,7 @@ void MainMenu::Start()
 	startNewButton_->text().setPosition(sf::Vector2f{startNewButton_->position().x + 35, startNewButton_->position().y + 20});
 
 	startNewButton_->SetPointerEnterAction([&]() {
-		startNewButton_->rectShape().setFillColor(sf::Color(144, 238, 144));
+		startNewButton_->rectShape().setFillColor(sf::Color(210, 248, 210));
 	});
 
 	startNewButton_->SetPointerExitAction([&]() {
@@ -86,7 +109,7 @@ void MainMenu::Start()
 	});
 
 	exitButton_->SetClickAction([&]() {
-		SFMLPE::Game::Stop();
+		SFP::Game::Stop();
 	});
 
 	AddChild(exitButton_.get());
@@ -96,7 +119,7 @@ void MainMenu::Start()
 	scoreViewer_ = std::make_unique<ScoreViewer>(sf::Vector2f{924,200});
 	AddChild(scoreViewer_.get());
 
-	SFMLPE::GameObject::Start();
+	SFP::GameObject::Start();
 }
 
 

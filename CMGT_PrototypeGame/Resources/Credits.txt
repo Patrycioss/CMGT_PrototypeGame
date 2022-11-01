@@ -13,3 +13,18 @@ characters/kaelthas.gif
 
 Also used some assets from a random ancient gif pack that was shared on twitter a while ago 
     - https://href.li/?https://drive.google.com/drive/folders/1wWwTMS9LxWI1etYJGxDQIhjtuR895si3
+    
+    
+Music:
+
+athletic_theme.mp3
+    - Made by SilvaGunner (https://www.youtube.com/c/SilvaGunner/)
+    - https://youtu.be/rEcOzjg7vBU
+    
+mario_flintstones.mp3
+    - Made by SilvaGunner (https://www.youtube.com/c/SilvaGunner/)
+    - https://www.youtube.com/watch?v=7VcYz6KZtqs
+    
+scary_terraria.mp3
+    - Made by SilvaGunner (https://www.youtube.com/c/SilvaGunner/)
+    - https://youtu.be/__gMeNwsu3w
