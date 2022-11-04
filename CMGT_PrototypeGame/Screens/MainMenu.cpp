@@ -3,6 +3,8 @@
 #include "SFML/Window/Event.hpp"
 #include "../CMGT_PrototypeGame.hpp"
 #include "effolkronium/random.hpp"
+#include "../Tweening/TweenManager.hpp"
+#include "../Tweening/RectPosTween.hpp"
 
 
 MainMenu::MainMenu(CMGT_PrototypeGame& game) 
@@ -24,6 +26,22 @@ MainMenu::MainMenu(CMGT_PrototypeGame& game)
 	
 void MainMenu::Start()
 {
+	
+//	rect_.setSize(sf::Vector2f{200,200});
+//	rect_.setPosition(sf::Vector2f{200,200});
+//	rect_.setFillColor(sf::Color::Magenta);
+//	
+//	TweenManager::AddTween(new RectangleShapeSizeTween(rect_, sf::Vector2f{10,10}, sf::seconds(10)))
+//	->SetEndAction([this]()
+//	{
+//		TweenManager::AddTween(new RectangleShapeSizeTween(rect_, sf::Vector2f{300,300}, sf::seconds(8)))
+//		->SetEndAction([this]()
+//		{
+//			TweenManager::AddTween(new RectPosTween(rect_, sf::Vector2f{500,500}, sf::seconds(5)));
+//		});
+//	});
+	
+	
 	if (loopSlower_.getElapsedTime().asSeconds() > 10)
 	{
 		if (clock_.getElapsedTime().asSeconds() > music_.getDuration().asSeconds())
@@ -38,7 +56,7 @@ void MainMenu::Start()
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	
-	continueButton_ = std::make_unique<NewButton>(sf::Vector2f{150,210}, sf::Vector2f{300,100});
+	continueButton_ = std::make_unique<Button>(sf::Vector2f{150,210}, sf::Vector2f{300,100});
 	
 	continueButton_->rectShape().setFillColor(sf::Color(169,169,169));
 	continueButton_->rectShape().setOutlineColor(sf::Color(105, 105, 105));
@@ -64,7 +82,7 @@ void MainMenu::Start()
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 
-	startNewButton_ = std::make_unique<NewButton>(sf::Vector2f{150,365}, sf::Vector2f{300,100});
+	startNewButton_ = std::make_unique<Button>(sf::Vector2f{150,365}, sf::Vector2f{300,100});
 
 	startNewButton_->rectShape().setFillColor(sf::Color::Green);
 	startNewButton_->rectShape().setOutlineColor(sf::Color(0, 100, 0));
@@ -90,7 +108,7 @@ void MainMenu::Start()
 	
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	
-	exitButton_ = std::make_unique<NewButton>(sf::Vector2f{150,520}, sf::Vector2f{300,100});
+	exitButton_ = std::make_unique<Button>(sf::Vector2f{150,520}, sf::Vector2f{300,100});
 
 	exitButton_->rectShape().setFillColor(sf::Color::Red);
 	exitButton_->rectShape().setOutlineColor(sf::Color(100, 0, 0));
@@ -122,4 +140,8 @@ void MainMenu::Start()
 	SFP::GameObject::Start();
 }
 
-
+//void MainMenu::Render(sf::RenderWindow& window) {
+//	GameObject::Render(window);
+//	
+//	window.draw(rect_);
+//}

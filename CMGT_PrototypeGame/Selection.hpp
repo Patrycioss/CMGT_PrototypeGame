@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include "../SFMLPE/SFMLPE.hpp"
-#include "NewButton.hpp"
+#include "Button.hpp"
 #include "Fighting/Character.hpp"
 #include "TextInput.hpp"
 
@@ -22,10 +22,11 @@ private:
 //Avatar choosing	
 	sf::Text chooseYourAvatar_[3];
 	std::unique_ptr<SFP::AnimationSprite> choices_[3];
-	std::unique_ptr<NewButton> choiceButtons_[3];
+	std::unique_ptr<Button> choiceButtons_[3];
 	
-	NewButton* selectedAvatarButton_ = nullptr;
-	void SelectAvatar(NewButton* button);
+	Button* selectedAvatarButton_ = nullptr;
+	Avatar selectedAvatar_ = Avatar(0);
+	void SelectAvatar(Button* button, const Avatar& avatar);
 
 //Name Creation
 	sf::Text chooseYourName_;
@@ -36,30 +37,30 @@ private:
 	sf::Clock maxCharacterFadeClock_;
 	
 //Point distribution
+	Attributes chosenAttributes_;
 	unsigned int pointsToSpend_ = 6;
-	unsigned int agilityPoints_ = 0;
-	unsigned int strengthPoints_ = 1;
-	unsigned int witsPoints_ = 1;
 	
-	std::unique_ptr<NewButton> pointButtons_[6];
-	std::unique_ptr<NewButton> randomizer_;
+	std::unique_ptr<Button> pointButtons_[6];
+	std::unique_ptr<Button> randomizer_;
 	sf::Text stats_[6];
 	sf::Text pointsToSpendText_[2];
 	
 	void UpdatePoints();
-	void RandomizePoints();
 	void StartGame();
 	
 //Difficulty selection
 	Difficulty difficulty_;
-	std::unique_ptr<NewButton> difficultyButtons_[2];
+	std::unique_ptr<Button> difficultyButtons_[2];
 	
 //Start Game
-	std::unique_ptr<NewButton> startButton_;
+	std::unique_ptr<Button> startButton_;
+	
+	std::unique_ptr<Button> exitButton_;
 
 public:
 	explicit Selection(CMGT_PrototypeGame& game);
 	
 	void Update() override;
 	void Render(sf::RenderWindow& window) override;
+	void CreateExitButton();
 };

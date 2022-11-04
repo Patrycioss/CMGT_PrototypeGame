@@ -52,6 +52,8 @@ namespace SFP
 	  
 	  void Animate();
 	  
+	  void Render(sf::RenderWindow& window) override;
+	  
 	  void UpdateSize() override;
 	  
 	  const unsigned int& startFrame() const;

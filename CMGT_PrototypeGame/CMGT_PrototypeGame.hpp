@@ -36,5 +36,5 @@ protected:
 	void End() override;
 	
 public:
-	void SwapScene(const Scenes& scene);
+	SFP::Scene* SwapScene(const Scenes& scene);
 };

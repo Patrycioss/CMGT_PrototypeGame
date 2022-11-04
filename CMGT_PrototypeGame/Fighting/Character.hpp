@@ -1,46 +1,54 @@
 ﻿#pragma once
 #include <string>
+#include <array>
+#include "../Attributes.hpp"
+#include "../Wellness.hpp"
+
+enum class Avatar
+{
+	None,
+	Illidan,
+	Arthas,
+	Kaelthas
+};
 
 enum class Difficulty
 {
-	Normal = 0,
-	Hard = 1
-};
-
-struct Attributes
-{
-	unsigned int strength;
-	unsigned int agility; //Only one that can be 0
-	unsigned int wits;
-};
-
-struct Wellness
-{
-	unsigned int health; //3*strength -- if 0 die
-	unsigned int sanity; //2*wits -- if 0 die
+	Normal,
+	Hard
 };
 
 class Character
 {
-private:
+protected:
+	Avatar avatar_;
 	Attributes attributes_;
 	Wellness wellness_;
-	unsigned int enemiesSlain_;
-	unsigned int damageDone_;
+	
+	std::string name_;
+
+	static std::array<std::string, 12> possibleNames_;
 	
 public:
-	std::string name;
-	
-	explicit Character(const Attributes& attributes);
 	Character();
+	void Init(std::string name, const Avatar& avatar, const Attributes& attributes);
+	
 	[[nodiscard]] const Attributes& attributes() const;
 	[[nodiscard]] const Wellness& wellness() const;
-	[[nodiscard]] const unsigned int& enemiesSlain() const;
-	[[nodiscard]] const unsigned int& damageDone() const;
+	[[nodiscard]] const Avatar& avatar() const;
 	
 	//Actions:
 	void Attack(Character& opponent);
 	void Prepare();
 	void Recover();
 	void CastMagic(Character& opponent);
+	
+	void Kill();
+	void Damage(const unsigned int& amount);
+	void Heal(const unsigned int& amount);
+	static Attributes GetRandomAttributes(const Attributes& attributes);
+	static Attributes GetRandomAttributes();
+	
+	[[nodiscard]] static std::string GetRandomName();
+	[[nodiscard]] static Avatar GetRandomAvatar();
 };

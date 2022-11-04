@@ -34,7 +34,7 @@ namespace SFP {
 	  bool beingVertMirrored_ = false;
 	  bool beingHorMirrored_ = false;
 
-	  bool hasStarted_;
+	  bool hasStarted_ = false;
 
 
 

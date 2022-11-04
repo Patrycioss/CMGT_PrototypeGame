@@ -106,5 +106,10 @@ void SFP::AnimationSprite::SetDelay(const unsigned int& animationDelay)
 	animationDelay_ = animationDelay;
 }
 
+void SFP::AnimationSprite::Render(sf::RenderWindow& window) {
+	Animate();
+	Sprite::Render(window);
+}
+
 
 

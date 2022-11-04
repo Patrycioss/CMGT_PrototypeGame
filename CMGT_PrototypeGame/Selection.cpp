@@ -9,24 +9,34 @@ Selection::Selection(CMGT_PrototypeGame& game)
 			   ,std::make_unique<SFP::AnimationSprite>(sf::Vector2f {550,100}, "characters/arthas.png", 8, 8, 1)
 			   ,std::make_unique<SFP::AnimationSprite>(sf::Vector2f {900,150}, "characters/kaelthas.png", 4, 4, 1)}
 	
-	, choiceButtons_{std::make_unique<NewButton>(sf::Vector2f {130,100},sf::Vector2f{370,500})
-				,std::make_unique<NewButton>(sf::Vector2f {560,100}, sf::Vector2f{250,270})
-				,std::make_unique<NewButton>(sf::Vector2f {870,100}, sf::Vector2f{370,500})} 
+	, choiceButtons_{std::make_unique<Button>(sf::Vector2f {130,100}, sf::Vector2f{370,500})
+				,std::make_unique<Button>(sf::Vector2f {560,100}, sf::Vector2f{250,270})
+				,std::make_unique<Button>(sf::Vector2f {870,100}, sf::Vector2f{370,500})} 
 {
 	background_.setPosition(sf::Vector2f {0,0});
 	background_.setFillColor(sf::Color::Yellow);
 	background_.setSize(SFP::Game::sizeF());
 	
 	
+//	eventHandler.Subscribe(sf::Event::KeyPressed, [this] (const sf::Event& event)
+//	{
+//		if (event.key.code == sf::Keyboard::G) 
+//			choiceButtons_[0]->SetScale(0.5f,0.5f);
+//		
+//		else if (event.key.code == sf::Keyboard::N)
+//			choiceButtons_[0]->SetScale(1,1);
+//	});
+//	
 	MakeAvatarSelection();
 	MakeNameCreation();
 	MakePointDistributionStuff();
 	MakeDifficultySelection();
 	MakeStartButton();
+	CreateExitButton();
 }
 
 void Selection::MakeStartButton() {
-	startButton_ = std::make_unique<NewButton>(sf::Vector2f{587,660}, sf::Vector2f{200,100});
+	startButton_ = std::make_unique<Button>(sf::Vector2f{587,660}, sf::Vector2f{200,100});
 	startButton_->rectShape().setFillColor(sf::Color::Cyan);
 	startButton_->rectShape().setOutlineThickness(4);
 	startButton_->rectShape().setOutlineColor(sf::Color::Black);
@@ -61,7 +71,7 @@ void Selection::MakeStartButton() {
 
 void Selection::MakeDifficultySelection() 
 {
-	difficultyButtons_[0] = std::make_unique<NewButton>(sf::Vector2f{850,650}, sf::Vector2f{200,75});
+	difficultyButtons_[0] = std::make_unique<Button>(sf::Vector2f{850,650}, sf::Vector2f{200,75});
 	difficultyButtons_[0]->text().setString("Normal");
 	difficultyButtons_[0]->text().setPosition(sf::Vector2f{887, 662});
 	
@@ -87,7 +97,7 @@ void Selection::MakeDifficultySelection()
 	});
 	
 	
-	difficultyButtons_[1] = std::make_unique<NewButton>(sf::Vector2f{1060,650}, sf::Vector2f{200,75});
+	difficultyButtons_[1] = std::make_unique<Button>(sf::Vector2f{1060,650}, sf::Vector2f{200,75});
 	difficultyButtons_[1]->text().setString("Hard");
 	difficultyButtons_[1]->text().setPosition(sf::Vector2f{1113,662});
 
@@ -112,7 +122,7 @@ void Selection::MakeDifficultySelection()
 		difficulty_ = Difficulty::Hard;
 	});
 
-	for (std::unique_ptr<NewButton>& button : difficultyButtons_)
+	for (std::unique_ptr<Button>& button : difficultyButtons_)
 	{
 		button->text().setOutlineThickness(4);
 		button->text().setOutlineColor(sf::Color::Transparent);
@@ -128,14 +138,16 @@ void Selection::MakeDifficultySelection()
 }
 
 void Selection::UpdatePoints() {
-	stats_[1].setString(std::to_string(agilityPoints_));
-	stats_[3].setString(std::to_string(witsPoints_));
-	stats_[5].setString(std::to_string(strengthPoints_));
-	
+	stats_[1].setString(std::to_string(chosenAttributes_.agility));
+	stats_[3].setString(std::to_string(chosenAttributes_.wits));
+	stats_[5].setString(std::to_string(chosenAttributes_.strength));
+
+	pointsToSpend_ = 8 - chosenAttributes_.agility - chosenAttributes_.wits - chosenAttributes_.strength;
+	pointsToSpendText_[1].setString(std::to_string(pointsToSpend_));
+
 	if (pointsToSpend_ == 0) pointsToSpendText_[1].setFillColor(sf::Color::Red);
 	else pointsToSpendText_[1].setFillColor(sf::Color::Green);
 	
-	pointsToSpendText_[1].setString(std::to_string(pointsToSpend_));
 }
 
 void Selection::MakePointDistributionStuff() 
@@ -172,59 +184,59 @@ void Selection::MakePointDistributionStuff()
 	stats_[5].setPosition(510,650);
 
 	//Agility
-	pointButtons_[0] = std::make_unique<NewButton>(sf::Vector2f{125,700}, sf::Vector2f{20,20});
+	pointButtons_[0] = std::make_unique<Button>(sf::Vector2f{125,700}, sf::Vector2f{20,20});
 	pointButtons_[0]->SetClickAction([this]()
 	{
 		if (pointsToSpend_ == 0) return;
 		pointsToSpend_--;
-		agilityPoints_++;
+		chosenAttributes_.agility++;
 		UpdatePoints();
 	});
 	
-	pointButtons_[1] = std::make_unique<NewButton>(sf::Vector2f{175,700}, sf::Vector2f{20,20});
+	pointButtons_[1] = std::make_unique<Button>(sf::Vector2f{175,700}, sf::Vector2f{20,20});
 	pointButtons_[1]->SetClickAction([this]()
 	{
-		if (agilityPoints_ == 0) return;
+		if (chosenAttributes_.agility == 0) return;
 		pointsToSpend_++;
-		agilityPoints_--;
+		chosenAttributes_.agility--;
 		UpdatePoints();
 	});
 	
 	//Wits
-	pointButtons_[2] = std::make_unique<NewButton>(sf::Vector2f{260,700}, sf::Vector2f{20,20});
+	pointButtons_[2] = std::make_unique<Button>(sf::Vector2f{260,700}, sf::Vector2f{20,20});
 	pointButtons_[2]->SetClickAction([this]()
 	{
 		if (pointsToSpend_ == 0) return;
 		pointsToSpend_--;
-		witsPoints_++;
+		chosenAttributes_.wits++;
 		UpdatePoints();
 	});
 
-	pointButtons_[3] = std::make_unique<NewButton>(sf::Vector2f{310,700}, sf::Vector2f{20,20});
+	pointButtons_[3] = std::make_unique<Button>(sf::Vector2f{310,700}, sf::Vector2f{20,20});
 	pointButtons_[3]->SetClickAction([this]()
 	{
-		if (witsPoints_ == 1) return;
+		if (chosenAttributes_.wits == 1) return;
 		pointsToSpend_++;
-		witsPoints_--;
+		chosenAttributes_.wits--;
 		UpdatePoints();
 	});
 
 	//Strength
-	pointButtons_[4] = std::make_unique<NewButton>(sf::Vector2f{400,700}, sf::Vector2f{20,20});
+	pointButtons_[4] = std::make_unique<Button>(sf::Vector2f{400,700}, sf::Vector2f{20,20});
 	pointButtons_[4]->SetClickAction([this]()
 	{
 		if (pointsToSpend_ == 0) return;
 		pointsToSpend_--;
-		strengthPoints_++;
+		chosenAttributes_.strength++;
 		UpdatePoints();
 	});
 	
-	pointButtons_[5] = std::make_unique<NewButton>(sf::Vector2f{450,700}, sf::Vector2f{20,20});
+	pointButtons_[5] = std::make_unique<Button>(sf::Vector2f{450,700}, sf::Vector2f{20,20});
 	pointButtons_[5]->SetClickAction([this]()
 	{
-		if (strengthPoints_ == 1) return;
+		if (chosenAttributes_.strength == 1) return;
 		pointsToSpend_++;
-		strengthPoints_--;
+		chosenAttributes_.strength--;
 		UpdatePoints();
 	});
 
@@ -262,7 +274,7 @@ void Selection::MakePointDistributionStuff()
 	pointsToSpendText_[1].setFillColor(sf::Color::Green);
 	pointsToSpendText_[1].setPosition(375,750);
 	
-	randomizer_ = std::make_unique<NewButton>(sf::Vector2f{0,700}, "dice.png", 5, 5, 1);
+	randomizer_ = std::make_unique<Button>(sf::Vector2f{0,700}, "dice.png", 5, 5, 1);
 	randomizer_->SetScale(0.5f,0.5f);
 
 	randomizer_->animation().SetCycle(1,1,150);
@@ -279,7 +291,7 @@ void Selection::MakePointDistributionStuff()
 	
 	randomizer_->SetClickAction([this]()
 	{
-		RandomizePoints();
+		chosenAttributes_ = Character::GetRandomAttributes(chosenAttributes_);
 		UpdatePoints();
 	});
 
@@ -311,7 +323,7 @@ void Selection::Render(sf::RenderWindow& window) {
 	SFP::GameObject::Render(window);
 }
 
-void Selection::SelectAvatar(NewButton* button) 
+void Selection::SelectAvatar(Button* button, const Avatar& avatar) 
 {
 	if (selectedAvatarButton_ != nullptr)
 	{
@@ -320,6 +332,8 @@ void Selection::SelectAvatar(NewButton* button)
 	
 	selectedAvatarButton_ = button;
 	button->rectShape().setOutlineThickness(20);
+	
+	selectedAvatar_ = avatar;
 }
 
 void Selection::MakeAvatarSelection() 
@@ -368,7 +382,7 @@ void Selection::MakeAvatarSelection()
 
 	choiceButtons_[0]->SetClickAction([this]()
 	{
-		SelectAvatar(choiceButtons_[0].get());
+		SelectAvatar(choiceButtons_[0].get(), Avatar::Illidan);
 	});
 
 	///////////////////////////////////////////////////////////////////////////
@@ -392,7 +406,7 @@ void Selection::MakeAvatarSelection()
 
 	choiceButtons_[1]->SetClickAction([this]()
 	{
-		SelectAvatar(choiceButtons_[1].get());
+		SelectAvatar(choiceButtons_[1].get(), Avatar::Arthas);
 	});
 
 	///////////////////////////////////////////////////////////////////////////
@@ -417,7 +431,7 @@ void Selection::MakeAvatarSelection()
 
 	choiceButtons_[2]->SetClickAction([this]()
 	{
-		SelectAvatar(choiceButtons_[2].get());
+		SelectAvatar(choiceButtons_[2].get(), Avatar::Kaelthas);
 	});
 
 	///////////////////////////////////////////////////////////////////////////
@@ -459,39 +473,41 @@ void Selection::MakeNameCreation() {
 	AddChild(nameInput_.get());
 }
 
-void Selection::RandomizePoints() 
-{
-	if (pointsToSpend_ == 0)
-	{
-		agilityPoints_ = 0;
-		strengthPoints_ = 1;
-		witsPoints_ = 1;
-		pointsToSpend_ = 6;
-	}
-	
-	while (pointsToSpend_ != 0)
-	{
-		switch (effolkronium::random_static::get(0,2))
-		{
-			case 0:
-				agilityPoints_++;
-				pointsToSpend_--;
-				break;
-			
-			case 1:
-				witsPoints_++;
-				pointsToSpend_--;
-				break;
-			
-			case 2:
-				strengthPoints_++;
-				pointsToSpend_--;
-				break;
-		}
-	}
-}
-
 void Selection::StartGame() 
 {
-	
+	dynamic_cast<Arena*>(game_.SwapScene(Scenes::Arena))
+			->Begin(nameInput_->text().getString(), selectedAvatar_, Attributes(chosenAttributes_), difficulty_);
+}
+
+void Selection::CreateExitButton() {
+	exitButton_ = std::make_unique<Button>(sf::Vector2f{1240,740}, sf::Vector2f{50,50});
+
+	exitButton_->rectShape().setFillColor(sf::Color::Red);
+	exitButton_->rectShape().setOutlineColor(sf::Color{139,0,0});
+	exitButton_->rectShape().setOutlineThickness(5);
+
+	exitButton_->text().setCharacterSize(90);
+	exitButton_->text().setString("x");
+	exitButton_->text().setPosition(sf::Vector2f{1243,697});
+
+	exitButton_->SetPointerEnterAction([this]()
+	{
+		exitButton_->rectShape().setOutlineThickness(7);
+		exitButton_->rectShape().setOutlineColor(sf::Color::Black);
+		exitButton_->text().setOutlineThickness(2);
+	});
+
+	exitButton_->SetPointerExitAction([this]()
+	{
+		exitButton_->rectShape().setOutlineThickness(5);
+		exitButton_->rectShape().setOutlineColor(sf::Color{139,0,0});
+		exitButton_->text().setOutlineThickness(0);
+	});
+
+	exitButton_->SetClickAction([this]()
+	{
+		game_.SwapScene(Scenes::MainMenu);
+	});
+
+	AddChild(exitButton_.get());
 }

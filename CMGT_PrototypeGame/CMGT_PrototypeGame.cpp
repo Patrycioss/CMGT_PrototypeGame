@@ -1,6 +1,6 @@
 ﻿#include "CMGT_PrototypeGame.hpp"
 #include "Utility/InputHelper.hpp"
-
+#include "Tweening/TweenManager.hpp"
 
 
 void CMGT_PrototypeGame::Start()
@@ -12,6 +12,7 @@ void CMGT_PrototypeGame::Start()
 
 void CMGT_PrototypeGame::Update() 
 {
+	TweenManager::Update();
 	DeleteScene(sceneToBeRemoved);
 }
 
@@ -20,7 +21,7 @@ void CMGT_PrototypeGame::End()
 	
 }
 
-void CMGT_PrototypeGame::SwapScene(const Scenes& scene) 
+SFP::Scene* CMGT_PrototypeGame::SwapScene(const Scenes& scene) 
 {
 	switch (scene)
 	{
@@ -29,30 +30,32 @@ void CMGT_PrototypeGame::SwapScene(const Scenes& scene)
 			mainMenu_ = std::make_unique<MainMenu>(*this);
 			AddScene(mainMenu_.get());
 			activeScene_ = Scenes::MainMenu;
-			break;
+			return mainMenu_.get();
 		
 		case Scenes::Arena:
 			DeactivateScene(activeScene_);
 			arena_ = std::make_unique<Arena>(*this);
 			AddScene(arena_.get());
 			activeScene_ = Scenes::Arena;
-			break;
+			return arena_.get();
 		
 		case Scenes::Selection:
 			DeactivateScene(activeScene_);
 			selection_ = std::make_unique<Selection>(*this);
 			AddScene(selection_.get());
 			activeScene_ = Scenes::Selection;
-			break;
+			return selection_.get();
 			
 		case Scenes::None:
 			DeactivateScene(activeScene_);
-			break;
+			return nullptr;
 	}
 }
 
 void CMGT_PrototypeGame::DeactivateScene(const Scenes& scene) 
 {
+	TweenManager::ClearTweens();
+
 	switch (scene)
 	{
 		case Scenes::MainMenu:

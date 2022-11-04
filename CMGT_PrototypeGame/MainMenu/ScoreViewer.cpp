@@ -5,7 +5,7 @@
 ScoreViewer::ScoreViewer(const sf::Vector2f& position) 
 	: SFP::AnimationSprite(position, "scoreViewer.png", 1, 1, 1)
 {
-	reloadButton_ = std::make_unique<NewButton>(position, "reload.png", 2, 2, 1);
+	reloadButton_ = std::make_unique<Button>(position, "reload.png", 2, 2, 1);
 	reloadButton_->Move(-reloadButton_->size().x,0);
 	reloadButton_->animation().SetCycle(1, 1);
 
@@ -25,7 +25,7 @@ ScoreViewer::ScoreViewer(const sf::Vector2f& position)
 	AddChild(reloadButton_.get());
 
 
-	eraseButton_ = std::make_unique<NewButton>(position, "sweepData.png", 15, 15, 1);
+	eraseButton_ = std::make_unique<Button>(position, "sweepData.png", 15, 15, 1);
 	eraseButton_->SetScale(1.5f,1.5f);
 	eraseButton_->Move(-eraseButton_->size().x,size().y - eraseButton_->size().y);
 	eraseButton_->animation().SetCycle(1, 1);

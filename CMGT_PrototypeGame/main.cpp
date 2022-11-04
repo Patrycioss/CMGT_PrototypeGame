@@ -2,8 +2,9 @@
 #include <random>
 #include "../SFMLPE/SFMLPE.hpp"
 #include "CMGT_PrototypeGame.hpp"
-#include <string.h>
+#include <cstring>
 #include "effolkronium/random.hpp"
+#include <algorithm>
 
 using Random = effolkronium::random_static;
 
