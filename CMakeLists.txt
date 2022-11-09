@@ -2,12 +2,24 @@
 project(SFMLPEngine)
 
 set(CMAKE_CXX_STANDARD 23)
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/modules/")
 
 add_subdirectory(random)
 add_subdirectory(SFML-3.6.x)
 
-add_executable(SFMLPEngine
+if (UNIX)
+    find_package(SFML 3.6
+            COMPONENTS
+            system window graphics network audio REQUIRED
+            )
+    
+else ()
+    
+    
+endif()
+
+set(CMAKE_CXX_FLAGS_RELEASE "-Os")
+
+add_executable(CMGT_PrototypeGame
         src/main.cpp
         src/Engine/Sprite.cpp src/Engine/Sprite.hpp
         src/Engine/EventSystem/EventManager.cpp src/Engine/EventSystem/EventManager.hpp
@@ -34,16 +46,16 @@ add_executable(SFMLPEngine
         src/Utility/Tweening/SpritePosTween.hpp src/Arena/ConstantManager.hpp src/UserData/SaveLoader.cpp src/UserData/SaveLoader.hpp
         src/Audio/Jukebox.cpp src/Audio/Jukebox.hpp)
 
-target_link_libraries(SFMLPEngine PRIVATE effolkronium_random)
-target_link_libraries(SFMLPEngine PRIVATE sfml-system sfml-graphics sfml-audio)
+target_link_libraries(CMGT_PrototypeGame PRIVATE effolkronium_random)
+target_link_libraries(CMGT_PrototypeGame PRIVATE sfml-system sfml-graphics sfml-audio)
 
 file(COPY Resources DESTINATION ${CMAKE_BINARY_DIR})
 
 
-target_compile_features(SFMLPEngine PRIVATE cxx_std_17)
+target_compile_features(CMGT_PrototypeGame PRIVATE cxx_std_17)
 if (WIN32 AND BUILD_SHARED_LIBS)
-    add_custom_command(TARGET SFMLPEngine POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_RUNTIME_DLLS:SFMLPEngine> $<TARGET_FILE_DIR:SFMLPEngine> COMMAND_EXPAND_LISTS)
+    add_custom_command(TARGET CMGT_PrototypeGame POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_RUNTIME_DLLS:CMGT_PrototypeGame> $<TARGET_FILE_DIR:CMGT_PrototypeGame> COMMAND_EXPAND_LISTS)
 endif()
 
-install(TARGETS SFMLPEngine)
+install(TARGETS CMGT_PrototypeGame DESTINATION bin)
