@@ -186,3 +186,7 @@ _deps
 /random/
 SFML-3.6.x/
 /bin/
+
+*.bak
+*.kra~
+*.kra
