@@ -190,3 +190,5 @@ SFML-3.6.x/
 *.bak
 *.kra~
 *.kra
+*.gif
+*.png~
