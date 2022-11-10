@@ -14,18 +14,12 @@ Tween* TweenManager::AddTween(Tween* tween)
 
 void TweenManager::Update()
 {
-	for (auto it =  tweens_.begin(); it != tweens_.end(); it++) {
-		if (*it == nullptr) {
-			tweensToBeRemoved_.push_back(it);
-			break;
-		}
-		
-		Tween& tween = **it;
-		
-		if (tween.finished_) tweensToBeRemoved_.push_back(it);
-		else tween.Update();
+	for (auto& tween : tweens_)
+	{
+		if (tween->finished_) tweensToBeRemoved_.push_back(std::find(tweens_.begin(), tweens_.end(), tween));
+		else tween->Update();
 	}
-	
+
 	for (auto it : tweensToBeRemoved_)
 	{
 		tweens_.erase(it);

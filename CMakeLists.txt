@@ -7,17 +7,6 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static")
 add_subdirectory(random)
 add_subdirectory(SFML-3.6.x)
 
-if (UNIX)
-    find_package(SFML 3.6
-            COMPONENTS
-            system window graphics network audio REQUIRED
-            )
-    
-else ()
-    
-    
-endif()
-
 set(CMAKE_CXX_FLAGS_RELEASE "-Os")
 
 add_executable(CMGT_PrototypeGame
