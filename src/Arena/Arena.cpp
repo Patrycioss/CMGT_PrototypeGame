@@ -20,6 +20,7 @@ Arena::Arena(CMGT_PrototypeGame& game)
 	, outputLog_(sf::Vector2f{175,460})
 	, playerTurn_(true)
 	, defeated(false)
+	, gameOverScreen_(nullptr)
 {
 }
 
@@ -65,6 +66,15 @@ void Arena::Begin(const sf::String& name, const Avatar& avatar, Attributes& attr
 }
 
 void Arena::GenericStuff() {
+	eventHandler.Subscribe(sf::Event::KeyPressed, [this] (const sf::Event& event)
+	{
+		if (event.key.code == sf::Keyboard::G)
+			player_.Damage(10);
+	});
+	
+	
+	Jukebox::Play(Mode::Battle);
+	
 	player_.SetOutputLog(outputLog_);
 	opponent_.SetOutputLog(outputLog_);
 	AddChild(&outputLog_);
@@ -72,10 +82,14 @@ void Arena::GenericStuff() {
 	CreateArena();
 
 	magicSound_.setBuffer(*ResourceManager::LoadSoundBuffer("sounds/magic.wav"));
+	magicSound_.setVolume(50);
 	attackSound_.setBuffer(*ResourceManager::LoadSoundBuffer("sounds/attack.wav"));
-	recoverSound_.setBuffer(*ResourceManager::LoadSoundBuffer("sounds/recover.wav"));
+	attackSound_.setVolume(70);
+	prepAndRecoverSound_.setBuffer(*ResourceManager::LoadSoundBuffer("sounds/recover.wav"));
+	prepAndRecoverSound_.setVolume(50);
 	trembleSound_.setBuffer(*ResourceManager::LoadSoundBuffer("sounds/tremble.wav"));
 	victorySound_.setBuffer(*ResourceManager::LoadSoundBuffer("sounds/victory.wav"));
+	victorySound_.setVolume(30);
 	defeatSound_.setBuffer(*ResourceManager::LoadSoundBuffer("sounds/defeat.wav"));
 	
 	restorationEffect_ = std::make_unique<AnimationSprite>(sf::Vector2f{}, "abilities/restoration.png", 3, 3, 1);
@@ -161,7 +175,9 @@ void Arena::CreateExitButton() {
 
 	exitButton_->SetClickAction([this]()
 	{
-		Save();
+		if (player_.wellness().health > 0 && player_.wellness().sanity > 0)
+			Save();
+		
 		game_.SwapScene(Scenes::MainMenu);
 		Jukebox::get().exit.play();
 	});
@@ -272,6 +288,8 @@ void Arena::CreateMoveButtons()
 	moveButtons_[1]->SetClickAction([this](){
 		LockMoveButtons(true);
 
+		prepAndRecoverSound_.play();
+
 		preparationEffect_->SetPosition(ConstantManager::Get(Avatar::Illidan, Orientation::Left));
 		AddChild(preparationEffect_.get());
 		player_.Prepare();
@@ -294,7 +312,7 @@ void Arena::CreateMoveButtons()
 	moveButtons_[2]->SetClickAction([this](){
 		LockMoveButtons(true);
 
-		recoverSound_.play();
+		prepAndRecoverSound_.play();
 		restorationEffect_->SetPosition(ConstantManager::Get(Avatar::Illidan, Orientation::Left));
 		AddChild(restorationEffect_.get());
 		
@@ -375,8 +393,18 @@ void Arena::EndOpponentTurn()
 void Arena::Defeat()
 {
 	defeatSound_.play();
-	ScoreLoader::StoreScore(player_.name(), Score{player_.name(), (int) player_.damageDone(), (int) enemiesSlain_});
+	LockMoveButtons(true);
+	
+	Score score {player_.name(), (int) player_.damageDone(), (int) enemiesSlain_};
+	
+	ScoreLoader::StoreScore(player_.name(), score);
 	ScoreLoader::SaveScores();
+	
+	TimerManager::AddTimer(Timer(sf::seconds(1), [this, score] ()
+	{
+		gameOverScreen_ = std::make_unique<GameOverScreen>(score);
+		AddChild(gameOverScreen_.get());
+	}));
 }
 
 void Arena::LockMoveButtons(const bool& lock)
@@ -583,6 +611,8 @@ void Arena::GenerateOpponentTurn()
 	
 	std::function<void()> Prepare = [this] ()
 	{
+		prepAndRecoverSound_.play();
+
 		preparationEffect_->SetPosition(ConstantManager::Get(Avatar::Illidan, Orientation::Right));
 		AddChild(preparationEffect_.get());
 		opponent_.Prepare();
@@ -595,7 +625,7 @@ void Arena::GenerateOpponentTurn()
 	
 	std::function<void()> Recover = [this] ()
 	{
-		recoverSound_.play();
+		prepAndRecoverSound_.play();
 		
 		restorationEffect_->SetPosition(ConstantManager::Get(Avatar::Illidan, Orientation::Right));
 		AddChild(restorationEffect_.get());

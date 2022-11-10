@@ -1,16 +1,36 @@
 ﻿#include "CMGT_PrototypeGame.hpp"
 #include "Utility/Timers/TimerManager.hpp"
 #include "Utility/Tweening/TweenManager.hpp"
+#include "Audio/Jukebox.hpp"
 
 void CMGT_PrototypeGame::Start()
 {
 	mainMenu_ = std::make_unique<MainMenu>(*this);
 	AddScene(mainMenu_.get());
 	activeScene_ = Scenes::MainMenu;
+	
+	eventHandler.Subscribe(sf::Event::KeyPressed, [](const sf::Event& event)
+	{
+		if (event.key.code == sf::Keyboard::T)
+		{
+			Jukebox::Play(Mode::Battle);
+		}
+
+		else if (event.key.code == sf::Keyboard::R)
+		{
+			Jukebox::Play(Mode::Idle);
+		}
+
+		if (event.key.code == sf::Keyboard::F)
+		{
+			Jukebox::currentMusic_.setPlayingOffset(Jukebox::currentMusic_.getDuration());
+		}
+	});
 }
 
 void CMGT_PrototypeGame::Update() 
 {
+	Jukebox::Update();
 	TweenManager::Update();
 	TimerManager::Update();
 	DeleteScene(sceneToBeRemoved);

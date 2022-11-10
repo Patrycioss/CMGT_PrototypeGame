@@ -19,10 +19,6 @@ private:
 	bool overStart_ = false;
 	CMGT_PrototypeGame& game_;
 	
-	sf::Music music_;
-	sf::Clock clock_;
-	sf::Clock loopSlower_;
-	
 	const char* musicFiles_[3] = {
 			"music/scary_terraria.mp3",
 			"music/mario_flintstones.mp3",

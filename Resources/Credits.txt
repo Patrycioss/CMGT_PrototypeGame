@@ -28,7 +28,38 @@ mario_flintstones.mp3
 scary_terraria.mp3
     - Made by SilvaGunner (https://www.youtube.com/c/SilvaGunner/)
     - https://youtu.be/__gMeNwsu3w
+
+
+idle/1.ogg
+	- White Riding Warrior
+	- Made by Antti Martikainen
+	- https://youtu.be/5mvgKT4GQHs
 	
+idle/2.ogg
+	- Albion
+	- Made by Antti Martikainen
+	- https://youtu.be/joj3oCRooHc
+	
+idle/3.ogg	
+	- Homecoming
+	- Made by Antti Martikainen
+	- https://youtu.be/PFz8k45p_PA
+	
+battle/1.ogg
+	- Rise to Asgard
+	- Made by Antti Martikainen
+	- https://youtu.be/NNod10dYUR4
+	
+battle/2.ogg
+	- Battleworn
+	- Made by Antti Martikainen
+	- https://youtu.be/d9WcL0O1Pa8
+
+battle/3.ogg
+	- Victory or Death
+	- Made by Antti Martikainen
+	- https://youtu.be/aLd4tZWiXFY
+
 
 Sounds:
 

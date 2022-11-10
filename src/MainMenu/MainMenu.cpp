@@ -8,32 +8,12 @@
 
 
 MainMenu::MainMenu(CMGT_PrototypeGame& game) 
-	: Scene("MainMenu"), game_(game), music_()
-	{
-		const char* track = musicFiles_[effolkronium::random_static::get(0,2)];
-	
-		if (!music_.openFromFile(track))
-			printf("Failed to open music file: %s in MainMenu \n", track);
-		
-		else { 
-			music_.setVolume(10);
-			music_.setLoop(false);
-//			music_.play();
-			clock_.restart();
-		}
-	}
+	: Scene("MainMenu"), game_(game){}
 	
 	
 void MainMenu::Start()
 {
-	if (loopSlower_.getElapsedTime().asSeconds() > 10)
-	{
-		if (clock_.getElapsedTime().asSeconds() > music_.getDuration().asSeconds())
-		{
-			music_.openFromFile(musicFiles_[effolkronium::random_static::get(0,2)]);
-		}
-		loopSlower_.restart();
-	}
+	Jukebox::Play(Mode::Idle);
 	
 	background_ = std::make_unique<Sprite>("background.png", sf::Vector2f{0,0});
 	AddChild(background_.get());
@@ -42,16 +22,16 @@ void MainMenu::Start()
 	
 	continueButton_ = std::make_unique<Button>(sf::Vector2f{150,210}, sf::Vector2f{300,100});
 	
-	continueButton_->rectShape().setFillColor(sf::Color(169,169,169));
-	continueButton_->rectShape().setOutlineColor(sf::Color(105, 105, 105));
+	continueButton_->rectShape().setFillColor(sf::Color::Green);
+	continueButton_->rectShape().setOutlineColor(sf::Color(0, 100, 0));
 	continueButton_->rectShape().setOutlineThickness(10);
 	
-	continueButton_->text().setString("Start");
+	continueButton_->text().setString("Continue");
 	continueButton_->text().setCharacterSize(50);
-	continueButton_->text().setPosition(sf::Vector2f{continueButton_->position().x + 80, continueButton_->position().y + 20});
+	continueButton_->text().setPosition(sf::Vector2f{continueButton_->position().x + 45, continueButton_->position().y + 20});
 
 	continueButton_->SetPointerEnterAction([&](){  
-		continueButton_->rectShape().setFillColor(sf::Color(169, 169, 169));
+		continueButton_->rectShape().setFillColor(sf::Color(210, 248, 210));
 	});
 
 	continueButton_->SetPointerExitAction([&](){ 	
@@ -63,7 +43,13 @@ void MainMenu::Start()
 				->Continue(SaveLoader::Load("../user_data/latest_save.cmgt"));
 	});
 	
-	continueButton_->Lock(!std::filesystem::exists("../user_data/latest_save.cmgt"));
+	if (!std::filesystem::exists("../user_data/latest_save.cmgt"))
+	{
+		continueButton_->rectShape().setFillColor(sf::Color{169,169,169});
+		continueButton_->rectShape().setOutlineColor(sf::Color{123,123,123});
+		continueButton_->Lock(true);
+	}
+	
 
 	AddChild(continueButton_.get());
 

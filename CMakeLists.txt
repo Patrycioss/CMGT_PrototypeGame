@@ -2,6 +2,7 @@
 project(SFMLPEngine)
 
 set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static")
 
 add_subdirectory(random)
 add_subdirectory(SFML-3.6.x)
@@ -44,7 +45,7 @@ add_executable(CMGT_PrototypeGame
         src/Character/Wellness.hpp src/Arena/OutputLog.cpp src/Arena/OutputLog.hpp src/Utility/Timers/Timer.cpp
         src/Utility/Timers/Timer.hpp src/Utility/Timers/TimerManager.cpp src/Utility/Timers/TimerManager.hpp src/Utility/Tweening/SpritePosTween.cpp
         src/Utility/Tweening/SpritePosTween.hpp src/Arena/ConstantManager.hpp src/UserData/SaveLoader.cpp src/UserData/SaveLoader.hpp
-        src/Audio/Jukebox.cpp src/Audio/Jukebox.hpp)
+        src/Audio/Jukebox.cpp src/Audio/Jukebox.hpp src/Arena/GameOverScreen.cpp src/Arena/GameOverScreen.hpp)
 
 target_link_libraries(CMGT_PrototypeGame PRIVATE effolkronium_random)
 target_link_libraries(CMGT_PrototypeGame PRIVATE sfml-system sfml-graphics sfml-audio)

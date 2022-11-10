@@ -6,6 +6,7 @@
 #include "../Engine/AnimationSprite.hpp"
 #include "SFML/Audio/Sound.hpp"
 #include "../UserData/SaveLoader.hpp"
+#include "GameOverScreen.hpp"
 
 class CMGT_PrototypeGame;
 
@@ -71,11 +72,15 @@ private:
 	//Sound
 	sf::Sound magicSound_;
 	sf::Sound attackSound_;
-	sf::Sound recoverSound_;
+	sf::Sound prepAndRecoverSound_;
 	sf::Sound prepareSound_;
 	sf::Sound trembleSound_;
 	sf::Sound victorySound_;
 	sf::Sound defeatSound_;
+	
+	std::unique_ptr<GameOverScreen> gameOverScreen_;
+	
+	
 
 public:
 	explicit Arena(CMGT_PrototypeGame& game);

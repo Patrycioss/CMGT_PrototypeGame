@@ -33,7 +33,6 @@ void TweenManager::Update()
 	
 	for (auto it : tweensToBeRemoved_)
 	{
-		printf("Cleared! \n");
 		delete *it;
 		tweens_.erase(it);
 	}

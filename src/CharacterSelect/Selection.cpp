@@ -15,20 +15,13 @@ Selection::Selection(CMGT_PrototypeGame& game)
 				,std::make_unique<Button>(sf::Vector2f {560,100}, sf::Vector2f{250,270})
 				,std::make_unique<Button>(sf::Vector2f {870,100}, sf::Vector2f{370,500})} 
 {
+	Jukebox::Play(Mode::Idle);
+	
 	background_.setPosition(sf::Vector2f {0,0});
 	background_.setFillColor(sf::Color::Yellow);
 	background_.setSize(Game::sizeF());
 	
 	
-//	eventHandler.Subscribe(sf::Event::KeyPressed, [this] (const sf::Event& event)
-//	{
-//		if (event.key.code == sf::Keyboard::G) 
-//			choiceButtons_[0]->SetScale(0.5f,0.5f);
-//		
-//		else if (event.key.code == sf::Keyboard::N)
-//			choiceButtons_[0]->SetScale(1,1);
-//	});
-//	
 	MakeAvatarSelection();
 	MakeNameCreation();
 	MakePointDistributionStuff();
