@@ -13,14 +13,13 @@ class TweenManager
 private:
 	
 	static unsigned int lastID_;
-	static std::vector<Tween*> tweens_;
-	static std::vector<std::vector<Tween*>::iterator> tweensToBeRemoved_;
+	static std::vector<std::unique_ptr<Tween>> tweens_;
+	static std::vector<std::vector<std::unique_ptr<Tween>>::iterator> tweensToBeRemoved_;
 	static std::vector<Tween*> tweensToAdd_;
 
 
 public:
 	static void Update();
 	static Tween* AddTween(Tween* tween);
-	static void RemoveTween(const Tween* tween);
 	static void ClearTweens();
 };

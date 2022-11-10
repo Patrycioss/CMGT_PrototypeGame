@@ -175,6 +175,8 @@ void Arena::CreateExitButton() {
 
 	exitButton_->SetClickAction([this]()
 	{
+		TweenManager::ClearTweens();
+		
 		if (player_.wellness().health > 0 && player_.wellness().sanity > 0)
 			Save();
 		
