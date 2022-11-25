@@ -1,5 +1,6 @@
 ﻿
 Simple turn-based 2D fighting game made for the C++ course at Saxion University of Applied Sciences Enschede.
+
 Build available on https://patryicioss.itch.io/cmgt-prototypegame
 
 Using SFML version 2.6.x https://github.com/SFML/SFML/tree/2.6.x
