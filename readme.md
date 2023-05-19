@@ -1,6 +1,8 @@
 ﻿
 Simple turn-based 2D fighting game made for the C++ course at Saxion University of Applied Sciences Enschede.
 
+[Notable features](https://github.com/Patrycioss/CMGT_PrototypeGame/wiki/Notable-Features)
+
 Build available on https://patryicioss.itch.io/cmgt-prototypegame
 
 ![not_patric](https://github.com/Patrycioss/CMGT_PrototypeGame/assets/72610925/9e78293f-7b28-4ee6-9531-15caca7e4120)
