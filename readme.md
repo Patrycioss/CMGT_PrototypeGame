@@ -3,6 +3,10 @@ Simple turn-based 2D fighting game made for the C++ course at Saxion University 
 
 Build available on https://patryicioss.itch.io/cmgt-prototypegame
 
+![not_patric](https://github.com/Patrycioss/CMGT_PrototypeGame/assets/72610925/9e78293f-7b28-4ee6-9531-15caca7e4120)
+![semi-lore-accurate](https://github.com/Patrycioss/CMGT_PrototypeGame/assets/72610925/58876d85-8688-4cb7-9578-201cce3febc4)
+
+
 Using SFML version 2.6.x https://github.com/SFML/SFML/tree/2.6.x
 and effolkronium's random library https://github.com/effolkronium/random
 
