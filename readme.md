@@ -34,7 +34,7 @@ Also used some assets from a random ancient gif pack that was shared on twitter 
 
 
 ## Music:
-
+https://anttimartikainen.com/#licenses 
 idle/1.ogg
 - White Riding Warrior
 - Made by Antti Martikainen
